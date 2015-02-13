@@ -316,7 +316,3 @@ be UTF-8 encoded.
 
    C: "#045 setpassword \"player name\" \"new password\"
    S: "#045 ok"
-
-
-
-# arch-tag: DO_NOT_CHANGE_ec83ed4f-17db-4323-895b-96d5855d0b52 

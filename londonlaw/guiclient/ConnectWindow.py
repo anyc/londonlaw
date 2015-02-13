@@ -159,4 +159,3 @@ class ConnectWindow(wx.Frame):
       self.exitCallback(self)
 
 
-# arch-tag: connection window

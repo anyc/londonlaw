@@ -38,4 +38,3 @@ def collidePoint((x1, y1), (x2, y2, w2, h2)):
       return 1
 
 
-# arch-tag: DO_NOT_CHANGE_f97b07aa-f6c2-41bc-a3a7-8a6fbcb5c49d  

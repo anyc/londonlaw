@@ -66,4 +66,3 @@ class ScrolledLabel(wx.ScrolledWindow):
       self.Scroll(0, self.GetVirtualSize()[1]/5)
 
 
-# arch-tag: scrolled label for gui chat

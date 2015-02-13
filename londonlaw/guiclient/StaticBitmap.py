@@ -67,4 +67,3 @@ class StaticBitmap(wx.Window):
 #      return wx.Size(self.bitmap.GetWidth(), self.bitmap.GetHeight())
 
 
-# arch-tag: DO_NOT_CHANGE_a21ebe5e-e749-45fb-81fb-fa430d46cf0e 

@@ -552,4 +552,3 @@ class MainWindow(wx.Frame):
 
 
 
-# arch-tag: main window for gui

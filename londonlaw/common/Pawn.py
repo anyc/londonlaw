@@ -78,4 +78,3 @@ class Pawn(object):
    def setTicketAmount(self, ticket, amount):
       self._tickets[ticket] = amount
 
-# arch-tag: 90f1d631-c439-4e68-8d8d-d7bd62f6f7d5

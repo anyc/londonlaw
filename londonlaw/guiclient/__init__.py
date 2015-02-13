@@ -177,4 +177,3 @@ def init():
 
 
 
-# arch-tag: main loop for gui

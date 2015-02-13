@@ -141,4 +141,3 @@ class DetectiveSimpleAIFactory(base.BaseAIFactory):
 
 
 
-# arch-tag: DO_NOT_CHANGE_3426c2cb-7fbb-4dea-8880-5243ce9fac15 

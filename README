@@ -1,8 +1,11 @@
-London Law README
--------------------------------------------------------------------
-Check the 'doc' directory for installation and usage instructions.
 
+London Law
+----------
 
+London Law is an online multiplayer adaptation of the [classic Scotland Yard
+board game](http://www.boardgamegeek.com/boardgame/438/scotland-yard)
+([Wikipedia](http://en.wikipedia.org/wiki/Scotland_Yard_board_game)).
 
-
-# arch-tag: DO_NOT_CHANGE_fa21d784-7566-4c16-8db3-a64edcd7ad26 
+This repository is based on a copy of the [last known version](http://www.freelists.org/post/londonlaw-users/030-preview-release)
+(0.3pre1) of [London Law](http://pessimization.com/software/londonlaw/) released
+by the original author Paul Pelzl.

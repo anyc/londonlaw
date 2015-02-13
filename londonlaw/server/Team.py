@@ -83,4 +83,3 @@ class Team(object):
    def _unassignPawns(self):
       self._pawn2player.clear()
 
-# arch-tag: 04c72878-6f44-4cb4-b64f-8ba5779aad58

@@ -28,4 +28,3 @@ GAMETYPE_STANDARD     = "standard"
 
 
 
-# arch-tag: DO_NOT_CHANGE_4feb10bd-0b69-4889-8569-2a2f163b0468 

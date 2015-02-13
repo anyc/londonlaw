@@ -483,4 +483,3 @@ class MoveDialog(wx.Dialog):
 
 
 
-# arch-tag: move dialog

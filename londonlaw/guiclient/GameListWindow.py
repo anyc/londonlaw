@@ -216,4 +216,3 @@ class GameListWindow(wx.Frame):
 
 
 
-# arch-tag: DO_NOT_CHANGE_a132dd66-4b99-4f90-8d6e-f79cbb67a0bb 

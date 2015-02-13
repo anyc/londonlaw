@@ -293,4 +293,3 @@ def pixelToLoc(pixel, zoom):
 
 
 
-# arch-tag: DO_NOT_CHANGE_d9a46f16-5b20-4bc1-880f-1d6f10723d06 

@@ -75,4 +75,3 @@ class ChatPanel(wx.Panel):
       self.chatDisplay.AppendText(txt)
 
 
-# arch-tag: gui chat panel

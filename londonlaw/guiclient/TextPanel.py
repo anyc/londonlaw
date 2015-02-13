@@ -58,4 +58,3 @@ class TextPanel(wx.Panel):
    
 
 
-# arch-tag: text panel for gui

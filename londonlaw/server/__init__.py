@@ -51,4 +51,3 @@ def init():
    registry.close()
 
 
-# arch-tag: DO_NOT_CHANGE_9d2015c7-8192-4a96-979d-c2c2f84aecd3 

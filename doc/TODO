@@ -28,7 +28,3 @@ London Law To-Do
 * AI opponents (human player sends a "request AI" command to the
   server, and server launches AI opponent as a separate process that 
   automatically joins the server and registers as Mr. X or a detective)
-
-
-
-# arch-tag: DO_NOT_CHANGE_b30d9a28-9eb8-44e7-b4c4-6934ca205154 

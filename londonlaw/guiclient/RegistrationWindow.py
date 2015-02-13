@@ -298,4 +298,3 @@ class RegistrationWindow(wx.Frame):
 
 
 
-# arch-tag: DO_NOT_CHANGE_0d8bbe23-c615-4456-9f0d-4c927786fcfe 

@@ -195,4 +195,3 @@ class AutoListCtrl(AutoWidthListCtrl, ColumnSorterMixin):
 
 
 
-# arch-tag: DO_NOT_CHANGE_805cd141-cd81-40ae-a5c6-c8f7bacdd2f3 

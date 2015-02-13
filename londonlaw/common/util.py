@@ -38,4 +38,3 @@ def printable(uni):
    except:
       print "exception in printable"
 
-# arch-tag: f95a921b-7e45-4d54-9273-ae670d7ac93f

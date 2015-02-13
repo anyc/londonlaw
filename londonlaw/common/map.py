@@ -421,4 +421,3 @@ def checkMap(m):
 
 
 
-# arch-tag: graph representation of map

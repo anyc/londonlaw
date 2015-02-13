@@ -128,4 +128,3 @@ class HistoryWindow(wx.ScrolledWindow):
 
 
 
-# arch-tag: DO_NOT_CHANGE_79879cf4-87bd-4285-a1d1-4fd77dd2297e 

@@ -98,9 +98,3 @@ setup(name = "londonlaw",
 config = open("londonlaw/common/config.py", "w")
 config.write("MEDIAROOT = \"guiclient\"\n")
 config.close()
-
-
-
-
-
-# arch-tag: DO_NOT_CHANGE_89605d28-4eab-4752-9299-4d45180a89b2 

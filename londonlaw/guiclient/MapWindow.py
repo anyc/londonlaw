@@ -301,4 +301,3 @@ class MapWindow(wx.ScrolledWindow):
 
 
 
-# arch-tag: map window for gui

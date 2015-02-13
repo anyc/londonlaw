@@ -312,4 +312,3 @@ def possible_locations(source, tickets_spent, eliminate=None):
 
 
 
-# arch-tag: DO_NOT_CHANGE_c68f4a39-395a-4f69-a38b-1e2903017205 

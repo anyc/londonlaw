@@ -26,4 +26,3 @@ DETECTIVE_ALGORITHMS = (("Rather Dumb Detectives", "detective_simple_launcher.py
 
 
 
-# arch-tag: DO_NOT_CHANGE_10cfba18-bc98-459e-b25f-a95312c4eb65 

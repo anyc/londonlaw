@@ -101,4 +101,3 @@ class XSimpleAIFactory(base.BaseAIFactory):
 
 
 
-# arch-tag: DO_NOT_CHANGE_fb14de05-ec06-4362-bc39-f77fa621c929 

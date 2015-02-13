@@ -143,4 +143,3 @@ class GuiNetMessenger:
       self._password = password
 
 
-# arch-tag: DO_NOT_CHANGE_38ff0d11-bcdb-48c7-92ed-45992c747886 

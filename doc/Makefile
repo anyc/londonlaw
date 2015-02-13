@@ -19,8 +19,3 @@ post-build-cleanup: manual.pdf manual.html
 
 clean:
 	rm -f *.aux *.log *.dvi *.ps *.pdf *.html
-
-
-
-
-# arch-tag: DO_NOT_CHANGE_7fb16864-342a-429b-83ed-6a12821406fe 

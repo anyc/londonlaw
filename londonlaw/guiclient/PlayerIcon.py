@@ -223,4 +223,3 @@ class PlayerIconGroup(wx.Panel):
 
 
 
-# arch-tag: player icon
