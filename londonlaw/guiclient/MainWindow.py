@@ -179,23 +179,23 @@ class MainWindow(wx.Frame):
       generateGridHash()
 
       # make the buttons do some stuff
-      self.Bind(wx.EVT_CHECKBOX, self.toggleZoom, self.zoomButton)
-      self.Bind(wx.EVT_CHECKBOX, self.toggleHistory, self.historyButton)
-      self.Bind(wx.EVT_BUTTON, self.makeMove, self.moveButton)
-      self.Bind(wx.EVT_TEXT_ENTER, self.chatSend, self.chatWindow.chatEntry)
-      self.Bind(wx.EVT_MENU, self.menuExit, id=self.EXIT)
-      self.Bind(wx.EVT_MENU, self.menuDisconnect, id=self.DISCONNECT)
-      self.Bind(wx.EVT_MENU, self.toggleFullscreen, id=self.FULLSCREEN)
-      self.Bind(wx.EVT_MENU, self.toggleMenuZoom, id=self.ZOOM)
-      self.Bind(wx.EVT_MENU, self.toggleMenuHistory, id=self.HISTORY)
-      self.Bind(wx.EVT_MENU, self.showAbout, id=self.ABOUT)
-      self.Bind(wx.EVT_LEFT_DCLICK, self.scrollToPlayer0, self.icons.players[0].icon)
-      self.Bind(wx.EVT_LEFT_DCLICK, self.scrollToPlayer1, self.icons.players[1].icon)
-      self.Bind(wx.EVT_LEFT_DCLICK, self.scrollToPlayer2, self.icons.players[2].icon)
-      self.Bind(wx.EVT_LEFT_DCLICK, self.scrollToPlayer3, self.icons.players[3].icon)
-      self.Bind(wx.EVT_LEFT_DCLICK, self.scrollToPlayer4, self.icons.players[4].icon)
-      self.Bind(wx.EVT_LEFT_DCLICK, self.scrollToPlayer5, self.icons.players[5].icon)
-      self.Bind(wx.EVT_LEFT_DCLICK, self.moveToClicked, self.mapWindow)
+      wx.EVT_CHECKBOX(self, self.zoomButton.GetId(), self.toggleZoom)
+      wx.EVT_CHECKBOX(self, self.historyButton.GetId(), self.toggleHistory)
+      wx.EVT_BUTTON(self, self.moveButton.GetId(), self.makeMove)
+      wx.EVT_TEXT_ENTER(self, self.chatWindow.chatEntry.GetId(), self.chatSend)
+      wx.EVT_MENU(self, self.EXIT, self.menuExit)
+      wx.EVT_MENU(self, self.DISCONNECT, self.menuDisconnect)
+      wx.EVT_MENU(self, self.FULLSCREEN, self.toggleFullscreen)
+      wx.EVT_MENU(self, self.ZOOM, self.toggleMenuZoom)
+      wx.EVT_MENU(self, self.HISTORY, self.toggleMenuHistory)
+      wx.EVT_MENU(self, self.ABOUT, self.showAbout)
+      wx.EVT_LEFT_DCLICK(self.icons.players[0].icon, self.scrollToPlayer0)
+      wx.EVT_LEFT_DCLICK(self.icons.players[1].icon, self.scrollToPlayer1)
+      wx.EVT_LEFT_DCLICK(self.icons.players[2].icon, self.scrollToPlayer2)
+      wx.EVT_LEFT_DCLICK(self.icons.players[3].icon, self.scrollToPlayer3)
+      wx.EVT_LEFT_DCLICK(self.icons.players[4].icon, self.scrollToPlayer4)
+      wx.EVT_LEFT_DCLICK(self.icons.players[5].icon, self.scrollToPlayer5)
+      wx.EVT_LEFT_DCLICK(self.mapWindow, self.moveToClicked)
       
 
    def addChatMessage(self, chatType, data):
@@ -213,8 +213,8 @@ class MainWindow(wx.Frame):
       alert = wx.MessageDialog(self, _("Disconnect from the server and exit London Law?"),
          _("Disconnect and Quit"), wx.YES_NO|wx.ICON_EXCLAMATION)
       if alert.ShowModal() == wx.ID_YES:
-         self.messenger.netShutdown()
-         self.exitCallback(self)
+         self.messenger.netDisconnect()
+         self.Close()
 
 
    def menuDisconnect(self, event):
@@ -382,10 +382,14 @@ class MainWindow(wx.Frame):
       else:
          self.viewMenu.Check(self.HISTORY, False)
          self.historyWin.Show(False)
-         self.panelSizer.Remove(self.historyWin)
+#<<<<<<< HEAD
+         #self.panelSizer.Remove(self.historyWin)
+#=======
+         self.panelSizer.Detach(self.historyWin)
+#>>>>>>> Update for wxPython3.0 compatibility
          self.panelSizer.Layout()
 
-      # fix for graphical glitches in wxMSW
+      # fix for graphical glitches in wx.MSW
       self.zoomButton.Refresh()
       self.historyButton.Refresh()
       self.moveButton.Refresh()

@@ -26,6 +26,7 @@
 
 import os.path, gettext, wx
 from twisted.python import log
+import wx
 from londonlaw.common.protocol import *
 from londonlaw.common.config import *
 from AutoListCtrl import *
@@ -80,8 +81,8 @@ class NewGameDialog(wx.Dialog):
       sizer.Fit(self)
       self.SetAutoLayout(1)
 
-      self.Bind(wx.EVT_BUTTON, self.submit, id=wx.ID_OK)
-      self.Bind(wx.EVT_BUTTON, self.cancel, id=wx.ID_CANCEL)
+      wx.EVT_BUTTON(self, wx.ID_OK, self.submit)
+      wx.EVT_BUTTON(self, wx.ID_CANCEL, self.cancel) 
 
 
    def submit(self, event):
@@ -151,12 +152,12 @@ class GameListWindow(wx.Frame):
       mainPanel.SetSizer(mainSizer)
       mainSizer.Fit(mainPanel)
 
-      self.Bind(wx.EVT_MENU, self.menuExit, id=EXIT)
-      self.Bind(wx.EVT_MENU, self.menuDisconnect, id=DISCONNECT)
-      self.Bind(wx.EVT_LIST_ITEM_SELECTED, self.enableSelectButton, self.list)
-      self.Bind(wx.EVT_LIST_ITEM_DESELECTED, self.disableSelectButton, self.list)
-      self.Bind(wx.EVT_BUTTON, self.joinGame, self.selectButton)
-      self.Bind(wx.EVT_BUTTON, self.createGame, self.createButton)
+      wx.EVT_MENU(self, EXIT, self.menuExit)
+      wx.EVT_MENU(self, DISCONNECT, self.menuDisconnect)
+      wx.EVT_LIST_ITEM_SELECTED(self, self.list.GetId(), self.enableSelectButton)
+      wx.EVT_LIST_ITEM_DESELECTED(self, self.list.GetId(), self.disableSelectButton)
+      wx.EVT_BUTTON(self, self.selectButton.GetId(), self.joinGame)
+      wx.EVT_BUTTON(self, self.createButton.GetId(), self.createGame)
 
 
    def addGame(self, data):
@@ -202,8 +203,8 @@ class GameListWindow(wx.Frame):
       alert = wx.MessageDialog(self, _("Disconnect from the server and exit London Law?"),
          _("Disconnect and Quit"), wx.YES_NO|wx.ICON_EXCLAMATION)
       if alert.ShowModal() == wx.ID_YES:
-         self._messenger.netShutdown()
-         self.exitCallback(self)
+         self._messenger.netDisconnect()
+         self.Close()
 
 
    def menuDisconnect(self, event):

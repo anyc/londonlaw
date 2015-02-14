@@ -93,7 +93,7 @@ class HistoryWindow(wx.ScrolledWindow):
       self.ticketSizer.Fit(self)
       self.SetScrollRate(0, 10)
 
-      # The following doesn't seem to work in wxGTK...
+      # The following doesn't seem to work in wx.GTK...
       # self.SetSizerAndFit(self.ticketSizer)
 
 

@@ -240,7 +240,7 @@ def locToPixel(loc, zoom):
 GRIDSIZE = (100, 100)
 MASKSIZE = (39, 42)  # size of a rect that contains a map number graphic
 gridHash = SetHash()
-wx.InitAllImageHandlers()
+# no-op in wxPython2.8 and later: wx.InitAllImageHandlers()
 maskImageFile = os.path.join(MEDIAROOT, "images/map-number-mask.png")
 maskImage = wx.Image(maskImageFile, wx.BITMAP_TYPE_ANY)
 

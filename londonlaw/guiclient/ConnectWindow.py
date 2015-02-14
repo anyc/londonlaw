@@ -112,17 +112,17 @@ class ConnectWindow(wx.Frame):
       self.topSizer.Add((10,10),1,wx.EXPAND)
       self.topSizer.Add(buttonSizer, 0, wx.EXPAND | wx.ALL, 5)
       mainPanel.SetSizer(self.topSizer)
-      self.topSizer.Fit(mainPanel)
+      self.topSizer.Fit(self)
       mainPanel.SetAutoLayout(1)
 
       self.hostEntry.SetFocus()
 
-      self.Bind(wx.EVT_SET_FOCUS, self.selectFocused, self.hostEntry)
-      self.Bind(wx.EVT_SET_FOCUS, self.selectFocused, self.portEntry)
-      self.Bind(wx.EVT_SET_FOCUS, self.selectFocused, self.usernameEntry)
-      self.Bind(wx.EVT_SET_FOCUS, self.selectFocused, self.passEntry)
-      self.Bind(wx.EVT_BUTTON, self.menuExit, self.quitButton)
-      self.Bind(wx.EVT_MENU, self.menuExit, id=EXIT)
+      wx.EVT_SET_FOCUS(self.hostEntry, self.selectFocused)
+      wx.EVT_SET_FOCUS(self.portEntry, self.selectFocused)
+      wx.EVT_SET_FOCUS(self.usernameEntry, self.selectFocused)
+      wx.EVT_SET_FOCUS(self.passEntry, self.selectFocused)
+      wx.EVT_BUTTON(self, self.quitButton.GetId(), self.menuExit)
+      wx.EVT_MENU(self, EXIT, self.menuExit)
 
 
    # select contents of a focused wx.TextCtrl

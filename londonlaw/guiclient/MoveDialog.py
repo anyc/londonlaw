@@ -33,6 +33,23 @@ from londonlaw.common.map import *
 
 
 
+DIALOGDESTROYED = wx.NewEventType() 
+ 
+def EVT_DIALOGDESTROYED(window, function): 
+    """Your documentation here""" 
+    window.Connect(-1, -1, DIALOGDESTROYED, function)
+ 
+class DialogDestroyedEvent(wx.PyCommandEvent): 
+    eventType = DIALOGDESTROYED
+    def __init__(self, windowID): 
+        wx.PyCommandEvent.__init__(self, self.eventType, windowID) 
+ 
+    def Clone(self): 
+        self.__class__(self.GetId()) 
+ 
+
+
+
 class MoveDialog(wx.Dialog):
    # currPos is an integer indicating the current player position
    # destPos is a first choice destination, which the player probably
@@ -154,7 +171,7 @@ class MoveDialog(wx.Dialog):
          # TRANSLATORS: as in "move number one" (of multiple moves)
          self.move1Label = wx.StaticText(self.panel, -1, _("Move One:"))
          # TRANSLATORS: as in "move number two" (of multiple moves)
-         self.move2Label = wx.StaticText(self.panel, -1, _("Move Two:")) 
+         self.move2Label = wx.StaticText(self.panel, -1, _("Move Two:"))
          self.move1Label.SetFont(labelFont)
          self.move2Label.SetFont(labelFont)
 
@@ -201,12 +218,12 @@ class MoveDialog(wx.Dialog):
 
       self.dest1Box.SetFocus()
 
-      self.Bind(wx.EVT_BUTTON, self.OnCancel, id=wx.ID_CANCEL)
-      self.Bind(wx.EVT_BUTTON, self.OnOK, id=wx.ID_OK)
-      self.Bind(wx.EVT_CHOICE, self.updateTrans1, self.dest1Box)
+      wx.EVT_BUTTON(self, wx.ID_CANCEL, self.OnCancel)
+      wx.EVT_BUTTON(self, wx.ID_OK, self.OnOK)
+      wx.EVT_CHOICE(self, self.dest1Box.GetId(), self.updateTrans1)
       if self.playerIdx == 0:
-         self.Bind(wx.EVT_CHOICE, self.updateTrans2Evt, self.dest2Box)
-         self.Bind(wx.EVT_RADIOBOX, self.updateDouble, self.moveType)
+         wx.EVT_CHOICE(self, self.dest2Box.GetId(), self.updateTrans2Evt)
+         wx.EVT_RADIOBOX(self, self.moveType.GetId(), self.updateDouble)
 
 
    def drawMoveErrorDialog(self):

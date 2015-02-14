@@ -17,16 +17,23 @@
 
 # Note: unfortunately the twisted "wxreactor" is broken at present and is
 # unlikely to be fixed anytime soon.  Rather than trying to integrate the event
-# loops, the solution used here is to run a single-threaded wxApp with a wxTimer
+# loops, the solution used here is to run a single-threaded wx.App with a wx.Timer
 # that runs the twisted event loop periodically.
 
 
 from londonlaw.common import threadedselectreactor
 threadedselectreactor.install()
 
-import sys, gettext, wx
+import sys, gettext
 from twisted.internet import protocol, reactor
 from twisted.python import log
+import wxversion
+try:
+	wxversion.select("3.0")
+except wxversion.VersionError:
+	wxversion.select("2.8")
+
+import wx
 from ConnectWindow import *
 from GameListWindow import *
 from RegistrationWindow import *
@@ -67,8 +74,18 @@ class MyApp(wx.App):
       messenger.registerRegistrationWindowLauncher(self.register)
       messenger.registerMainWindowLauncher(self.startGame)
 
-      wx.InitAllImageHandlers()        # Required to be able to load compressed images
-      reactor.interleave(wx.CallAfter) # Integrate Twisted and wxPython event loops
+#<<<<<<< HEAD
+      #wx.InitAllImageHandlers()        # Required to be able to load compressed images
+      #reactor.interleave(wx.CallAfter) # Integrate Twisted and wxPython event loops
+##=======
+      #messenger.guiLaunchConnectionWindow()
+
+      #wx.EVT_TIMER(self, TIMERID, self.OnTimer)
+      #self.timer = wx.Timer(self, TIMERID)
+      #self.timer.Start(250, False)
+
+      #return True
+#>>>>>>> Update for wxPython3.0 compatibility
 
       messenger.guiLaunchConnectionWindow()
 
@@ -83,7 +100,7 @@ class MyApp(wx.App):
       self.connectFrame.Fit()
       self.connectFrame.Show(1)
       self.currentWindow = self.connectFrame
-      self.connectFrame.Bind(wx.EVT_BUTTON, self.connect, self.connectFrame.connectButton)
+      wx.EVT_BUTTON(self.connectFrame, self.connectFrame.connectButton.GetId(), self.connect)
       return self.connectFrame
 
 

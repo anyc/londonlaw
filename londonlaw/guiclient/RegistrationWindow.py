@@ -25,6 +25,7 @@
 
 import os.path, gettext, wx
 from twisted.python import log
+import wx
 from londonlaw.common.protocol import *
 from londonlaw.common.config import *
 from AutoListCtrl import *
@@ -61,8 +62,8 @@ class RadioDialog(wx.Dialog):
       sizer.Fit(self)
       self.SetAutoLayout(1)
 
-      self.Bind(wx.EVT_BUTTON, self.submit, id=wx.ID_OK)
-      self.Bind(wx.EVT_BUTTON, self.cancel, id=wx.ID_CANCEL) 
+      wx.EVT_BUTTON(self, wx.ID_OK, self.submit)
+      wx.EVT_BUTTON(self, wx.ID_CANCEL, self.cancel)
 
 
    def submit(self, event):
@@ -183,13 +184,13 @@ class RegistrationWindow(wx.Frame):
       mainPanel.SetSizer(mainSizer)
       mainSizer.Fit(mainPanel)
 
-      self.Bind(wx.EVT_MENU, self.menuExit, id=EXIT)
-      self.Bind(wx.EVT_MENU, self.menuDisconnect, id=DISCONNECT)
-      self.Bind(wx.EVT_BUTTON, self.leaveGame, self.leaveButton)
-      self.Bind(wx.EVT_BUTTON, self.requestAIList, self.aiButton)
-      self.Bind(wx.EVT_BUTTON, self.chooseTeam, self.teamButton)
-      self.Bind(wx.EVT_BUTTON, self.voteStart, self.voteButton)
-      self.Bind(wx.EVT_TEXT_ENTER, self.chatSend, self.chatWindow.chatEntry)
+      wx.EVT_MENU(self, EXIT, self.menuExit)
+      wx.EVT_MENU(self, DISCONNECT, self.menuDisconnect)
+      wx.EVT_BUTTON(self, self.leaveButton.GetId(), self.leaveGame)
+      wx.EVT_BUTTON(self, self.aiButton.GetId(), self.requestAIList)
+      wx.EVT_BUTTON(self, self.teamButton.GetId(), self.chooseTeam)
+      wx.EVT_BUTTON(self, self.voteButton.GetId(), self.voteStart)
+      wx.EVT_TEXT_ENTER(self, self.chatWindow.chatEntry.GetId(), self.chatSend)
 
 
    def addPlayer(self, data):
@@ -283,8 +284,8 @@ class RegistrationWindow(wx.Frame):
       alert = wx.MessageDialog(self, _("Disconnect from the server and exit London Law?"),
          _("Disconnect and Quit"), wx.YES_NO|wx.ICON_EXCLAMATION)
       if alert.ShowModal() == wx.ID_YES:
-         self._messenger.netShutdown()
-         self.exitCallback(self)
+         self._messenger.netDisconnect()
+         self.Close()
 
 
    def menuDisconnect(self, event):

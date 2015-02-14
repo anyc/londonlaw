@@ -38,7 +38,7 @@ class ScrolledLabel(wx.ScrolledWindow):
       self.topSizer = wx.BoxSizer(wx.VERTICAL)
       self.topSizer.Add(self.text, 1, wx.EXPAND)
       self.SetSizer(self.topSizer)
-      self.topSizer.SetVirtualSizeHints(self)
+      self.topSizer.FitInside(self)
 
       self.ScrollToEnd()
 
@@ -62,7 +62,7 @@ class ScrolledLabel(wx.ScrolledWindow):
 
    # scroll to the bottom of the text
    def ScrollToEnd(self):
-      self.topSizer.SetVirtualSizeHints(self)
+      self.topSizer.FitInside(self)
       self.Scroll(0, self.GetVirtualSize()[1]/5)
 
 

@@ -295,7 +295,7 @@ def install():
     """
     reactor = ThreadedSelectReactor()
     from twisted.internet.main import installReactor
-    installReactor(reactor)
+    #installReactor(reactor)
     return reactor
 
 __all__ = ['install']

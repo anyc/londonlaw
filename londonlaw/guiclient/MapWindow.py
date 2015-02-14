@@ -82,13 +82,13 @@ class MapWindow(wx.ScrolledWindow):
          self.labels[i].SetBackgroundColour(wx.Colour(220, 220, 220))
 
 
-      self.Bind(wx.EVT_PAINT, self.OnPaint)
-      self.Bind(wx.EVT_ERASE_BACKGROUND, self.OnEraseBackground)
+      wx.EVT_PAINT(self, self.OnPaint)
+      wx.EVT_ERASE_BACKGROUND(self, self.OnEraseBackground)
       # scroll the map on middle or right button drag
-      self.Bind(wx.EVT_MIDDLE_DOWN, self.handleMiddleOrRightMouse)
-      self.Bind(wx.EVT_RIGHT_DOWN, self.handleMiddleOrRightMouse)
-      self.Bind(wx.EVT_MOTION, self.handleMoveMouse)
-      self.Bind(wx.EVT_LEFT_DCLICK, self.propagateDClick)
+      wx.EVT_MIDDLE_DOWN(self, self.handleMiddleOrRightMouse)
+      wx.EVT_RIGHT_DOWN(self, self.handleMiddleOrRightMouse)
+      wx.EVT_MOTION(self, self.handleMoveMouse)
+      wx.EVT_LEFT_DCLICK(self, self.propagateDClick)
 
 
    def OnPaint(self, event):
@@ -98,7 +98,7 @@ class MapWindow(wx.ScrolledWindow):
 
 
    # try to eliminate flicker from painting the window background.
-   # (why doesn't this work in wxGTK?)
+   # (why doesn't this work in wx.GTK?)
    def OnEraseBackground(self, event):
       pass
 
@@ -114,7 +114,7 @@ class MapWindow(wx.ScrolledWindow):
       newX, newY   = event.GetPosition()
       stepX, stepY = self.GetScrollPixelsPerUnit()
       sX, sY       = self.GetViewStart()
-      if (event.m_rightDown or event.m_middleDown) and event.Dragging():
+      if (event.rightIsDown or event.middleIsDown) and event.Dragging():
          pixelDX = newX - self.oldX
          pixelDY = newY - self.oldY
          dx = pixelDX / stepX

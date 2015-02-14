@@ -21,6 +21,7 @@ from twisted.protocols import basic
 from twisted.python import log
 from londonlaw.common import util
 from londonlaw.common.protocol import *
+import wx
 
 
 class ProtocolError(Exception):

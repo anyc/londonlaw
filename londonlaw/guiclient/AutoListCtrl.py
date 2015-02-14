@@ -36,6 +36,7 @@
 
 import os.path, gettext, wx
 from twisted.python import log
+import wx
 from wx.lib.mixins.listctrl import ColumnSorterMixin, ListCtrlAutoWidthMixin
 from londonlaw.common.config import *
 
@@ -106,7 +107,7 @@ class AutoListCtrl(AutoWidthListCtrl, ColumnSorterMixin):
             self.SetStringItem(i, j, data[j])
          self.SetItemData(i, key)
 
-      # dirty hack... wxWidgets needs a wxLIST_AUTOSIZE_* that
+      # dirty hack... wxWidgets needs a wx.LIST_AUTOSIZE_* that
       # chooses the maximum of BOTH header size and list item size
       for i in range(len(self.headers) - 1):
          self.SetColumnWidth(i, wx.LIST_AUTOSIZE) 

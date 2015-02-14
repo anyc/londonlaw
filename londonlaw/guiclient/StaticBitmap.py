@@ -30,8 +30,8 @@ class StaticBitmap(wx.Window):
       self.bitmap = bitmap
       self.SetSize(wx.Size(self.bitmap.GetWidth(), self.bitmap.GetHeight()))
 
-      self.Bind(wx.EVT_PAINT, self.OnPaint)
-      self.Bind(wx.EVT_LEFT_DCLICK, self.propagateDClick)
+      wx.EVT_PAINT(self, self.OnPaint)
+      wx.EVT_LEFT_DCLICK(self, self.propagateDClick)
 
 
    def propagateDClick(self, ev):
