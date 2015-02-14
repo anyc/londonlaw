@@ -1,5 +1,5 @@
 #  London Law -- a networked manhunting board game
-#  Copyright (C) 2003-2004 Paul Pelzl
+#  Copyright (C) 2003-2004, 2005 Paul Pelzl
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License, Version 2, as 
@@ -24,28 +24,27 @@
 # to launch a MoveDialog.
 
 
-from wxPython.wx import *
+import os, gettext, wx
 from TextPanel import *
 from graphicalmap import *
 from londonlaw.common.config import *
-import os
 
 
 PlayerNumError = "Player Number Error"
 
 
-class MapWindow(wxScrolledWindow):
+class MapWindow(wx.ScrolledWindow):
    def __init__(self, parent, usernameList):
-      wxScrolledWindow.__init__(self, parent)
+      wx.ScrolledWindow.__init__(self, parent)
 
       # load the map image and prepare a DC for it
       mapImageFile   = os.path.normpath(os.path.join(MEDIAROOT, "images/map.jpg"))
-      mapImage       = wxImage(mapImageFile, wxBITMAP_TYPE_JPEG)
-      self.mapBitmap = wxBitmapFromImage(mapImage)
-      self.bmpDC     = wxMemoryDC()
+      mapImage       = wx.Image(mapImageFile, wx.BITMAP_TYPE_JPEG)
+      self.mapBitmap = wx.BitmapFromImage(mapImage)
+      self.bmpDC     = wx.MemoryDC()
       mapImageFile        = os.path.normpath(os.path.join(MEDIAROOT, "images/map-quarter.jpg"))
-      mapImage            = wxImage(mapImageFile, wxBITMAP_TYPE_JPEG)
-      self.mapBitmapSmall = wxBitmapFromImage(mapImage)
+      mapImage            = wx.Image(mapImageFile, wx.BITMAP_TYPE_JPEG)
+      self.mapBitmapSmall = wx.BitmapFromImage(mapImage)
       self.bmpDC.SelectObject(self.mapBitmapSmall)
 
       self.zoomLevel = 2
@@ -56,13 +55,13 @@ class MapWindow(wxScrolledWindow):
       self.SetVirtualSize((self.mapBitmapSmall.GetWidth(), self.mapBitmapSmall.GetHeight()))
       self.SetScrollRate(10, 10)
 
-      self.maskColour = wxColour(10,10,10)
-      self.pen        = wxPen(wxBLACK, 3, wxSOLID)
-      self.brush      = wxBrush(wxWHITE, wxSOLID)
-      self.bgBrush    = wxBrush(self.maskColour, wxSOLID)
-      self.pushpinDC  = wxMemoryDC()
+      self.maskColour = wx.Colour(10,10,10)
+      self.pen        = wx.Pen(wx.BLACK, 3, wx.SOLID)
+      self.brush      = wx.Brush(wx.WHITE, wx.SOLID)
+      self.bgBrush    = wx.Brush(self.maskColour, wx.SOLID)
+      self.pushpinDC  = wx.MemoryDC()
 
-      self.labelsShown = false
+      self.labelsShown = False
 
       self.playerLoc          = []
       self.pushpins           = []
@@ -72,27 +71,28 @@ class MapWindow(wxScrolledWindow):
       for i in range(6):
          self.playerLoc.append(0)
          filename     = os.path.normpath(os.path.join(MEDIAROOT, "images/pin" + str(i) + ".png"))
-         pushpinImage = wxImage(filename, wxBITMAP_TYPE_ANY)
+         pushpinImage = wx.Image(filename, wx.BITMAP_TYPE_ANY)
          pushpinImage.SetMaskColour(255, 0, 242) # the purplish colour is not to be drawn
-         pushpinBitmap  = wxBitmapFromImage(pushpinImage)
+         pushpinBitmap  = wx.BitmapFromImage(pushpinImage)
          self.pushpins.append(pushpinBitmap)
-         pushpinBackBmp = wxEmptyBitmap(pushpinBitmap.GetWidth(), pushpinBitmap.GetHeight(), -1)
+         pushpinBackBmp = wx.EmptyBitmap(pushpinBitmap.GetWidth(), pushpinBitmap.GetHeight(), -1)
          self.pushpinBackgrounds.append(pushpinBackBmp)
-         self.labels.append(TextPanel(self, " " + usernameList[i][:20] + " ", 10, wxSIMPLE_BORDER))
+         self.labels.append(TextPanel(self, " " + usernameList[i][:20] + " ", 10, wx.SIMPLE_BORDER))
          self.labels[i].Hide()
-         self.labels[i].SetBackgroundColour(wxColour(220, 220, 220))
+         self.labels[i].SetBackgroundColour(wx.Colour(220, 220, 220))
 
 
-      EVT_PAINT(self, self.OnPaint)
-      EVT_ERASE_BACKGROUND(self, self.OnEraseBackground)
+      self.Bind(wx.EVT_PAINT, self.OnPaint)
+      self.Bind(wx.EVT_ERASE_BACKGROUND, self.OnEraseBackground)
       # scroll the map on middle or right button drag
-      EVT_MIDDLE_DOWN(self, self.handleMiddleOrRightMouse)
-      EVT_RIGHT_DOWN(self, self.handleMiddleOrRightMouse)
-      EVT_MOTION(self, self.handleMoveMouse)
+      self.Bind(wx.EVT_MIDDLE_DOWN, self.handleMiddleOrRightMouse)
+      self.Bind(wx.EVT_RIGHT_DOWN, self.handleMiddleOrRightMouse)
+      self.Bind(wx.EVT_MOTION, self.handleMoveMouse)
+      self.Bind(wx.EVT_LEFT_DCLICK, self.propagateDClick)
 
 
    def OnPaint(self, event):
-      dc = wxPaintDC(self)
+      dc = wx.PaintDC(self)
       self.PrepareDC(dc)
       self.OnDraw(dc)
 
@@ -130,10 +130,10 @@ class MapWindow(wxScrolledWindow):
                if loc == self.playerLoc[i]:
                   self.labels[i].Show()
                   self.labels[i].Raise()
-                  self.labelsShown = true
+                  self.labelsShown = True
                   break
          elif self.labelsShown:
-            self.labelsShown = false
+            self.labelsShown = False
             for i in range(6):
                self.labels[i].Hide()
 
@@ -148,6 +148,11 @@ class MapWindow(wxScrolledWindow):
       dc.Blit(scrollx*dx, scrolly*dy, w, h, self.bmpDC, scrollx*dx, scrolly*dy)
       dc.EndDrawing()
 
+
+   def propagateDClick(self, ev):
+      # propagate double-click as if it were a wx.CommandEvent
+      ev.ResumePropagation(wx.EVENT_PROPAGATE_MAX)
+      ev.Skip()
 
 
    # set the numeric location of a particular player, and update the map
@@ -203,7 +208,7 @@ class MapWindow(wxScrolledWindow):
       self.pushpinDC.BeginDrawing()
       self.bmpDC.Blit(mapPixel[0]-self.pushpinOffset[0], mapPixel[1]-self.pushpinOffset[1], 
             self.pushpinBackgrounds[playerNum].GetWidth(),
-            self.pushpinBackgrounds[playerNum].GetHeight(), self.pushpinDC, 0, 0, wxCOPY, TRUE)
+            self.pushpinBackgrounds[playerNum].GetHeight(), self.pushpinDC, 0, 0, wx.COPY, True)
       self.pushpinDC.EndDrawing()
 
 
@@ -256,7 +261,7 @@ class MapWindow(wxScrolledWindow):
          sX, sY       = self.GetViewStart()
          self.labels[i].MoveXY(mapPixel[0] - 20 - sX*stepX, mapPixel[1] - 10 - sY*stepY)
 
-      self.Refresh(FALSE)
+      self.Refresh(False)
 
       
    # switch to zoom level 2
@@ -290,7 +295,7 @@ class MapWindow(wxScrolledWindow):
          sX, sY       = self.GetViewStart()
          self.labels[i].MoveXY(mapPixel[0] - 20 - sX*stepX, mapPixel[1] - 10 - sY*stepY)
 
-      self.Refresh(FALSE)
+      self.Refresh(False)
 
 
 

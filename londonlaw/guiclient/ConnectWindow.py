@@ -1,5 +1,5 @@
 #  London Law -- a networked manhunting board game
-#  Copyright (C) 2003-2004 Paul Pelzl
+#  Copyright (C) 2003-2004, 2005 Paul Pelzl
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License, Version 2, as 
@@ -22,101 +22,110 @@
 # This class handles the initial connection window, where players
 # enter server information and provide usernames.
 
-from wxPython.wx import *
+import sys, gettext, wx
 from twisted.internet import reactor
 from londonlaw.common.protocol import *
-import sys
 
 
 # Initial window.  Creates a form for the user to enter a host, port, and user information.
-class ConnectWindow(wxFrame):
-   def __init__(self, parent, ID, title):
-      wxFrame.__init__(self, parent, ID, title)
+class ConnectWindow(wx.Frame):
+   def __init__(self, parent, ID, title, exitCallback):
+      wx.Frame.__init__(self, parent, ID, title)
 
       EXIT = 100
 
+      self.exitCallback = exitCallback
+
       # Create a menu bar
-      fileMenu = wxMenu("File")
-      fileMenu.Append(EXIT, "Exit\tCTRL+Q", "Exit London Law")
-      menuBar = wxMenuBar()
-      menuBar.Append(fileMenu, "File")
+      # TRANSLATORS: this is a menu bar entry
+      fileMenu = wx.Menu(_("File"))
+      # TRANSLATORS: this is a menu bar entry
+      fileMenu.Append(EXIT, _("Exit%(hotkey)s") % {"hotkey" : "\tCTRL+Q"}, "Exit London Law")
+      menuBar = wx.MenuBar()
+      # TRANSLATORS: this is a menu bar entry
+      menuBar.Append(fileMenu, _("File"))
       self.SetMenuBar(menuBar)
 
       # Create a status bar
       self.status = self.CreateStatusBar()
 
       # stick everything in a panel to enable tab traversal
-      mainPanel = wxPanel(self, -1)
+      mainPanel = wx.Panel(self, -1)
 
-      labelFont = wxFont(self.GetFont().GetPointSize(), wxDEFAULT, wxNORMAL, wxBOLD)
-      labelFont.SetWeight(wxBOLD)
-      connectLabel = wxStaticText(mainPanel, -1, "Connect to: ")
+      labelFont = wx.Font(self.GetFont().GetPointSize(), wx.DEFAULT, wx.NORMAL, wx.BOLD)
+      labelFont.SetWeight(wx.BOLD)
+      # TRANSLATORS: labels for server connection dialog
+      connectLabel = wx.StaticText(mainPanel, -1, _("Connect to: "))
       connectLabel.SetFont(labelFont)
-      self.hostEntryLabel = wxStaticText(mainPanel, -1, "host:", wxPoint(0,0))
-      self.hostEntry      = wxTextCtrl(mainPanel, -1, "localhost", wxDefaultPosition, (170, wxDefaultSize[1]))
-      self.portEntryLabel = wxStaticText(mainPanel, -1, "port:", wxPoint(0,0))
-      self.portEntry      = wxTextCtrl(mainPanel, -1, str(LLAW_PORT), wxDefaultPosition, (50, wxDefaultSize[1]))
+      # TRANSLATORS: labels for server connection dialog
+      self.hostEntryLabel = wx.StaticText(mainPanel, -1, _("host:"), wx.Point(0,0))
+      self.hostEntry      = wx.TextCtrl(mainPanel, -1, "localhost", wx.DefaultPosition, (170, wx.DefaultSize[1]))
+      # TRANSLATORS: labels for server connection dialog
+      self.portEntryLabel = wx.StaticText(mainPanel, -1, _("port:"), wx.Point(0,0))
+      self.portEntry      = wx.TextCtrl(mainPanel, -1, str(LLAW_PORT), wx.DefaultPosition, (50, wx.DefaultSize[1]))
       self.portEntry.SetMaxLength(5)
 
-      connectSizer = wxBoxSizer(wxHORIZONTAL)
+      connectSizer = wx.BoxSizer(wx.HORIZONTAL)
       connectSizer.Add((30,1),0,0)
-      connectSizer.Add(self.hostEntryLabel, 0, wxALIGN_CENTRE | wxLEFT, 5)
-      connectSizer.Add(self.hostEntry, 0, wxALIGN_CENTRE | wxALL, 5)
+      connectSizer.Add(self.hostEntryLabel, 0, wx.ALIGN_CENTRE | wx.LEFT, 5)
+      connectSizer.Add(self.hostEntry, 0, wx.ALIGN_CENTRE | wx.ALL, 5)
       connectSizer.Add((10,1),0,0)
-      connectSizer.Add(self.portEntryLabel, 0, wxALIGN_CENTRE)
-      connectSizer.Add(self.portEntry, 0, wxALIGN_CENTRE | wxALL, 5)
+      connectSizer.Add(self.portEntryLabel, 0, wx.ALIGN_CENTRE)
+      connectSizer.Add(self.portEntry, 0, wx.ALIGN_CENTRE | wx.ALL, 5)
 
-      userLabel = wxStaticText(mainPanel, -1, "User information: ")
+      # TRANSLATORS: labels for server connection dialog
+      userLabel = wx.StaticText(mainPanel, -1, _("User information: "))
       userLabel.SetFont(labelFont)
-      self.usernameEntryLabel = wxStaticText(mainPanel, -1, "username:", wxPoint(0,0))
-      self.usernameEntry = wxTextCtrl(mainPanel, -1)
+      self.usernameEntryLabel = wx.StaticText(mainPanel, -1, _("username:"), wx.Point(0,0))
+      self.usernameEntry = wx.TextCtrl(mainPanel, -1)
       self.usernameEntry.SetMaxLength(20)
-      self.passEntryLabel = wxStaticText(mainPanel, -1, "password:", wxPoint(0,0))
-      self.passEntry = wxTextCtrl(mainPanel, -1, style=wxTE_PASSWORD)
+      self.passEntryLabel = wx.StaticText(mainPanel, -1, _("password:"), wx.Point(0,0))
+      self.passEntry = wx.TextCtrl(mainPanel, -1, style=wx.TE_PASSWORD)
       self.passEntry.SetMaxLength(20)
 
-      userSizer = wxBoxSizer(wxHORIZONTAL)
+      userSizer = wx.BoxSizer(wx.HORIZONTAL)
       userSizer.Add((30,1),0,0)
-      userSizer.Add(self.usernameEntryLabel, 0, wxALIGN_CENTRE)
-      userSizer.Add(self.usernameEntry, 0, wxALIGN_CENTRE | wxALL, 5)
+      userSizer.Add(self.usernameEntryLabel, 0, wx.ALIGN_CENTRE)
+      userSizer.Add(self.usernameEntry, 0, wx.ALIGN_CENTRE | wx.ALL, 5)
       userSizer.Add((10,1),1,1)
-      userSizer.Add(self.passEntryLabel, 0, wxALIGN_CENTRE)
-      userSizer.Add(self.passEntry, 0, wxALIGN_CENTRE | wxALL, 5)
+      userSizer.Add(self.passEntryLabel, 0, wx.ALIGN_CENTRE)
+      userSizer.Add(self.passEntry, 0, wx.ALIGN_CENTRE | wx.ALL, 5)
 
       # Add some buttons
-      self.connectButton = wxButton(mainPanel, -1, "Connect")
-      self.quitButton    = wxButton(mainPanel, -1, "Quit")
-      buttonSizer = wxBoxSizer(wxHORIZONTAL)
-      buttonSizer.Add(self.quitButton, 0, wxALIGN_CENTRE | wxALL, 5)
+      # TRANSLATORS: labels for server connection dialog buttons
+      self.connectButton = wx.Button(mainPanel, -1, _("Connect"))
+      self.quitButton    = wx.Button(mainPanel, -1, _("Quit"))
+      buttonSizer = wx.BoxSizer(wx.HORIZONTAL)
+      buttonSizer.Add(self.quitButton, 0, wx.ALIGN_CENTRE | wx.ALL, 5)
       if sys.platform.lower()[:-3] == "win":
          # Win32 users like their buttons in the wrong order
-         buttonSizer.Prepend(self.connectButton, 0, wxALIGN_CENTRE | wxALL, 5)
+         buttonSizer.Prepend(self.connectButton, 0, wx.ALIGN_CENTRE | wx.ALL, 5)
       else:
-         buttonSizer.Add(self.connectButton, 0, wxALIGN_CENTRE | wxALL, 5)
-      buttonSizer.Prepend((10,1),1,wxEXPAND)
+         buttonSizer.Add(self.connectButton, 0, wx.ALIGN_CENTRE | wx.ALL, 5)
+      buttonSizer.Prepend((10,1),1,wx.EXPAND)
 
-      self.topSizer = wxBoxSizer(wxVERTICAL)
-      self.topSizer.Add(connectLabel, 0, wxALIGN_LEFT | wxLEFT | wxTOP, 10)
-      self.topSizer.Add(connectSizer, 0, wxALIGN_LEFT | wxALL, 5)
-      self.topSizer.Add(userLabel, 0, wxALIGN_LEFT | wxLEFT | wxTOP, 10)
-      self.topSizer.Add(userSizer, 0, wxALIGN_LEFT | wxALL, 5)
-      self.topSizer.Add((10,10),1,wxEXPAND)
-      self.topSizer.Add(buttonSizer, 0, wxEXPAND | wxALL, 5)
+      self.topSizer = wx.BoxSizer(wx.VERTICAL)
+      self.topSizer.Add(connectLabel, 0, wx.ALIGN_LEFT | wx.LEFT | wx.TOP, 10)
+      self.topSizer.Add(connectSizer, 0, wx.ALIGN_LEFT | wx.ALL, 5)
+      self.topSizer.Add(userLabel, 0, wx.ALIGN_LEFT | wx.LEFT | wx.TOP, 10)
+      self.topSizer.Add(userSizer, 0, wx.ALIGN_LEFT | wx.ALL, 5)
+      self.topSizer.Add((10,10),1,wx.EXPAND)
+      self.topSizer.Add(buttonSizer, 0, wx.EXPAND | wx.ALL, 5)
       mainPanel.SetSizer(self.topSizer)
       self.topSizer.Fit(mainPanel)
       mainPanel.SetAutoLayout(1)
 
       self.hostEntry.SetFocus()
 
-      EVT_SET_FOCUS(self.hostEntry, self.selectFocused)
-      EVT_SET_FOCUS(self.portEntry, self.selectFocused)
-      EVT_SET_FOCUS(self.usernameEntry, self.selectFocused)
-      EVT_SET_FOCUS(self.passEntry, self.selectFocused)
-      EVT_BUTTON(self, self.quitButton.GetId(), self.menuExit)
-      EVT_MENU(self, EXIT, self.menuExit)
+      self.Bind(wx.EVT_SET_FOCUS, self.selectFocused, self.hostEntry)
+      self.Bind(wx.EVT_SET_FOCUS, self.selectFocused, self.portEntry)
+      self.Bind(wx.EVT_SET_FOCUS, self.selectFocused, self.usernameEntry)
+      self.Bind(wx.EVT_SET_FOCUS, self.selectFocused, self.passEntry)
+      self.Bind(wx.EVT_BUTTON, self.menuExit, self.quitButton)
+      self.Bind(wx.EVT_MENU, self.menuExit, id=EXIT)
 
 
-   # select contents of a focused wxTextCtrl
+   # select contents of a focused wx.TextCtrl
    def selectFocused(self, ev):
       self.hostEntry.SetSelection(0,0)
       self.portEntry.SetSelection(0,0)
@@ -140,13 +149,14 @@ class ConnectWindow(wxFrame):
 
    def showInfoAlert(self, info):
       self.PushStatusText("")
-      alert = wxMessageDialog(self, info,
-         "Server Message", wxOK|wxICON_INFORMATION)
+      alert = wx.MessageDialog(self, info,
+      # TRANSLATORS: this is the title for a small alert window that pops up when the server reports an error
+         _("Server Message"), wx.OK|wx.ICON_INFORMATION)
       alert.ShowModal()
 
 
    def menuExit(self, ev):
-      self.Close()
+      self.exitCallback(self)
 
 
 # arch-tag: connection window

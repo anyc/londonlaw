@@ -44,7 +44,10 @@ BLACK       = "black"
 # Note for proofreading: the algorithm for creating this map was (roughly) to look
 # for first taxi routes (clockwise from the route going upward), then bus routes
 # and underground routes.
-locToRoutes = \
+#
+# locToRoutes is generated from this by adding the (invisible) black ticket transports
+# to all routes in _locToRoutesPartial.
+_locToRoutesPartial = \
       ( None,  # locToRoutes[0] has no value; need to access locToRoutes[1] and higher               
          ( (8, (TAXI,)), (9, (TAXI,)), (58, (BUS,)), (46, (BUS, UNDERGROUND)) ),     # 001 
          ( (20, (TAXI,)), (10, (TAXI,)) ),
@@ -318,8 +321,19 @@ locToRoutes = \
       )
 
 
+# precomputed maximum distance for this map
+MAX_DISTANCE = 10
 
-
+locToRoutes = (None,)
+for i in range(1, len(_locToRoutesPartial)):
+   routes = ()
+   for dest, transports in _locToRoutesPartial[i]:
+      if BLACK not in transports:
+         new_transports = transports + (BLACK,)
+      else:
+         new_transports = transports
+      routes += ((dest, new_transports),)
+   locToRoutes += (routes,)
 
 
 # Test a map to see if it is self-consistent--i.e., check that routes from A to B also

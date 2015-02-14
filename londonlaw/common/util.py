@@ -1,4 +1,4 @@
-import re
+import re, sys
 
 def escape_chars(token):
    return re.sub(r"""("|\\)""", r"\\\1", token)
@@ -10,6 +10,7 @@ def add_quotes(token):
       return token
 
 def join_tokens(*tokens):
+   tokens = [str(token) for token in tokens]
    tokens = [escape_chars(token) for token in tokens]
    tokens = [add_quotes(token) for token in tokens]
    return " ".join(tokens)
@@ -29,5 +30,12 @@ def validate_nick(nick):
    if not _nick_re.match(nick):
       raise ValueError("illegal format for player nick")
    return nick
+
+# make unicode look like something printable
+def printable(uni):
+   try:
+      return uni.encode(sys.stdout.encoding, "replace")
+   except:
+      print "exception in printable"
 
 # arch-tag: f95a921b-7e45-4d54-9273-ae670d7ac93f

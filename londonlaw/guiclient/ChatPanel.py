@@ -1,5 +1,5 @@
 #  London Law -- a networked manhunting board game
-#  Copyright (C) 2003-2004 Paul Pelzl
+#  Copyright (C) 2003-2004, 2005 Paul Pelzl
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License, Version 2, as 
@@ -21,38 +21,43 @@
 #
 # This class creates a combined chat entry and chat message display area.
 
-from wxPython.wx import *
+import gettext, wx
 from ScrolledLabel import *
 
+
 # Wrapped in a StaticBox.
-class ChatPanel(wxPanel):
+class ChatPanel(wx.Panel):
    def __init__(self, parent, text, enableSendTo):
-      wxPanel.__init__(self, parent, -1)
+      wx.Panel.__init__(self, parent, -1)
 
 
       # create a scrollable display for the chat messages 
       self.chatDisplay = ScrolledLabel(self, text)
 
       # create the "send to" radio button
-      self.chatRadio = wxRadioBox(self, -1, "send to:", wxDefaultPosition, wxDefaultSize,
-         ["all", "team"], 1, wxRA_SPECIFY_COLS)
+      # TRANSLATORS: this is for a set of radio buttons for chat messages--"send to" all players or "send to" team only
+      self.chatRadio = wx.RadioBox(self, -1, _("send to:"), wx.DefaultPosition, wx.DefaultSize,
+      # TRANSLATORS: this is for a set of radio buttons for chat messages--send to "all" players or send to "team" only
+         [_("all"), 
+      # TRANSLATORS: this is for a set of radio buttons for chat messages--send to "all" players or send to "team" only
+         _("team")], 1, wx.RA_SPECIFY_COLS)
       self.chatRadio.Enable(enableSendTo)
 
       # create a chat entry box
-      self.chatEntry = wxTextCtrl(self, -1, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER)
+      self.chatEntry = wx.TextCtrl(self, -1, "", wx.DefaultPosition, wx.DefaultSize, wx.TE_PROCESS_ENTER)
       self.chatEntry.SetMaxLength(254)  # messages longer than this would get truncated by ESocket.write_string()
 
 
       # set up the geometry.
       # line the chat display and the radio button horizontally...
-      sizer2 = wxBoxSizer(wxHORIZONTAL)
-      sizer2.Add(self.chatDisplay, 1, wxEXPAND|wxALL, 5)
-      sizer2.Add(self.chatRadio, 0, wxALIGN_BOTTOM|wxALL, 5) 
+      sizer2 = wx.BoxSizer(wx.HORIZONTAL)
+      sizer2.Add(self.chatDisplay, 1, wx.EXPAND|wx.ALL, 5)
+      sizer2.Add(self.chatRadio, 0, wx.ALIGN_BOTTOM|wx.ALL, 5) 
 
       # ... and line up the rest vertically
-      self.topSizer = wxBoxSizer(wxVERTICAL)
-      self.topSizer.Add(sizer2, 1, wxEXPAND)
-      self.topSizer.Add(self.chatEntry, 0, wxEXPAND|wxALL, 5)
+      self.topSizer = wx.BoxSizer(wx.VERTICAL)
+      self.topSizer.Add(sizer2, 1, wx.EXPAND)
+      self.topSizer.Add(self.chatEntry, 0, wx.EXPAND|wx.ALL, 5)
       self.SetSizer(self.topSizer)
       self.topSizer.SetSizeHints(self)
 

@@ -6,9 +6,14 @@ from distutils.core import setup
 import os, string, sys
 
 
+# Generate the binary translation files
+if 'sdist' in sys.argv:
+   os.system("cd londonlaw/locale && make mo")
+   os.system("cd doc && make")
 
-# Read off the PREFIX value, so we can tell jools where to find its
-# data files (FIXME: is there a clean way to handle this through distutils?
+
+# Read off the PREFIX value, so we can tell londonlaw where to find its
+# data files (FIXME: is there a clean way to handle this through distutils?)
 if 'sdist' not in sys.argv and 'clean' not in sys.argv:
    PREFIX=os.path.normpath(sys.prefix)  # default
    for arg in sys.argv:
@@ -29,7 +34,7 @@ if 'sdist' not in sys.argv and 'clean' not in sys.argv:
 
 # Append "dirname" and its datafiles to the list of files to install.
 # This is called once per directory via os.path.walk().
-def appendDataFiles(installList, dirname, files):
+def appendImageFiles(installList, dirname, files):
    newFiles = []
    for file in files:
       if file[-3:] != ".id" and file[-3:] != "=id":   # don't install Arch id files
@@ -40,17 +45,29 @@ def appendDataFiles(installList, dirname, files):
       installList.append( (os.path.join('share', dirname), newFiles) )
 
 
+def appendMOFiles(installList, dirname, files):
+   newFiles = []
+   for file in files:
+      if file[-3:] == ".mo":
+         newFiles.append(os.path.join(dirname, file))
+   if newFiles != []:
+      splitDir = dirname.split('/')
+      dirname = ('/').join(splitDir[1:])
+      installList.append( (os.path.join('share', dirname), newFiles) )
+
+
 # Get all data files by walking through the proper directory trees
 # and calling 'appendDataFiles'.
 def getDataFilesList():
    installList = []
-   os.path.walk('londonlaw/guiclient/images', appendDataFiles, installList)
+   os.path.walk('londonlaw/guiclient/images', appendImageFiles, installList)
+   os.path.walk('londonlaw/locale', appendMOFiles, installList)
    return installList
 
 
 # Run the distutils setup.
 setup(name = "londonlaw",
-   version = "0.2.1",
+   version = "0.3.0pre1",
    description = "networked multiplayer manhunting board game",
    author = "Paul J. Pelzl",
    author_email = "pelzlpj@eecs.umich.edu",
@@ -69,9 +86,12 @@ setup(name = "londonlaw",
    packages = [ 'londonlaw',                      # install all the .py files
                 'londonlaw.common',
                 'londonlaw.server',
-                'londonlaw.guiclient'],
+                'londonlaw.guiclient',
+                'londonlaw.aiclients',
+                'londonlaw.adminclient'],
    scripts  = [ 'londonlaw/london-server',        # install the executable scripts
-                'londonlaw/london-client'],
+                'londonlaw/london-client',
+                'londonlaw/london-admin'],
    data_files = getDataFilesList()                # install the game media and documentation
 )
 

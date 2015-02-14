@@ -15,9 +15,9 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-LLAW_VERSION          = "0.2.1"
+LLAW_VERSION          = "0.3.0pre1"
 
-PROTOCOL_VERSION      = "2.0"
+PROTOCOL_VERSION      = "2.1"
 LLAW_PORT             = 7921
 
 GAMESTATUS_NEW        = "new"

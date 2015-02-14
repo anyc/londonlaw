@@ -1,0 +1,771 @@
+# Dutch translation for londonlaw
+# Copyright (c) (c) 2006 Canonical Ltd, and Rosetta Contributors 2006
+# This file is distributed under the same license as the londonlaw package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2006.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: londonlaw\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2005-08-26 00:31-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Dutch <nl@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: london-admin:29 london-client:26 london-server:26
+msgid "London Law does not appear to be installed."
+msgstr "London Law lijkt niet geinstalleerd"
+
+#: london-admin:30
+msgid "Attempting to launch admin client from current directory..."
+msgstr "Bezig met laden van administratie client vanuit huidige directory..."
+
+#: london-client:27
+msgid "Attempting to launch client from current directory..."
+msgstr "Bezig met laden van client vanuit deze directory..."
+
+#: london-server:27
+msgid "Attempting to launch server from current directory..."
+msgstr "Bezig met laden van server vanuit deze directory..."
+
+#: common/Pawn.py:49
+msgid "Red"
+msgstr "Rood"
+
+#: common/Pawn.py:51
+msgid "Yellow"
+msgstr "Geel"
+
+#: common/Pawn.py:53
+msgid "Green"
+msgstr "Groen"
+
+#: common/Pawn.py:55
+msgid "Blue"
+msgstr "Blauw"
+
+#: common/Pawn.py:57
+msgid "Black"
+msgstr "Zwart"
+
+#: server/Game.py:187
+#, fuzzy
+msgid "Username not permitted for this in-progress game."
+msgstr "Gebruikersnaam niet toegestaan voor dit spel"
+
+#: server/Game.py:189
+msgid "That game has already been completed."
+msgstr "Het spel is al afgelopen."
+
+#: server/Game.py:194
+#, fuzzy
+msgid "That game is full."
+msgstr "Het spel is vol."
+
+#: server/Game.py:390
+#, fuzzy
+msgid ""
+"Mr. X was caught by the %(color)s Detective at location %(number)d.  The "
+"detectives win!"
+msgstr ""
+
+#: server/Game.py:470
+msgid "Mr. X successfully evaded the detectives for 24 turns.  Mr. X wins!"
+msgstr ""
+"Mr. X heeft succesvol alle stappen doorlopen en heeft uit handen van de "
+"detectives weten te blijven! Mr. X heeft gewonnen!"
+
+#: server/Game.py:480
+msgid "None of the detectives are able to move.  Mr. X wins!"
+msgstr ""
+"Geen van de detectives kunnen zich meer verplaatsen. Mr. X heeft gewonnen!"
+
+#: server/GameRegistry.py:94
+msgid "Game name in use."
+msgstr "Spel naam in gebruik."
+
+#: server/GameRegistry.py:100
+#, fuzzy
+msgid "Closing game registry"
+msgstr "Sluiten van spel register"
+
+#: server/GameRegistry.py:139
+#, fuzzy
+msgid "Purging expired games"
+msgstr "Opruimen van verlopen spellen"
+
+#: server/GameRegistry.py:163
+msgid ""
+"admin login disabled.  Consult the user manual to enable administrator "
+"access."
+msgstr ""
+"Administrator login uitgeschakeld. Kijk in de gebruikershandleiding voor het "
+"activeren van de Administrator gebruiker."
+
+#: server/GameRegistry.py:165 server/GameRegistry.py:172
+msgid "Incorrect password."
+msgstr "Onjuist wachtwoord."
+
+#: server/GameRegistry.py:170
+msgid "That username is in use."
+msgstr "Deze gebruikersnaam is in gebruik."
+
+#: server/GameRegistry.py:183
+#, python-format
+msgid "Removed game \"%(gamename)s\""
+msgstr "Het spel \"%(gamename)s\" is verwijderd"
+
+#: server/Protocol.py:73 server/Protocol.py:88 server/Protocol.py:108
+#: server/Protocol.py:120 server/Protocol.py:145 server/Protocol.py:163
+#: server/Protocol.py:175 server/Protocol.py:220 server/Protocol.py:232
+#: server/Protocol.py:257 server/Protocol.py:317 server/Protocol.py:326
+#: server/Protocol.py:341 server/Protocol.py:369 server/Protocol.py:415
+#: server/Protocol.py:420 server/Protocol.py:431 server/Protocol.py:441
+#: server/Protocol.py:491 server/Protocol.py:494
+msgid "Insufficient arguments."
+msgstr ""
+
+#: server/Protocol.py:79 server/Protocol.py:151 server/Protocol.py:242
+#: server/Protocol.py:426
+msgid "Player name not found."
+msgstr "Spelersnaam niet gevonden."
+
+#: server/Protocol.py:125 server/Protocol.py:198 server/Protocol.py:275
+#: server/Protocol.py:313
+msgid "Unrecognized game name."
+msgstr "Onbekende spelnaam."
+
+#: server/Protocol.py:136 server/Protocol.py:209
+msgid "The server admin ejected you from this game."
+msgstr "De server administrator heeft u uit dit spel verwijderd."
+
+#: server/Protocol.py:168
+msgid "No such user is connected."
+msgstr "Deze gebruiker is niet verbonden."
+
+#: server/Protocol.py:183 server/Protocol.py:334
+msgid "That move is illegal."
+msgstr "Die stap mag niet!"
+
+#: server/Protocol.py:185 server/Protocol.py:336
+msgid "It is not that pawn's turn."
+msgstr ""
+
+#: server/Protocol.py:215
+msgid "Game is in progress."
+msgstr "Spel bezig..."
+
+#: server/Protocol.py:227
+msgid "Unsupported language code."
+msgstr "Onbekende taalcode."
+
+#: server/Protocol.py:345
+msgid "That game name is already in use."
+msgstr "Die spelnaam is al in gebruik."
+
+#: server/Protocol.py:354
+#, python-format
+msgid "New game \"%(gamename)s\" created by player \"%(playername)s\""
+msgstr "Nieuw spel \"%(gamename)s\" aangemaakt door \"%(playername)s\""
+
+#: server/Protocol.py:364
+msgid "Already logged in."
+msgstr "Al ingelogd."
+
+#: server/Protocol.py:381
+#, python-format
+msgid "Player \"%(playername)s\" has signed on"
+msgstr "Speler \"%(playername)s\" heeft zich aangemeld."
+
+#: server/Protocol.py:390
+msgid "Protocol version not verified."
+msgstr "Protocol versie kan niet worden nagegaan."
+
+#: server/Protocol.py:403
+msgid "Protocol version already verified."
+msgstr "Protocol versie is reeds nagegaan."
+
+#: server/Protocol.py:411
+msgid "Incompatible protocol version."
+msgstr "Onjuiste protocol versie."
+
+#: server/Protocol.py:413
+msgid "Unrecognized protocol string."
+msgstr "Niet herkende protocol opdracht!"
+
+#: server/Protocol.py:474
+#, python-format
+msgid "Connection lost to player \"%(playername)s\""
+msgstr "Verbinding met speler \"%(playername)s\" is verbroken."
+
+#: server/Protocol.py:511
+msgid "Unrecognized command."
+msgstr "Onbekende opdracht."
+
+#: server/Protocol.py:657
+msgid "Invalid number of moves."
+msgstr "Onjuist aantal zetten."
+
+#: server/Team.py:19
+msgid "That team is full."
+msgstr "Dat team zit vol."
+
+#: server/Team.py:54
+msgid "Player not on team."
+msgstr "Speler niet in team."
+
+#: server/__init__.py:36
+msgid "listen for connections on port NUM"
+msgstr "luister naar verbindingen op poort NUM"
+
+#: server/__init__.py:36
+msgid "NUM"
+msgstr ""
+
+#: guiclient/ChatPanel.py:40
+msgid "send to:"
+msgstr "verzend naar:"
+
+#: guiclient/ChatPanel.py:42
+msgid "all"
+msgstr "alles"
+
+#: guiclient/ChatPanel.py:44
+msgid "team"
+msgstr "team"
+
+#: guiclient/ConnectWindow.py:42 guiclient/ConnectWindow.py:47
+#: guiclient/GameListWindow.py:112 guiclient/GameListWindow.py:118
+#: guiclient/MainWindow.py:74 guiclient/RegistrationWindow.py:95
+#: guiclient/RegistrationWindow.py:102
+msgid "File"
+msgstr "Bestand"
+
+#: guiclient/ConnectWindow.py:44 guiclient/GameListWindow.py:115
+#: guiclient/MainWindow.py:72 guiclient/RegistrationWindow.py:99
+#, python-format
+msgid "Exit%(hotkey)s"
+msgstr "Afsluiten%(hotkey)s"
+
+#: guiclient/ConnectWindow.py:59
+msgid "Connect to: "
+msgstr "Verbind met: "
+
+#: guiclient/ConnectWindow.py:62
+msgid "host:"
+msgstr "host:"
+
+#: guiclient/ConnectWindow.py:65
+msgid "port:"
+msgstr "poort:"
+
+#: guiclient/ConnectWindow.py:78
+msgid "User information: "
+msgstr "Gebruikers informatie: "
+
+#: guiclient/ConnectWindow.py:80
+msgid "username:"
+msgstr "gebruikersnaam:"
+
+#: guiclient/ConnectWindow.py:83
+msgid "password:"
+msgstr "wachtwoord:"
+
+#: guiclient/ConnectWindow.py:97
+msgid "Connect"
+msgstr "Verbind"
+
+#: guiclient/ConnectWindow.py:98
+msgid "Quit"
+msgstr "Afsluiten"
+
+#: guiclient/ConnectWindow.py:155 guiclient/GameListWindow.py:198
+#: guiclient/MainWindow.py:360 guiclient/RegistrationWindow.py:202
+msgid "Server Message"
+msgstr "Server Mededeling"
+
+#: guiclient/GameListWindow.py:40
+msgid "Create a New Game"
+msgstr "Crëeer een nieuw spel"
+
+#: guiclient/GameListWindow.py:48
+msgid "New Game: "
+msgstr "Nieuw spel: "
+
+#: guiclient/GameListWindow.py:50
+msgid "game room name:"
+msgstr "Spelkamer naam:"
+
+#: guiclient/GameListWindow.py:52
+msgid "game type:"
+msgstr "Speltype:"
+
+#: guiclient/GameListWindow.py:53
+msgid "standard"
+msgstr "standaard"
+
+#: guiclient/GameListWindow.py:54 guiclient/MoveDialog.py:171
+#: guiclient/RegistrationWindow.py:48
+msgid "OK"
+msgstr "OK"
+
+#: guiclient/GameListWindow.py:55 guiclient/MoveDialog.py:172
+#: guiclient/RegistrationWindow.py:49
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: guiclient/GameListWindow.py:114 guiclient/GameListWindow.py:212
+#: guiclient/MainWindow.py:70 guiclient/MainWindow.py:223
+#: guiclient/RegistrationWindow.py:97 guiclient/RegistrationWindow.py:220
+msgid "Disconnect"
+msgstr "Verbinding verbreken"
+
+#: guiclient/GameListWindow.py:114 guiclient/MainWindow.py:70
+#: guiclient/RegistrationWindow.py:97
+msgid "Disconnect from server"
+msgstr "Verbreek verbinding met server"
+
+#: guiclient/GameListWindow.py:115 guiclient/MainWindow.py:72
+#: guiclient/RegistrationWindow.py:99
+msgid "Exit London Law"
+msgstr "Sluit London Law af"
+
+#: guiclient/GameListWindow.py:128
+msgid "Game Room"
+msgstr "Spelkamer"
+
+#: guiclient/GameListWindow.py:130
+msgid "Status"
+msgstr "Status"
+
+#: guiclient/GameListWindow.py:132
+msgid "Game Type"
+msgstr "Speltype"
+
+#: guiclient/GameListWindow.py:134
+msgid "Players"
+msgstr "Spelers"
+
+#: guiclient/GameListWindow.py:135
+msgid "(no games currently available)"
+msgstr "(momenteel geen spellen beschikbaar)"
+
+#: guiclient/GameListWindow.py:143
+#, fuzzy
+msgid "Join Game"
+msgstr "Join spel"
+
+#: guiclient/GameListWindow.py:145
+msgid "New Game"
+msgstr "Nieuw spel"
+
+#: guiclient/GameListWindow.py:203 guiclient/MainWindow.py:214
+#: guiclient/RegistrationWindow.py:211
+msgid "Disconnect from the server and exit London Law?"
+msgstr "Verbinding met de server verbreken en London Law afsluiten?"
+
+#: guiclient/GameListWindow.py:204 guiclient/MainWindow.py:215
+#: guiclient/RegistrationWindow.py:212
+msgid "Disconnect and Quit"
+msgstr "Verbreken en Afsluiten"
+
+#: guiclient/GameListWindow.py:211 guiclient/MainWindow.py:222
+#: guiclient/RegistrationWindow.py:219
+#, fuzzy
+msgid "Disconnect from the server?"
+msgstr "afmelden van server?"
+
+#: guiclient/HistoryWindow.py:60
+#, python-format
+msgid " Turn %(num)d "
+msgstr " Zet %(num)d "
+
+#: guiclient/HistoryWindow.py:121
+msgid " ? "
+msgstr " ? "
+
+#: guiclient/MainWindow.py:77
+#, python-format
+msgid "Fullscreen Map%(hotkey)s"
+msgstr "Volledig Scherm%(hotkey)s"
+
+#: guiclient/MainWindow.py:78
+msgid "Toggle fullscreen map view"
+msgstr "Schakel over naar volledige scherm weergave"
+
+#: guiclient/MainWindow.py:80
+#, python-format
+msgid "Map Zoom%(hotkey)s"
+msgstr "Kaart Vergroten%(hotkey)s"
+
+#: guiclient/MainWindow.py:81
+#, fuzzy
+msgid "Toggle map zoom level"
+msgstr "Kies zoom-niveau"
+
+#: guiclient/MainWindow.py:83
+#, python-format
+msgid "Mr. X History%(hotkey)s"
+msgstr "Mr X Geschiedenis%(hotkey)s"
+
+#: guiclient/MainWindow.py:84
+msgid "Show/hide the Mr. X history window"
+msgstr "Toon/verberg het geschiedenis venster van Mr. X"
+
+#: guiclient/MainWindow.py:87
+msgid "View"
+msgstr "Toon"
+
+#: guiclient/MainWindow.py:90 guiclient/MainWindow.py:453
+msgid "About London Law"
+msgstr "Over London Law"
+
+#: guiclient/MainWindow.py:92
+msgid "Help"
+msgstr "Help"
+
+#: guiclient/MainWindow.py:97
+msgid "The game has not yet started."
+msgstr "Dit spel is nog niet gestart"
+
+#: guiclient/MainWindow.py:99
+msgid "Turn: 0"
+msgstr "Ronde: 0"
+
+#: guiclient/MainWindow.py:120
+msgid "London Law -- Mr. X"
+msgstr "London Law -- Mr. X"
+
+#: guiclient/MainWindow.py:123
+msgid "London Law -- Detectives"
+msgstr "London Law -- Detectives"
+
+#: guiclient/MainWindow.py:134
+msgid "Move"
+msgstr "zet"
+
+#: guiclient/MainWindow.py:137
+msgid "View History"
+msgstr "Toon Geschiedenis"
+
+#: guiclient/MainWindow.py:140
+msgid "Zoom"
+msgstr "Vergroot"
+
+#: guiclient/MainWindow.py:205
+#, python-format
+msgid "<%(playername)s [to team]> %(message)s"
+msgstr "<%(playername)s [aan team]> %(message)s"
+
+#: guiclient/MainWindow.py:209
+#, python-format
+msgid "<%(playername)s> %(message)s"
+msgstr "<%(playername)s> %(message)s"
+
+#: guiclient/MainWindow.py:253
+msgid "a taxi"
+msgstr "een taxi"
+
+#: guiclient/MainWindow.py:258
+msgid "a bus"
+msgstr "een bus"
+
+#: guiclient/MainWindow.py:263
+msgid "the underground"
+msgstr "een metro"
+
+#: guiclient/MainWindow.py:267
+msgid "a black ticket"
+msgstr "een black ticket"
+
+#: guiclient/MainWindow.py:276
+#, python-format
+msgid "Mr. X made his move using %(transport)s."
+msgstr "Mr. X heeft zijn zet gedaan met %(transport)s."
+
+#: guiclient/MainWindow.py:279
+#, python-format
+msgid "Mr. X moved to %(number)d using %(transport)s."
+msgstr "Mr. X verplaatste zich naar %(number)d d.m.v. %(transport)s."
+
+#: guiclient/MainWindow.py:282
+#, fuzzy
+msgid "Mr. X surfaced at %(number)d using %(transport)s."
+msgstr ""
+
+#: guiclient/MainWindow.py:286
+#, python-format
+msgid "The Red Detective moved to %(number)d using %(transport)s."
+msgstr ""
+"De rode detective verplaatste zich naar %(number)d d.m.v %(transport)s."
+
+#: guiclient/MainWindow.py:289
+#, python-format
+msgid "The Yellow Detective moved to %(number)d using %(transport)s."
+msgstr "De gele detective is verplaatst naar %(number)d d.mv. %(transport)s."
+
+#: guiclient/MainWindow.py:292
+#, python-format
+msgid "The Green Detective moved to %(number)d using %(transport)s."
+msgstr ""
+"De groene detective is verplaatst naar %(number)d d.mv. %(transport)s."
+
+#: guiclient/MainWindow.py:295
+#, python-format
+msgid "The Blue Detective moved to %(number)d using %(transport)s."
+msgstr ""
+"De blauwe detective is verplaatst naar %(number)d d.mv. %(transport)s."
+
+#: guiclient/MainWindow.py:298
+#, python-format
+msgid "The Black Detective moved to %(number)d using %(transport)s."
+msgstr ""
+"De zwarte detective is verplaatst naar %(number)d d.mv. %(transport)s."
+
+#: guiclient/MainWindow.py:305
+msgid "Mr. X just used a double move ticket!"
+msgstr "Mr. X heeft een dubbele zet gedaan!"
+
+#: guiclient/MainWindow.py:307
+msgid "Double Move"
+msgstr "Dubbele Zet"
+
+#: guiclient/MainWindow.py:451
+#, python-format
+msgid ""
+"London Law v%(version)s\n"
+"\n"
+"A multiplayer manhunting adventure by Paul Pelzl"
+msgstr ""
+"London Law v%(version)s\n"
+"\n"
+"Een multiplayer detective spel door Paul Pelzl"
+
+#: guiclient/MainWindow.py:477
+#, python-format
+msgid "Turn: %(num)d"
+msgstr "Zet: %(num)d"
+
+#: guiclient/MainWindow.py:485 guiclient/MainWindow.py:495
+#: guiclient/MainWindow.py:505 guiclient/MainWindow.py:515
+#: guiclient/MainWindow.py:525 guiclient/MainWindow.py:535
+msgid "you"
+msgstr "jij"
+
+#: guiclient/MainWindow.py:488
+#, python-format
+msgid "It is Mr. X's turn (%(username)s)."
+msgstr "de beurt is aan Mr. X (%(username)s)."
+
+#: guiclient/MainWindow.py:498
+#, python-format
+msgid "It is the Red Detective's turn (%(username)s)."
+msgstr "Het is de beurt aan de rode detective (%(username)s)."
+
+#: guiclient/MainWindow.py:508
+#, python-format
+msgid "It is the Yellow Detective's turn (%(username)s)."
+msgstr "Het is de beurt aan de gele detective (%(username)s)."
+
+#: guiclient/MainWindow.py:518
+#, python-format
+msgid "It is the Green Detective's turn (%(username)s)."
+msgstr "Het is de beurt aan de groene detective (%(username)s)."
+
+#: guiclient/MainWindow.py:528
+#, python-format
+msgid "It is the Blue Detective's turn (%(username)s)."
+msgstr "Het is de beurt aan de blauwe detective (%(username)s)."
+
+#: guiclient/MainWindow.py:538
+#, python-format
+msgid "It is the Black Detective's turn (%(username)s)."
+msgstr "Het is de beurt aan de zwarte detective (%(username)s)."
+
+#: guiclient/MoveDialog.py:63
+msgid "Choose a Move"
+msgstr "Kies een zet"
+
+#: guiclient/MoveDialog.py:76
+msgid "move type: "
+msgstr "soort zet: "
+
+#: guiclient/MoveDialog.py:78
+msgid "Single"
+msgstr "èèn"
+
+#: guiclient/MoveDialog.py:80
+msgid "Double"
+msgstr "dubbele"
+
+#: guiclient/MoveDialog.py:86
+#, python-format
+msgid "Move from %(number)d to "
+msgstr "Ga van %(number)d naar "
+
+#: guiclient/MoveDialog.py:89 guiclient/MoveDialog.py:119
+msgid " using "
+msgstr " d.m.v. "
+
+#: guiclient/MoveDialog.py:116 guiclient/MoveDialog.py:277
+#, python-format
+msgid "Move from %(number)s to "
+msgstr "Ga van %(number)s naar "
+
+#: guiclient/MoveDialog.py:157
+msgid "Move One:"
+msgstr "Eerste zet:"
+
+#: guiclient/MoveDialog.py:159
+msgid "Move Two:"
+msgstr "Tweede Zet:"
+
+#: guiclient/MoveDialog.py:216
+msgid "Mr. X can't move to that location."
+msgstr "Mr. X kan daar zich niet naar die locatie verplaatsen."
+
+#: guiclient/MoveDialog.py:218
+msgid "The Red Detective can't move to that location."
+msgstr "De rode detective kan zich niet naar die locatie verplaatsen."
+
+#: guiclient/MoveDialog.py:220
+msgid "The Yellow Detective can't move to that location."
+msgstr "De gele detective kan niet daarheen verplaatsen."
+
+#: guiclient/MoveDialog.py:222
+msgid "The Green Detective can't move to that location."
+msgstr "De groene detective kan niet daarheen verplaatsen."
+
+#: guiclient/MoveDialog.py:224
+msgid "The Blue Detective can't move to that location."
+msgstr "De blauwe detective kan niet daarheen verplaatsen."
+
+#: guiclient/MoveDialog.py:226
+msgid "The Black Detective can't move to that location."
+msgstr "De zwarte detective kan niet daarheen verplaatsen."
+
+#: guiclient/MoveDialog.py:228
+msgid "Illegal Move"
+msgstr "Illegale zet"
+
+#: guiclient/MoveDialog.py:433
+msgid "taxi"
+msgstr "taxi"
+
+#: guiclient/MoveDialog.py:436
+msgid "bus"
+msgstr "bus"
+
+#: guiclient/MoveDialog.py:439
+msgid "underground"
+msgstr "metro"
+
+#: guiclient/MoveDialog.py:442
+msgid "black ticket"
+msgstr "black ticket"
+
+#: guiclient/Protocol.py:65
+msgid "You have been disconnected from the server."
+msgstr "Je verbinding is verbroken."
+
+#: guiclient/Protocol.py:303
+msgid "Preparing to start the game..."
+msgstr "Bezig met het starten van het spel..."
+
+#: guiclient/Protocol.py:374
+#, python-format
+msgid "Player \"%(playername)s\" disconnected from the server."
+msgstr "Speler \"%(playername)s\" verbrak de verbinding met de server."
+
+#: guiclient/Protocol.py:384
+#, python-format
+msgid "Player \"%(playername)s\" has rejoined the game."
+msgstr "Speler \"%(playername)s\" heeft zich opnieuw bijgevoegd in het spel."
+
+#: guiclient/RegistrationWindow.py:39
+msgid "Choose a Team"
+msgstr "Kies een team"
+
+#: guiclient/RegistrationWindow.py:43
+msgid "team: "
+msgstr "team: "
+
+#: guiclient/RegistrationWindow.py:45
+msgid "Detectives"
+msgstr "Detectives"
+
+#: guiclient/RegistrationWindow.py:47
+msgid "Mr. X"
+msgstr "Mr. X"
+
+#: guiclient/RegistrationWindow.py:112
+msgid "Player"
+msgstr "Speler"
+
+#: guiclient/RegistrationWindow.py:114
+msgid "Team"
+msgstr "Team"
+
+#: guiclient/RegistrationWindow.py:116
+msgid "Votes to Start?"
+msgstr "Aantal stemmen?"
+
+#: guiclient/RegistrationWindow.py:118
+msgid "Pawns"
+msgstr ""
+
+#: guiclient/RegistrationWindow.py:120
+msgid "(no players joined)"
+msgstr "(geen spelers hebben zich bijgevoegd)"
+
+#: guiclient/RegistrationWindow.py:130
+msgid "Leave Game"
+msgstr "Spel Verlaten"
+
+#: guiclient/RegistrationWindow.py:131
+msgid "Choose Team"
+msgstr "Kies Spel"
+
+#: guiclient/RegistrationWindow.py:132
+msgid "Vote to Start"
+msgstr "Stem om te starten"
+
+#: guiclient/__init__.py:79
+msgid "London Law -- Connect to Server"
+msgstr "London Law -- Verbind met Server"
+
+#: guiclient/__init__.py:91
+msgid "London Law -- Choose a Game"
+msgstr "London Law -- Kies Spel"
+
+#: guiclient/__init__.py:103
+msgid "London Law -- Team Selection"
+msgstr "London Law -- Team Selectie"
+
+#: guiclient/__init__.py:116
+msgid "London Law"
+msgstr "London Law"
+
+#: guiclient/__init__.py:130
+msgid "You must enter a valid hostname."
+msgstr "Je moet een correcte hostnaam opgeven."
+
+#: guiclient/__init__.py:133
+msgid "You must enter a valid port number."
+msgstr "Je moet een correcte poort opgeven."
+
+#: guiclient/__init__.py:136
+msgid "You must enter a valid username."
+msgstr "Je moet een correcte gebruikersnaam opgeven."
+
+#: guiclient/__init__.py:142
+msgid "The port number must be an integer."
+msgstr "De poort mag alleen een integer (nummer) zijn."
+
+#: guiclient/__init__.py:147
+msgid "Connecting to server..."
+msgstr "Bezig met verbinden met server..."

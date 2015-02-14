@@ -17,17 +17,21 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
+import gettext, sys
+
 try:
    import londonlaw.guiclient
+   gettext.install("londonlaw", unicode=True) # use system locale dir if client was installed
 except:
-   print "London Law does not appear to be installed."
-   print "Attempting to launch client from current directory..."
+   gettext.install("londonlaw", "locale", unicode=True) # use local locale directory if launching locally
+   print (_("Attempting to launch client from current directory...")).encode(sys.stdout.encoding, "replace")
    import sys, os.path
    # add the parent directory to PYTHONPATH
    cwd = os.path.split(os.path.abspath(os.getcwd()))
    sys.path.append(cwd[0])
    import londonlaw.guiclient
 
+londonlaw.guiclient.init()
 
 
 # arch-tag: DO_NOT_CHANGE_ae96d37e-3e12-47d3-aa18-9dd42b1e12f3 

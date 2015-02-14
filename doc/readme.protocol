@@ -1,3 +1,5 @@
+LONDON LAW PROTOCOL VERSION 2.1
+--------------------------------------------------------------------------------
 
 The protocol will be line-oriented; all data will be in the form of strings,
 terminated with CRLF.  The LineOnlyReceiver protocol provided by Twisted is
@@ -21,7 +23,8 @@ Server responses always take one of four forms:
    S: "<tag> bad <reason>" , for reply to an illegal/ill-formatted command
    S: "<tag> <data>"       , for reply to a request for data
 
-Server status messages take the form:
+When the server provides a <reason> string, it will be UTF-8 encoded.  Server
+status messages take the form:
 
    S: "* <message type> <data>"
 
@@ -39,7 +42,17 @@ Upon acceptance of protocol, the client must log in:
    C: "#001 login \"my name\" \"my password\""
    S: "#001 ok"
 
-(A "no" reply would follow if the username is in use, or if the password is incorrect.)
+The name and password should be UTF-8 encoded.  (A "no" reply would follow if
+the username is in use, or if the password is incorrect.)
+
+The client may request to have server messages reported in a different language:
+
+   C: "#002 language de"
+   S: "#002 ok"
+
+A request for a language code without a corresponding translation will result
+in a response of "#002 no \"Unsupported language code.\"".
+
 
 
 GAME SELECTION
@@ -47,18 +60,18 @@ GAME SELECTION
 Once the client is accepted, it may optionally request a list of all open games.
 The server responds with an untagged message of the form 
 "* gameinfo GAME_NAME GAME_STATUS GAME_TYPE NUM_PLAYERS" where GAME_NAME is
-some string, GAME_STATUS is one of {"new", "in progress", "complete"},
+a UTF-8 encoded string, GAME_STATUS is one of {"new", "in progress", "complete"},
 and GAME_TYPE is "standard" (but will assume other values in future versions).
 
    C: "#002 listgames"
-   S: "* gameinfo "my game" new standard 2
-      "* gameinfo "your game" "in progress" standard 2
+   S: "* gameinfo \"my game\" new standard 2
+      "* gameinfo \"your game\" \"in progress\" standard 2
       "#002 ok"
 
 The client may optionally choose to join a 'new' or 'in progress' game, which
-it selects by name:
+it selects by a UTF-8 encoded name:
 
-   C: "#003 join \"my game"
+   C: "#003 join \"my game\"
    S: "#003 ok"
 
 The client may only join an 'in progress' game if it had been joined to that game
@@ -75,7 +88,7 @@ provide the player information as untagged data in the following format:
 "* playerinfo USERNAME TEAMNAME VOTESTART PAWNS", where TEAMNAME is one of {"Mr. X",
 "Detectives"}, VOTESTART is one of {True, False} and PAWNS is a list of pawn names
 such as "Red Yellow Green".  The server will provide playerinfo updates as necessary
-to keep the client synchronized.
+to keep the client synchronized.  Player names are UTF-8 encoded.
 
    C: "#005 listplayers"
    S: "#005 ok"
@@ -84,8 +97,8 @@ to keep the client synchronized.
 
 When joined to a new game, the client may choose to select a team:
 
-   C: "#006 setteam \"Detectives\", or
-      "#006 setteam \"Mr. X\"
+   C: "#006 setteam \"Detectives\"", or
+      "#006 setteam \"Mr. X\""
    S: "#006 ok"
 
 When joined to a game, the client may vote to begin the game:
@@ -93,22 +106,44 @@ When joined to a game, the client may vote to begin the game:
    C: "#007 votestart True"
    S: "#007 ok"
 
-When joined to a game, the client may send a chat message:
+When joined to a game, the client may request a list of available AI algorithms:
+
+   C: "#007 listai \"Detectives\"", or
+      "#007 listai \"Mr. X\""
+   S: "#007 aiinfo \"algorithm 1\""
+      "#007 aiinfo \"algorithm 2\""
+      ...
+      "#007 ok"
+
+The algorithm names will be UTF-8 encoded.  The client may proceed to request
+an AI opponent from the list:
+
+   C: "008 requestai \"algorithm 1\""
+   S: "008 ok"
+
+When joined to a game, the client may send a UTF-8 encoded chat message:
 
    C: "#007 chatall \"my message\""
    S: "#007 ok"
 
-The server will broadcast chat messages to all clients:
+The server will broadcast chat messages to all clients (both username and
+message are UTF-8 encoded):
 
    S: "* chatall \"username\" \"message\""
 
-
-Rather than joining an existing game, the client may choose to begin a new game:
+Rather than joining an existing game, the client may choose to begin a new game.
+The game room name should be UTF-8 encoded.
 
    C: "#008 newgame \"my game's name\" GAMETYPE"
    S: "#008 ok"
 
    If accepted, the client then is auto-joined to the new game room.
+
+At any time, the server may eject the client from a game to which it is joined:
+
+   S: "* ejected \"reason\""
+
+The reason string will be UTF-8 encoded.
 
 
 GAME START
@@ -124,7 +159,7 @@ respond with untagged data of the form
 PAWNNAME is one of {X, Red, Yellow, Green, Blue, Black}, LOCATION is the obvious integer
 value, and the remaining arguments are the numbers of tokens the pawn possesses.  The
 special value "-1" is used to indicate a hidden location, and is also used to indicate
-infinite tokens.
+infinite tokens.  Player names are UTF-8 encoded.
 
    C: "#010 pawninfo"
    S: "#010 ok"
@@ -179,7 +214,9 @@ As game state changes occur, the server will inform the clients automatically.
 
    S: "* gameover WINNING_TEAM \"reason for win\"
 
-   S: "* playerleave USERNAME"
+   S: "* playerleave \"USERNAME\""
+
+   S: "* rejoin \"USERNAME\""
 
    (Gameplay does not cease until all players have left the game.  The
    disconnected player can resume at any time, request player info and game
@@ -188,7 +225,7 @@ As game state changes occur, the server will inform the clients automatically.
    players will not be returning immediately.)
 
 During gameplay, the client may send a chat message to all players or just to
-its team:
+its team.  The message should be UTF-8 encoded.
 
    C: "#015 chatall \"my message\"", or
       "#015 chatteam \"my message\""
@@ -196,13 +233,89 @@ its team:
    S: "#007 ok"
 
 The server will broadcast chat messages only to the appropriate clients
-(including the sender):
+(including the sender).  Both player name and message are UTF-8 encoded.
 
-   S: "* chatall \"nick\" \"message\"", or
-   S: "* chatteam \"nick\" \"message\""
+   S: "* chatall \"player name\" \"message\"", or
+   S: "* chatteam \"player name\" \"message\""
+
+At any time, the server may eject the client from the game:
+
+   S: "* ejected \"reason\""
+
+The reason strings is UTF-8 encoded.
 
 
+ADMINISTRATOR MODE
 
+A client may log in as user "admin":
+
+   C: "#001 login admin \"admin password\""
+   S: "#001 ok"
+
+The admin has a different choice of commands from other clients.
+
+The admin may request a list of all user accounts on the server.  The
+server will provide the player names using UTF-8 encoding.
+
+   C: "#005 allplayers"
+   S: "* playername \"Bob\""
+   S: "* playername \"Joe\""
+   S: "* playername \"Dan\""
+   S: "#005 ok"
+
+The admin may request the password and last IP address of any player:
+
+   C: "#010 profile \"player name\""
+   S: "#010 profile \"password\" ip
+
+Player name and password are UTF-8 encoded.  The IP address is provided
+as a dotted quad string.
+
+The admin may list all games on the server just as any other player.  The admin
+may also look at the players joined to a particular game, by providing a UTF-8
+encoded game name as an extra argument to the "playerinfo" command:
+
+   C: "#015 listplayers \"game name\""
+   S: "* playerinfo \"Bob\" \"Mr. X\" None X
+   S: "* playerinfo \"Joe\" \"Detectives\" None \"Red Yellow Green Blue Black\"
+   S: "#015 ok"
+
+The admin may eject a player from a game (both player name and game room name
+should be UTF-8 encoded):
+
+   C: "#020 \"player name\" \"game name\""
+   S: "#020 ok"
+
+The admin may delete a game (game room name should be UTF-8 encoded).  This will
+also eject any joined players from the game and into the game registration area.
+
+   C: "#025 deletegame \"game name\""
+   S: "#025 ok"
+
+The admin may cause a player to disconnect from the server (player name should be
+UTF-8 encoded):
+
+   C: "#030 disconnect \"player name\""
+   S: "#030 ok"
+
+The admin may ban a player from the server, which simply replaces the player's
+password with a null string.  The player is not automatically disconnected by
+this command.  The player name should be UTF-8 encoded.
+
+   C: "#035 ban \"player name\""
+   S: "#035 ok"
+
+The admin may delete a player's account.  The player is disconnected from the
+server if necessary.  The player name should be UTF-8 encoded.
+
+   C: "#040 deleteplayer \"player name\""
+   S: "#040 ok"
+
+The admin may change a player's password.  Both player name and password should
+be UTF-8 encoded.
+
+   C: "#045 setpassword \"player name\" \"new password\"
+   S: "#045 ok"
 
 
 

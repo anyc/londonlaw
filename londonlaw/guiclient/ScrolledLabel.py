@@ -1,5 +1,5 @@
 #  London Law -- a networked manhunting board game
-#  Copyright (C) 2003-2004 Paul Pelzl
+#  Copyright (C) 2003-2004, 2005 Paul Pelzl
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License, Version 2, as 
@@ -19,24 +19,24 @@
 
 # ScrolledLabel.py
 #
-# This class handles a wxStaticText that is managed by a scrolled window.
+# This class handles a wx.StaticText that is managed by a scrolled window.
 
 
-from wxPython.wx import *
+import wx
 
-class ScrolledLabel(wxScrolledWindow):
+class ScrolledLabel(wx.ScrolledWindow):
    def __init__(self, parent, label):
-      wxScrolledWindow.__init__(self, parent, -1, wxDefaultPosition, wxDefaultSize, 
-         wxVSCROLL | wxSIMPLE_BORDER)
-      self.SetBackgroundColour(wxColour(200, 200, 200))
+      wx.ScrolledWindow.__init__(self, parent, -1, wx.DefaultPosition, wx.DefaultSize, 
+         wx.VSCROLL | wx.SIMPLE_BORDER)
+      self.SetBackgroundColour(wx.Colour(200, 200, 200))
       self.SetScrollRate(0, 5)
 
       # create the text that will be scrolled
-      self.text = wxStaticText(self, -1, label, wxPoint(0,0))
+      self.text = wx.StaticText(self, -1, label, wx.Point(0,0))
 
       # use a Sizer to handle geometry
-      self.topSizer = wxBoxSizer(wxVERTICAL)
-      self.topSizer.Add(self.text, 1, wxEXPAND)
+      self.topSizer = wx.BoxSizer(wx.VERTICAL)
+      self.topSizer.Add(self.text, 1, wx.EXPAND)
       self.SetSizer(self.topSizer)
       self.topSizer.SetVirtualSizeHints(self)
 

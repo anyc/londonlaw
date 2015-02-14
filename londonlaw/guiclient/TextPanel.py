@@ -1,5 +1,5 @@
 #  London Law -- a networked manhunting board game
-#  Copyright (C) 2003-2004 Paul Pelzl
+#  Copyright (C) 2003-2004, 2005 Paul Pelzl
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License, Version 2, as 
@@ -19,25 +19,25 @@
 
 # TextPanel.py
 #
-# This class handles a wxStaticText drawn on a wxPanel.  The combination
+# This class handles a wx.StaticText drawn on a wx.Panel.  The combination
 # allows one to set both foreground and background colors, as well as
 # borders around the window.
 
-from wxPython.wx import *
+import wx
 
-# Generate a text label drawn on a wxPanel.
-class TextPanel(wxPanel):
-   def __init__(self, parent, text, points = 10, style = 0):
-      wxPanel.__init__(self, parent, -1, wxDefaultPosition, wxDefaultSize, style)
+# Generate a text label drawn on a wx.Panel.
+class TextPanel(wx.Panel):
+   def __init__(self, parent, text, points = 10, style = 0, fontWeight = wx.NORMAL):
+      wx.Panel.__init__(self, parent, -1, wx.DefaultPosition, wx.DefaultSize, style)
 
-      font = wxFont(points, wxDEFAULT, wxNORMAL, wxNORMAL)
-      self.text = wxStaticText(self, -1, text, wxPoint(0,0))
+      font = wx.Font(points, wx.DEFAULT, wx.NORMAL, fontWeight)
+      self.text = wx.StaticText(self, -1, text, wx.Point(0,0))
       self.text.SetFont(font)
 
-      self.sizer = wxBoxSizer(wxVERTICAL)
-      self.sizer.Add((0, 0), 1, wxEXPAND)
-      self.sizer.Add(self.text, 0, wxALIGN_CENTRE|wxADJUST_MINSIZE)
-      self.sizer.Add((0, 0), 1, wxEXPAND)
+      self.sizer = wx.BoxSizer(wx.VERTICAL)
+      self.sizer.Add((0, 0), 1, wx.EXPAND)
+      self.sizer.Add(self.text, 0, wx.ALIGN_CENTRE|wx.ADJUST_MINSIZE)
+      self.sizer.Add((0, 0), 1, wx.EXPAND)
       self.SetSizer(self.sizer)
       self.sizer.SetSizeHints(self)
 
@@ -48,13 +48,13 @@ class TextPanel(wxPanel):
 
    def SetForegroundColour(self, color):
       self.text.SetForegroundColour(color)
-      wxPanel.SetForegroundColour(self, color)
+      wx.Panel.SetForegroundColour(self, color)
 
    # def SetBackgroundColour(self, color)
-   # (this function falls through to call SetBackgroundColour on the wxPanel)
+   # (this function falls through to call SetBackgroundColour on the wx.Panel)
    def SetBackgroundColour(self, color):
       self.text.SetBackgroundColour(color)
-      wxPanel.SetBackgroundColour(self, color)
+      wx.Panel.SetBackgroundColour(self, color)
    
 
 

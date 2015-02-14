@@ -1,7 +1,14 @@
-import sets
+import sets, gettext
+
+
+# mark translatable strings for xgettext
+def N_(arg):
+   return arg
+
 
 class TeamError(Exception):
-   pass
+   def ustr(self):
+      return self.args[0]
 
 
 class Team(object):
@@ -16,7 +23,7 @@ class Team(object):
    
    def addPlayer(self, player):
       if self.getNumPlayers() >= self.getNumPawns():
-         raise TeamError("That team is full.")
+         raise TeamError(N_("That team is full."))
       self._players.append(player)
       self._reassignPawns()
 
@@ -51,7 +58,7 @@ class Team(object):
       try:
          self._players.remove(player)
       except KeyError:
-         raise TeamError("player not in team")
+         raise TeamError(N_("Player not on team."))
       self._reassignPawns()
 
    def _assignPawnToPlayer(self, pawn, player):

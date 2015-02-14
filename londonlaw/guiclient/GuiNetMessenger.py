@@ -69,6 +69,9 @@ class GuiNetMessenger:
    def guiRemovePlayer(self, data):
       self._registrationWindow.removePlayer(data)
 
+   def guiSelectAI(self, aiList):
+      self._registrationWindow.selectAI(aiList)
+
    def guiSetTurnNum(self, turnNum):
       self._mainWindow.setTurnNum(int(turnNum))
 
@@ -90,11 +93,20 @@ class GuiNetMessenger:
    def netJoinGame(self, name):
       self._protocol.join(name)
 
+   def netLeaveGame(self):
+      self._protocol.leave()
+
    def netMakeMove(self, data):
       self._protocol.makeMove(data)
 
    def netNewGame(self, data):
       self._protocol.newgame(data)
+
+   def netRequestAI(self, algorithm):
+      self._protocol.requestAI(algorithm)
+
+   def netRequestAIList(self, team):
+      self._protocol.requestAIList(team)
 
    def netSendChat(self, text, sendTo):
       self._protocol.sendChat(text, sendTo)
@@ -102,8 +114,8 @@ class GuiNetMessenger:
    def netSetTeam(self, team):
       self._protocol.setTeam(team)
 
-   def netLeaveGame(self):
-      self._protocol.leave()
+   def netShutdown(self):
+      self._protocol.shutdown()
 
    def netVoteStart(self):
       self._protocol.vote()

@@ -15,21 +15,25 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import re, random
-import sets
+import re, random, sets, time, gettext
 
 from twisted.python import components
 from twisted.python import log
 
 from londonlaw.common.protocol import *
 from londonlaw.common.map import *
-from Pawn import *
+from londonlaw.common.Pawn import *
 from Team import *
 import Protocol, GameRegistry
 
 
+# mark strings for use with xgettext
+def N_(arg):
+   return arg
+
 class GameError(Exception):
-   pass
+   def ustr(self):
+      return self.args[0]
 
 
 class IGameListener(components.Interface):
@@ -45,7 +49,13 @@ class IGameListener(components.Interface):
    def announcePawnInfo(self):
       pass
 
-   def gameOver(self, game, winningTeam, reason):
+   def gameOverEvade(self, winningTeam):
+      pass
+
+   def gameOverStuck(self, winningTeam):
+      pass
+
+   def gameOverCaught(self, winningTeam, detective):
       pass
 
    def gameStart(self, game):
@@ -101,6 +111,7 @@ class Game:
       self._listeners   = {}
       self._nextPawn    = {}
       self._turnNum     = 1
+      self._startTime   = time.time()
       
       x_team = Team("Mr. X")
       det_team = Team("Detectives")
@@ -184,23 +195,33 @@ class Game:
                listener.playerRejoin(player)
             self.addListenerForPlayer(player)
          else:
-            raise GameError("Username not permitted for this in-progress game.")
+            raise GameError(N_("Username not permitted for this in-progress game."))
       elif self._gameStatus == GAMESTATUS_COMPLETE:
-         raise GameError("That game has already been completed.")
+         raise GameError(N_("That game has already been completed."))
       # this must GAMESTATUS_NEW
       elif self._gameType == GAMETYPE_STANDARD:
          team = self._findAvailableTeam()
          if team is None:
-            raise GameError("That game is full.")
+            raise GameError(N_("That game is full."))
          self._players.append(player)
          registry.getClient(player).setGame(self)
          self._setTeamForPlayer(player, team)
          self.addListenerForPlayer(player)
    
-   def gameOver(self, winningTeam, reason):
+   def gameOverEvade(self, winningTeam):
       self._gameStatus = GAMESTATUS_COMPLETE
       for listener in self._listeners:
-         listener.gameOver(winningTeam, reason)
+         listener.gameOverEvade(winningTeam)
+
+   def gameOverStuck(self, winningTeam):
+      self._gameStatus = GAMESTATUS_COMPLETE
+      for listener in self._listeners:
+         listener.gameOverStuck(winningTeam)
+
+   def gameOverCaught(self, winningTeam, detective):
+      self._gameStatus = GAMESTATUS_COMPLETE
+      for listener in self._listeners:
+         listener.gameOverCaught(winningTeam, detective)
 
    def getCurrentPawn(self):
       return self._currentPawn
@@ -341,7 +362,7 @@ class Game:
             break
    
    # remove a player from the game
-   def removePlayer(self, player):
+   def removePlayer(self, player, force_remove=False):
       if self._gameStatus == GAMESTATUS_NEW:
          team = self._player2team[player]
          team.removePlayer(player)
@@ -353,7 +374,7 @@ class Game:
          # all players on this team will have some information changed, so push
          # a playerinfo update on each one
          self._sendTeamUpdate(team)
-      elif self._gameStatus == GAMESTATUS_COMPLETE:
+      elif self._gameStatus == GAMESTATUS_COMPLETE or force_remove:
          self._players.remove(player)
          self.removeListenerForPlayer(player)
          for listener in self._listeners:
@@ -378,19 +399,16 @@ class Game:
       for listener in self._listeners:
          if self._listeners[listener] == username:
             listener.announcePawnInfo()
+            listener.announceHistory(self._history)
             listener.announceTurnNum(self._turnNum)
             listener.announceTurn(self._currentPawn)
-            listener.announceHistory(self._history)
             break
 
    def testMrXCaught(self):
       X = self.getPawnByName("X")
       for detective in self._getTeamByName("Detectives").getPawns():
          if X.getLocation() == detective.getLocation():
-            reason = "Mr. X was caught by the " + detective.getName() + \
-                  " Detective at location " + repr(X.getLocation()) + \
-                  ".  The detectives win!"
-            self.gameOver(self._getTeamByName("Detectives"), reason)
+            self.gameOverCaught(self._getTeamByName("Detectives"), detective)
             return True
       return False
 
@@ -398,6 +416,7 @@ class Game:
       if not (False in [t.getNumPlayers() > 0 for t in self._teams]) \
       and not (False in [registry.getClient(p).getVote() for p in self._players]):
          for listener in self._listeners:
+            self._startTime  = time.time()
             self._gameStatus = GAMESTATUS_INPROGRESS
             listener.gameStart(self)
             listener.announcePawnInfo()
@@ -427,13 +446,13 @@ class Game:
       for pawn in self._pawns:
          if pawn.getName() == name:
             return pawn
-      raise GameError("no such pawn")
+      raise GameError(N_("Unrecognized pawn name."))
    
    def _getTeamByName(self, name):
       for team in self._teams:
          if team.getName() == name:
             return team
-      raise GameError("no such team")
+      raise GameError(N_("Unrecognized team name."))
    
    def _getTeamForPawn(self, pawn):
       return self._pawn2team.get(pawn, None)
@@ -466,8 +485,7 @@ class Game:
       if self._currentPawn == self.getPawnByName("X"):
          self._turnNum += 1
          if self._turnNum >= 25:
-            self.gameOver(self._getTeamByName("Mr. X"), 
-               "Mr. X successfully evaded the detectives for 24 turns.  Mr. X wins!")
+            self.gameOverEvade(self._getTeamByName("Mr. X"))
             return
          else:
             self._history.append([])
@@ -476,8 +494,7 @@ class Game:
       else:
          if self._currentPawn == self.getPawnByName("Red"):
             if self.isEveryDetectiveStuck():
-               self.gameOver(self._getTeamByName("Mr. X"),
-                     "None of the detectives are able to move.  Mr. X wins!")
+               self.gameOverStuck(self._getTeamByName("Mr. X"))
                return
          if self.isDetectiveStuck(self._currentPawn):
             for listener in self._listeners:

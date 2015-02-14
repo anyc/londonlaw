@@ -21,16 +21,18 @@
 # that runs the twisted event loop periodically.
 
 
+from londonlaw.common import threadedselectreactor
+threadedselectreactor.install()
+
+import sys, gettext, wx
 from twisted.internet import protocol, reactor
 from twisted.python import log
-from wxPython.wx import *
 from ConnectWindow import *
 from GameListWindow import *
 from RegistrationWindow import *
 from MainWindow import *
 from Protocol import LLawClientProtocol
 from GuiNetMessenger import *
-import sys, socket
 
 
 
@@ -43,10 +45,18 @@ class LLawClientFactory(protocol.ClientFactory):
    def registerProtocol(self, p):
       messenger.registerProtocol(p)
 
+   def clientConnectionFailed(self, connector, reason):
+      messenger.guiAlert(_("Unable to connect to server."))
+
+
+# ensure the Twisted reactor gets cleanly shut down
+def shutdown(shutdownWindow):
+   reactor.addSystemEventTrigger('after', 'shutdown', shutdownWindow.Close, True)
+   reactor.stop()
 
 
 # Run the whole shebang.
-class MyApp(wxApp):
+class MyApp(wx.App):
 
    def OnInit(self):
       TIMERID = 999999
@@ -57,36 +67,32 @@ class MyApp(wxApp):
       messenger.registerRegistrationWindowLauncher(self.register)
       messenger.registerMainWindowLauncher(self.startGame)
 
-      wxInitAllImageHandlers()  # Required to be able to load compressed images
+      wx.InitAllImageHandlers()        # Required to be able to load compressed images
+      reactor.interleave(wx.CallAfter) # Integrate Twisted and wxPython event loops
+
       messenger.guiLaunchConnectionWindow()
 
-      EVT_TIMER(self, TIMERID, self.OnTimer)
-      self.timer = wxTimer(self, TIMERID)
-      self.timer.Start(250, False)
-
-      return true
-
-
-   def OnTimer(self, event):
-      reactor.runUntilCurrent()
-      reactor.doIteration(0)
+      return True
 
 
    def chooseConnection(self, event = None):
       if self.currentWindow:
          self.currentWindow.Destroy()
-      self.connectFrame = ConnectWindow(None, -1, "London Law -- Connect to Server")
+      # TRANSLATORS: window title for server connection
+      self.connectFrame = ConnectWindow(None, -1, _("London Law -- Connect to Server"), shutdown)
       self.connectFrame.Fit()
       self.connectFrame.Show(1)
       self.currentWindow = self.connectFrame
-      EVT_BUTTON(self.connectFrame, self.connectFrame.connectButton.GetId(), self.connect)
+      self.connectFrame.Bind(wx.EVT_BUTTON, self.connect, self.connectFrame.connectButton)
       return self.connectFrame
 
 
    def chooseGame(self, event = None):
       if self.currentWindow:
          self.currentWindow.Destroy()
-      self.chooseGameFrame = GameListWindow(None, -1, "London Law -- Choose a Game", messenger)
+      # TRANSLATORS: window title for game selection
+      self.chooseGameFrame = GameListWindow(None, -1, _("London Law -- Choose a Game"), 
+            messenger, shutdown)
       self.chooseGameFrame.SetSize((640, 480))
       self.chooseGameFrame.Show(1)
       self.currentWindow = self.chooseGameFrame
@@ -96,7 +102,9 @@ class MyApp(wxApp):
    def register(self, event = None):
       if self.currentWindow:
          self.currentWindow.Destroy()
-      self.registerFrame = RegistrationWindow(None, -1, "London Law -- Team Selection", messenger)
+      # TRANSLATORS: window title for team selection
+      self.registerFrame = RegistrationWindow(None, -1, _("London Law -- Team Selection"), 
+            messenger, shutdown)
       self.registerFrame.Fit()
       self.registerFrame.SetSize((640, 480))
       self.registerFrame.Show(1)
@@ -107,7 +115,9 @@ class MyApp(wxApp):
    def startGame(self, username, playerList, event = None):
       if self.currentWindow:
          self.currentWindow.Destroy()
-      self.mainFrame = MainWindow(None, -1, "London Law", username, playerList, messenger)
+      # TRANSLATORS: main window title
+      self.mainFrame = MainWindow(None, -1, _("London Law"), username, playerList, 
+            messenger, shutdown)
       self.mainFrame.SetSize((1000,740))
       self.mainFrame.Show(1)
       self.currentWindow = self.mainFrame
@@ -120,31 +130,33 @@ class MyApp(wxApp):
       username = self.connectFrame.usernameEntry.GetValue()
       password = self.connectFrame.passEntry.GetValue()
       if len(hostname) < 1:
-         self.connectFrame.status.PushStatusText("You must enter a valid hostname.")
+         self.connectFrame.status.PushStatusText(_("You must enter a valid hostname."))
          return
       elif len(port) < 1:
-         self.connectFrame.status.PushStatusText("You must enter a valid port number.")
+         self.connectFrame.status.PushStatusText(_("You must enter a valid port number."))
          return
       elif len(username) < 1:
-         self.connectFrame.status.PushStatusText("You must enter a valid username.")
+         self.connectFrame.status.PushStatusText(_("You must enter a valid username."))
          return
       else:
          try:
             portNum = int(port)
          except:
-            self.connectFrame.status.PushStatusText("The port number must be an integer.")
+            self.connectFrame.status.PushStatusText(_("The port number must be an integer."))
             return
 
          messenger.setUsername(username)
          messenger.setPassword(password)
-         self.connectFrame.status.PushStatusText("Connecting to server...")
-         reactor.connectTCP(socket.gethostbyname(hostname), portNum, LLawClientFactory())
+         self.connectFrame.status.PushStatusText(_("Connecting to server..."))
+         reactor.connectTCP(hostname, portNum, LLawClientFactory())
 
 
-reactor.startRunning()
-#log.startLogging(sys.stderr, 0)
-app = MyApp(0)
-app.MainLoop()
+
+def init():
+   reactor.startRunning()
+   log.startLogging(sys.stderr, 0)
+   app = MyApp(0)
+   app.MainLoop()
 
 
 

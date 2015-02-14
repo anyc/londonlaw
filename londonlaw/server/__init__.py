@@ -15,32 +15,40 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from twisted.internet import protocol, reactor
+from twisted.internet import protocol, reactor, task
 from twisted.python import log
 from londonlaw.common.protocol import *
 from Protocol import LLawServerProtocol
 from optparse import OptionParser
 import GameRegistry
-import sys
+import sys, gettext
 
 
 
 class LLawServerFactory(protocol.ServerFactory):
    protocol = LLawServerProtocol
    
-# Parse command-line options
-parser = OptionParser()
-parser.add_option("-p", "--port", dest="port",
-      help="listen for connections on port NUM", metavar="NUM", default=str(LLAW_PORT))
-(options, args) = parser.parse_args()
 
-registry = GameRegistry.getHandle()
+def init():
+   # Parse command-line options
+   parser = OptionParser()
+   parser.add_option("-p", "--port", dest="port",
+         help=_("listen for connections on port NUM"), metavar=_("NUM"), default=str(LLAW_PORT))
+   (options, args) = parser.parse_args()
 
-log.startLogging(sys.stdout, 0)
-reactor.listenTCP(int(options.port), LLawServerFactory())
-reactor.run()
+   log.startLogging(sys.stdout, 0)
 
-registry.close()
+   registry = GameRegistry.getHandle()
+   # Purge expired games every half hour
+   gameKiller = task.LoopingCall(registry.purgeExpiredGames)
+   gameKiller.start(1800)
+   # Purge games involving AI clients
+   registry.purgeBotGames()
+
+   reactor.listenTCP(int(options.port), LLawServerFactory())
+   reactor.run()
+
+   registry.close()
 
 
 # arch-tag: DO_NOT_CHANGE_9d2015c7-8192-4a96-979d-c2c2f84aecd3 

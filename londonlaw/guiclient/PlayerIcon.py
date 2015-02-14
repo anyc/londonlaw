@@ -1,5 +1,5 @@
 #  London Law -- a networked manhunting board game
-#  Copyright (C) 2003-2004 Paul Pelzl
+#  Copyright (C) 2003-2004, 2005 Paul Pelzl
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License, Version 2, as 
@@ -23,93 +23,92 @@
 # There are captions for names and readouts of the available tokens.
 # Status icons can be overlaid on the player icons to show whose turn it is, etc.
 
-from wxPython.wx import *
+import os, gettext, wx
 from TextPanel import *
 from StaticBitmap import *
 from londonlaw.common.config import *
-import os
 
 
 # draw an icon to represent a player, with a caption for the name and a
 # readout of the available tokens.
 # expects a list of three tokens (taxi, bus, undergnd) or a list of five
 # tokens (taxi, bus, undergnd, black, double)
-class PlayerIcon(wxPanel):
+class PlayerIcon(wx.Panel):
    def __init__(self, parent, imagefile, thinkingimagefile, stuckimagefile, 
             name, tokenList, isMrX = False):
-      wxPanel.__init__(self, parent, -1) #wxDefaultPosition, wxDefaultSize, wxSIMPLE_BORDER)
+      wx.Panel.__init__(self, parent, -1) #wx.DefaultPosition, wx.DefaultSize, wx.SIMPLE_BORDER)
 
-      self.iconPanel = wxPanel(self, -1)
+      self.iconPanel = wx.Panel(self, -1)
       self.isStuck   = False
       self.isMrX     = isMrX
 
       # load the image
-      iconImage = wxImage(imagefile, wxBITMAP_TYPE_ANY)
+      iconImage = wx.Image(imagefile, wx.BITMAP_TYPE_ANY)
       # we need an extra copy of the player icon, so we can blit to one of them in memory
-      self.playerBitmap = wxBitmapFromImage(iconImage)
-      self.iconBitmap   = wxBitmapFromImage(iconImage)
-      self.iconBitmap2  = wxBitmapFromImage(iconImage)
+      self.playerBitmap = wx.BitmapFromImage(iconImage)
+      self.iconBitmap   = wx.BitmapFromImage(iconImage)
+      self.iconBitmap2  = wx.BitmapFromImage(iconImage)
       self.icon = StaticBitmap(self.iconPanel, -1, self.iconBitmap)
 
       # load the overlay image for the "I'm thinking" question mark
-      thinkingImage = wxImage(thinkingimagefile, wxBITMAP_TYPE_ANY)
+      thinkingImage = wx.Image(thinkingimagefile, wx.BITMAP_TYPE_ANY)
       thinkingImage.SetMaskColour(255, 0, 242) # the purplish colour is not to be drawn
-      self.thinkingBitmap = wxBitmapFromImage(thinkingImage)
+      self.thinkingBitmap = wx.BitmapFromImage(thinkingImage)
 
       # load the overlay image for the "I'm stuck" stop sign
-      stuckImage = wxImage(stuckimagefile, wxBITMAP_TYPE_ANY)
+      stuckImage = wx.Image(stuckimagefile, wx.BITMAP_TYPE_ANY)
       stuckImage.SetMaskColour(255, 0, 242) # the purplish colour is not to be drawn
-      self.stuckBitmap = wxBitmapFromImage(stuckImage)
+      self.stuckBitmap = wx.BitmapFromImage(stuckImage)
 
-      iconSizer = wxBoxSizer(wxVERTICAL)
-      iconSizer.Add(self.icon, 0, wxADJUST_MINSIZE)
+      iconSizer = wx.BoxSizer(wx.VERTICAL)
+      iconSizer.Add(self.icon, 0, wx.ADJUST_MINSIZE)
       self.iconPanel.SetSizer(iconSizer)
       iconSizer.Fit(self.iconPanel)
 
 
       # create the caption
-      self.caption = TextPanel(self, " "+name[:20]+" ", 10, wxSIMPLE_BORDER)#|wxALIGN_CENTRE
+      self.caption = TextPanel(self, " "+name[:20]+" ", 10, wx.SIMPLE_BORDER)#|wx.ALIGN_CENTRE
 
       # create the inventory labels
       if self.isMrX:
-         self.blackLabel = TextPanel(self, " "+`tokenList[3]`+" ", 10, wxEXPAND)
-         self.blackLabel.SetBackgroundColour(wxColour(0,0,0))
-         self.blackLabel.SetForegroundColour(wxColour(255,255,255))
-         self.doubleLabel = TextPanel(self, " "+`tokenList[4]`+" ", 10, wxEXPAND)
-         self.doubleLabel.SetBackgroundColour(wxColour(255,84,166))
+         self.blackLabel = TextPanel(self, " "+`tokenList[3]`+" ", 10, wx.EXPAND)
+         self.blackLabel.SetBackgroundColour(wx.Colour(0,0,0))
+         self.blackLabel.SetForegroundColour(wx.Colour(255,255,255))
+         self.doubleLabel = TextPanel(self, " "+`tokenList[4]`+" ", 10, wx.EXPAND)
+         self.doubleLabel.SetBackgroundColour(wx.Colour(255,84,166))
       else:
-         self.taxiLabel = TextPanel(self, " "+`tokenList[0]`+" ", 10, wxEXPAND)
-         self.taxiLabel.SetBackgroundColour(wxColour(255, 191, 0))
-         self.busLabel = TextPanel(self, " "+`tokenList[1]`+" ", 10, wxEXPAND)
-         self.busLabel.SetBackgroundColour(wxColour(7, 155, 0))
-         self.ugndLabel = TextPanel(self, " "+`tokenList[2]`+" ", 10, wxEXPAND)
-         self.ugndLabel.SetBackgroundColour(wxColour(160, 36, 96))
-         self.ugndLabel.SetForegroundColour(wxColour(255, 255, 255))
+         self.taxiLabel = TextPanel(self, " "+`tokenList[0]`+" ", 10, wx.EXPAND)
+         self.taxiLabel.SetBackgroundColour(wx.Colour(255, 191, 0))
+         self.busLabel = TextPanel(self, " "+`tokenList[1]`+" ", 10, wx.EXPAND)
+         self.busLabel.SetBackgroundColour(wx.Colour(7, 155, 0))
+         self.ugndLabel = TextPanel(self, " "+`tokenList[2]`+" ", 10, wx.EXPAND)
+         self.ugndLabel.SetBackgroundColour(wx.Colour(160, 36, 96))
+         self.ugndLabel.SetForegroundColour(wx.Colour(255, 255, 255))
 
       # stack the inventory labels vertically
-      self.invSizer = wxBoxSizer(wxVERTICAL)
+      self.invSizer = wx.BoxSizer(wx.VERTICAL)
       if self.isMrX:
-         self.invSizer.Add(self.blackLabel, 1, wxEXPAND|wxADJUST_MINSIZE)
-         self.invSizer.Add(self.doubleLabel, 1, wxEXPAND|wxADJUST_MINSIZE)
+         self.invSizer.Add(self.blackLabel, 1, wx.EXPAND|wx.ADJUST_MINSIZE)
+         self.invSizer.Add(self.doubleLabel, 1, wx.EXPAND|wx.ADJUST_MINSIZE)
       else:
-         self.invSizer.Add(self.taxiLabel, 1, wxEXPAND|wxADJUST_MINSIZE)
-         self.invSizer.Add(self.busLabel, 1, wxEXPAND|wxADJUST_MINSIZE)
-         self.invSizer.Add(self.ugndLabel, 1, wxEXPAND|wxADJUST_MINSIZE)
+         self.invSizer.Add(self.taxiLabel, 1, wx.EXPAND|wx.ADJUST_MINSIZE)
+         self.invSizer.Add(self.busLabel, 1, wx.EXPAND|wx.ADJUST_MINSIZE)
+         self.invSizer.Add(self.ugndLabel, 1, wx.EXPAND|wx.ADJUST_MINSIZE)
 
       # group the icon with the inventory
-      iconInvSizer = wxBoxSizer(wxHORIZONTAL)
-      iconInvSizer.Add(self.iconPanel, 0, wxALIGN_TOP|wxADJUST_MINSIZE)
-      iconInvSizer.Add(self.invSizer, 0, wxALIGN_TOP|wxADJUST_MINSIZE)
+      iconInvSizer = wx.BoxSizer(wx.HORIZONTAL)
+      iconInvSizer.Add(self.iconPanel, 0, wx.ALIGN_TOP|wx.ADJUST_MINSIZE)
+      iconInvSizer.Add(self.invSizer, 0, wx.ALIGN_TOP|wx.ADJUST_MINSIZE)
 
       # put the caption under the bitmap and inventory lists
-      self.topSizer = wxBoxSizer(wxVERTICAL)
-      self.topSizer.Add(iconInvSizer, 0, wxEXPAND|wxLEFT|wxRIGHT|wxADJUST_MINSIZE, 20)
-      self.topSizer.Add(self.caption, 0, wxEXPAND|wxALIGN_CENTRE|wxALL, 2)
+      self.topSizer = wx.BoxSizer(wx.VERTICAL)
+      self.topSizer.Add(iconInvSizer, 0, wx.EXPAND|wx.LEFT|wx.RIGHT|wx.ADJUST_MINSIZE, 20)
+      self.topSizer.Add(self.caption, 0, wx.EXPAND|wx.ALIGN_CENTRE|wx.ALL, 2)
       self.SetSizer(self.topSizer)
       self.topSizer.SetSizeHints(self)
 
-      self.iconDC = wxMemoryDC()
-      self.srcDC  = wxMemoryDC()
+      self.iconDC = wx.MemoryDC()
+      self.srcDC  = wx.MemoryDC()
 
 
    def updateTokens(self, tokenList):
@@ -131,14 +130,14 @@ class PlayerIcon(wxPanel):
             self.srcDC, 0, 0)
       self.srcDC.SelectObject(self.thinkingBitmap)
       self.iconDC.Blit(0, 0, self.iconBitmap.GetWidth(), self.iconBitmap.GetHeight(),
-            self.srcDC, 0, 0, wxCOPY, TRUE)
+            self.srcDC, 0, 0, wx.COPY, True)
       self.iconDC.EndDrawing()
-      self.iconDC.SelectObject(wxNullBitmap)
+      self.iconDC.SelectObject(wx.NullBitmap)
       temp             = self.iconBitmap
       self.iconBitmap  = self.iconBitmap2
       self.iconBitmap2 = temp
       self.icon.SetBitmap(self.iconBitmap)
-      self.icon.Refresh(FALSE)
+      self.icon.Refresh(False)
       self.isStuck = False
 
 
@@ -150,14 +149,14 @@ class PlayerIcon(wxPanel):
             self.srcDC, 0, 0)
       self.srcDC.SelectObject(self.stuckBitmap)
       self.iconDC.Blit(0, 0, self.iconBitmap.GetWidth(), self.iconBitmap.GetHeight(),
-            self.srcDC, 0, 0, wxCOPY, TRUE)
+            self.srcDC, 0, 0, wx.COPY, True)
       self.iconDC.EndDrawing()
-      self.iconDC.SelectObject(wxNullBitmap)
+      self.iconDC.SelectObject(wx.NullBitmap)
       temp             = self.iconBitmap
       self.iconBitmap  = self.iconBitmap2
       self.iconBitmap2 = temp
       self.icon.SetBitmap(self.iconBitmap)
-      self.icon.Refresh(FALSE)
+      self.icon.Refresh(False)
       self.isStuck = True
 
 
@@ -168,19 +167,19 @@ class PlayerIcon(wxPanel):
       self.iconDC.Blit(0, 0, self.iconBitmap.GetWidth(), self.iconBitmap.GetHeight(),
             self.srcDC, 0, 0)
       self.iconDC.EndDrawing()
-      self.iconDC.SelectObject(wxNullBitmap)
+      self.iconDC.SelectObject(wx.NullBitmap)
       temp             = self.iconBitmap
       self.iconBitmap  = self.iconBitmap2
       self.iconBitmap2 = temp
       self.icon.SetBitmap(self.iconBitmap)
-      self.icon.Refresh(FALSE)
+      self.icon.Refresh(False)
 
 
 
 # Manage a group of icons to represent all six players.
-class PlayerIconGroup(wxPanel):
+class PlayerIconGroup(wx.Panel):
    def __init__(self, parent, nameList, tokenList):
-      wxPanel.__init__(self, parent, -1)
+      wx.Panel.__init__(self, parent, -1)
 
       # Get icons for all the players
       if len(nameList) != 6:
@@ -200,9 +199,9 @@ class PlayerIconGroup(wxPanel):
             nameList[i], tokenList[i]))
 
 
-      self.topSizer = wxBoxSizer(wxHORIZONTAL)
+      self.topSizer = wx.BoxSizer(wx.HORIZONTAL)
       for p in self.players:
-         self.topSizer.Add(p, 0, wxALIGN_CENTRE) 
+         self.topSizer.Add(p, 0, wx.ALIGN_CENTRE) 
       self.SetSizer(self.topSizer)
       self.topSizer.SetSizeHints(self)
 

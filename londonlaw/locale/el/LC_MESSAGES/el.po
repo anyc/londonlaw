@@ -1,0 +1,772 @@
+# Greek, Modern (1453-) translation for londonlaw
+# Copyright (c) (c) 2006 Canonical Ltd, and Rosetta Contributors 2006
+# This file is distributed under the same license as the londonlaw package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2006.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: londonlaw\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2005-08-26 00:31-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Greek, Modern (1453-) <el@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: london-admin:29 london-client:26 london-server:26
+msgid "London Law does not appear to be installed."
+msgstr "Το London Law δεν φαίνεται να έχει εγκατασταθεί"
+
+#: london-admin:30
+msgid "Attempting to launch admin client from current directory..."
+msgstr ""
+"Προσπάθεια για εκκίνηση της εφαρμογής διαχείρισης από τον τρέχων φάκελο"
+
+#: london-client:27
+msgid "Attempting to launch client from current directory..."
+msgstr "Προσπάθεια για εκκίνηση της εφαρμογής από τον τρέχων φάκελο"
+
+#: london-server:27
+msgid "Attempting to launch server from current directory..."
+msgstr "Προσπάθεια για εκκίνηση του server από τον τρέχων φάκελο"
+
+#: common/Pawn.py:49
+msgid "Red"
+msgstr "Κόκκινο"
+
+#: common/Pawn.py:51
+msgid "Yellow"
+msgstr "Κίτρινο"
+
+#: common/Pawn.py:53
+msgid "Green"
+msgstr "Πράσινο"
+
+#: common/Pawn.py:55
+msgid "Blue"
+msgstr "Μπλε"
+
+#: common/Pawn.py:57
+msgid "Black"
+msgstr "Μαύρο"
+
+#: server/Game.py:187
+msgid "Username not permitted for this in-progress game."
+msgstr "Το όνομα αυτό δεν επιτρέπεται σε αυτό το υπο εξέλιξη παιχνίδι"
+
+#: server/Game.py:189
+msgid "That game has already been completed."
+msgstr "Αυτό το παιχνίδι έχει ήδη ολοκληρωθεί"
+
+#: server/Game.py:194
+msgid "That game is full."
+msgstr "Αυτό το παιχνίδι είναι γεμάτο"
+
+#: server/Game.py:390
+#, python-format
+msgid ""
+"Mr. X was caught by the %(color)s Detective at location %(number)d.  The "
+"detectives win!"
+msgstr ""
+"Ο Mr. X πιάστηκε από το/τη %(color)s Αστυνομικό στο σημείο %(number)d. Οι "
+"αστυνομικοί κέρδισαν!"
+
+#: server/Game.py:470
+msgid "Mr. X successfully evaded the detectives for 24 turns.  Mr. X wins!"
+msgstr ""
+"Ο Mr. X απέφυγε επιτυχώς τους αστυνομικούς για 24 γύρους. Ο Mr. X. κέρδισε!"
+
+#: server/Game.py:480
+msgid "None of the detectives are able to move.  Mr. X wins!"
+msgstr "Κανένας από τους αστυνομικούς δε μπορεί να κινηθεί. Ο Mr. X κέρδισε!"
+
+#: server/GameRegistry.py:94
+msgid "Game name in use."
+msgstr "Το όνομα παιχνιδιού χρησιμοποιείται"
+
+#: server/GameRegistry.py:100
+msgid "Closing game registry"
+msgstr "Κλείσιμο της μνήμης του παιχνιδιού"
+
+#: server/GameRegistry.py:139
+msgid "Purging expired games"
+msgstr "Σβήσιμο ληγμένων παιχνιδιών"
+
+#: server/GameRegistry.py:163
+msgid ""
+"admin login disabled.  Consult the user manual to enable administrator "
+"access."
+msgstr ""
+"η είσοδος του διαχειριστή έχει απενεργοποιηθεί. Συμβουλευτείτε το εγχειρίδιο "
+"χρήσης για να την ενεργοποιήσετε"
+
+#: server/GameRegistry.py:165 server/GameRegistry.py:172
+msgid "Incorrect password."
+msgstr "Λάθος συνθηματικό"
+
+#: server/GameRegistry.py:170
+msgid "That username is in use."
+msgstr "Αυτό το όνομα χρησιμοποιείται ήδη"
+
+#: server/GameRegistry.py:183
+#, python-format
+msgid "Removed game \"%(gamename)s\""
+msgstr "Αφαιρέθηκε το παιχνίδι %(gamename)s\""
+
+#: server/Protocol.py:73 server/Protocol.py:88 server/Protocol.py:108
+#: server/Protocol.py:120 server/Protocol.py:145 server/Protocol.py:163
+#: server/Protocol.py:175 server/Protocol.py:220 server/Protocol.py:232
+#: server/Protocol.py:257 server/Protocol.py:317 server/Protocol.py:326
+#: server/Protocol.py:341 server/Protocol.py:369 server/Protocol.py:415
+#: server/Protocol.py:420 server/Protocol.py:431 server/Protocol.py:441
+#: server/Protocol.py:491 server/Protocol.py:494
+#, fuzzy
+msgid "Insufficient arguments."
+msgstr "Πολύ λίγα arguments"
+
+#: server/Protocol.py:79 server/Protocol.py:151 server/Protocol.py:242
+#: server/Protocol.py:426
+msgid "Player name not found."
+msgstr "Το όνομα του παίκτη δε βρέθηκε"
+
+#: server/Protocol.py:125 server/Protocol.py:198 server/Protocol.py:275
+#: server/Protocol.py:313
+msgid "Unrecognized game name."
+msgstr "Άγνωστο όνομα παιχνιδιού"
+
+#: server/Protocol.py:136 server/Protocol.py:209
+msgid "The server admin ejected you from this game."
+msgstr "Ο διαχειριστής του server σας έδιωξε από το παιχνίδι"
+
+#: server/Protocol.py:168
+msgid "No such user is connected."
+msgstr "Δεν υπάρχει τέτοιος συνδεδεμένος χρήστης"
+
+#: server/Protocol.py:183 server/Protocol.py:334
+msgid "That move is illegal."
+msgstr "Αυτή η κίνηση είναι παράνομη"
+
+#: server/Protocol.py:185 server/Protocol.py:336
+msgid "It is not that pawn's turn."
+msgstr "Δεν κινείται αυτό το πιόνι"
+
+#: server/Protocol.py:215
+msgid "Game is in progress."
+msgstr "Το παιχνίδι βρίσκεται σε εξέλιξη"
+
+#: server/Protocol.py:227
+msgid "Unsupported language code."
+msgstr "Μη υποστηριζόμενος κωδικός γλώσσας"
+
+#: server/Protocol.py:345
+msgid "That game name is already in use."
+msgstr "Αυτό το παιχνίδι ήδη χρησιμοποιείται"
+
+#: server/Protocol.py:354
+#, python-format
+msgid "New game \"%(gamename)s\" created by player \"%(playername)s\""
+msgstr ""
+"Το νέο παιχνίδι \"%(gamename)s\" δημιουργήθηκε από τον/την παίκτη/κτρια "
+"\"%(playername)s\""
+
+#: server/Protocol.py:364
+msgid "Already logged in."
+msgstr "Ήδη συνδεδεμένος/η"
+
+#: server/Protocol.py:381
+#, python-format
+msgid "Player \"%(playername)s\" has signed on"
+msgstr "Ο/η παίκτης/κτρια \"%(playername)s\" συνδέθηκε"
+
+#: server/Protocol.py:390
+msgid "Protocol version not verified."
+msgstr "Η έκδοση του πρωτοκόλλου δεν επιβεβαιώθηκε"
+
+#: server/Protocol.py:403
+msgid "Protocol version already verified."
+msgstr "Η έκδοση του πρωτοκόλλου έχει ήδη επιβεβαιωθεί"
+
+#: server/Protocol.py:411
+msgid "Incompatible protocol version."
+msgstr "Ασύμβατη έκδοση πρωτοκόλλου"
+
+#: server/Protocol.py:413
+#, fuzzy
+msgid "Unrecognized protocol string."
+msgstr "Άγνωστο πρωτόκολλο"
+
+#: server/Protocol.py:474
+#, python-format
+msgid "Connection lost to player \"%(playername)s\""
+msgstr "Η σύνδεση με τον/την παίκτη/κτρια \"%(playername)s\" χάθηκε"
+
+#: server/Protocol.py:511
+msgid "Unrecognized command."
+msgstr "Άγνωστη εντολή"
+
+#: server/Protocol.py:657
+msgid "Invalid number of moves."
+msgstr "Άκυρος αριθμός κινήσεων"
+
+#: server/Team.py:19
+msgid "That team is full."
+msgstr "Η ομάδα είναι γεμάτη"
+
+#: server/Team.py:54
+msgid "Player not on team."
+msgstr "Ο παίκτης δεν είναι στην ομάδα"
+
+#: server/__init__.py:36
+msgid "listen for connections on port NUM"
+msgstr "αναμονή για συνδέσης στη θύρα NUM"
+
+#: server/__init__.py:36
+msgid "NUM"
+msgstr "NUM"
+
+#: guiclient/ChatPanel.py:40
+msgid "send to:"
+msgstr "αποστολή προς:"
+
+#: guiclient/ChatPanel.py:42
+msgid "all"
+msgstr "όλους/ες"
+
+#: guiclient/ChatPanel.py:44
+msgid "team"
+msgstr "ομάδα"
+
+#: guiclient/ConnectWindow.py:42 guiclient/ConnectWindow.py:47
+#: guiclient/GameListWindow.py:112 guiclient/GameListWindow.py:118
+#: guiclient/MainWindow.py:74 guiclient/RegistrationWindow.py:95
+#: guiclient/RegistrationWindow.py:102
+msgid "File"
+msgstr "Αρχείο"
+
+#: guiclient/ConnectWindow.py:44 guiclient/GameListWindow.py:115
+#: guiclient/MainWindow.py:72 guiclient/RegistrationWindow.py:99
+#, python-format
+msgid "Exit%(hotkey)s"
+msgstr "Έξοδος%(hotkey)s"
+
+#: guiclient/ConnectWindow.py:59
+msgid "Connect to: "
+msgstr "Σύνδεση με: "
+
+#: guiclient/ConnectWindow.py:62
+#, fuzzy
+msgid "host:"
+msgstr "διακομιστής:"
+
+#: guiclient/ConnectWindow.py:65
+msgid "port:"
+msgstr "θύρα:"
+
+#: guiclient/ConnectWindow.py:78
+msgid "User information: "
+msgstr "Πληροφορίες χρήστη: "
+
+#: guiclient/ConnectWindow.py:80
+msgid "username:"
+msgstr "όνομα:"
+
+#: guiclient/ConnectWindow.py:83
+msgid "password:"
+msgstr "συνθηματικό:"
+
+#: guiclient/ConnectWindow.py:97
+msgid "Connect"
+msgstr "Σύνδεση"
+
+#: guiclient/ConnectWindow.py:98
+msgid "Quit"
+msgstr "Έξοδος"
+
+#: guiclient/ConnectWindow.py:155 guiclient/GameListWindow.py:198
+#: guiclient/MainWindow.py:360 guiclient/RegistrationWindow.py:202
+msgid "Server Message"
+msgstr "Μήνυμα από το server:"
+
+#: guiclient/GameListWindow.py:40
+msgid "Create a New Game"
+msgstr "Δημιουργία νέου παιχνιδιού"
+
+#: guiclient/GameListWindow.py:48
+msgid "New Game: "
+msgstr "Νέο παιχνίδι: "
+
+#: guiclient/GameListWindow.py:50
+msgid "game room name:"
+msgstr "όνομα δωματίου παιχνιδιού:"
+
+#: guiclient/GameListWindow.py:52
+msgid "game type:"
+msgstr "τύπος παιχνιδιού:"
+
+#: guiclient/GameListWindow.py:53
+msgid "standard"
+msgstr "κλασσικό"
+
+#: guiclient/GameListWindow.py:54 guiclient/MoveDialog.py:171
+#: guiclient/RegistrationWindow.py:48
+msgid "OK"
+msgstr "ΟΚ"
+
+#: guiclient/GameListWindow.py:55 guiclient/MoveDialog.py:172
+#: guiclient/RegistrationWindow.py:49
+msgid "Cancel"
+msgstr "Άκυρο"
+
+#: guiclient/GameListWindow.py:114 guiclient/GameListWindow.py:212
+#: guiclient/MainWindow.py:70 guiclient/MainWindow.py:223
+#: guiclient/RegistrationWindow.py:97 guiclient/RegistrationWindow.py:220
+msgid "Disconnect"
+msgstr "Αποσύνδεση"
+
+#: guiclient/GameListWindow.py:114 guiclient/MainWindow.py:70
+#: guiclient/RegistrationWindow.py:97
+msgid "Disconnect from server"
+msgstr "Αποσύνδεση από το server"
+
+#: guiclient/GameListWindow.py:115 guiclient/MainWindow.py:72
+#: guiclient/RegistrationWindow.py:99
+msgid "Exit London Law"
+msgstr "Έχοδος από το London Law"
+
+#: guiclient/GameListWindow.py:128
+msgid "Game Room"
+msgstr "Δωμάτιο παιχνιδιού"
+
+#: guiclient/GameListWindow.py:130
+msgid "Status"
+msgstr "Κατάσταση"
+
+#: guiclient/GameListWindow.py:132
+msgid "Game Type"
+msgstr "Τύπος παιχνιδιού"
+
+#: guiclient/GameListWindow.py:134
+msgid "Players"
+msgstr "Παίκτες"
+
+#: guiclient/GameListWindow.py:135
+msgid "(no games currently available)"
+msgstr "(δεν υπάρχουν διαθέσιμα παιχνίδια)"
+
+#: guiclient/GameListWindow.py:143
+msgid "Join Game"
+msgstr "Συμμετοχή στο παιχνίδι"
+
+#: guiclient/GameListWindow.py:145
+msgid "New Game"
+msgstr "Νέο παιχνίδι"
+
+#: guiclient/GameListWindow.py:203 guiclient/MainWindow.py:214
+#: guiclient/RegistrationWindow.py:211
+msgid "Disconnect from the server and exit London Law?"
+msgstr "Αποσύνδεση από το server και έξοδος από το London Law;"
+
+#: guiclient/GameListWindow.py:204 guiclient/MainWindow.py:215
+#: guiclient/RegistrationWindow.py:212
+msgid "Disconnect and Quit"
+msgstr "Αποσύνδεση και έξοδος"
+
+#: guiclient/GameListWindow.py:211 guiclient/MainWindow.py:222
+#: guiclient/RegistrationWindow.py:219
+msgid "Disconnect from the server?"
+msgstr "Αποσύνδεση από το server;"
+
+#: guiclient/HistoryWindow.py:60
+#, python-format
+msgid " Turn %(num)d "
+msgstr " Γύρος %(num)d "
+
+#: guiclient/HistoryWindow.py:121
+msgid " ? "
+msgstr " ? "
+
+#: guiclient/MainWindow.py:77
+#, fuzzy
+msgid "Fullscreen Map%(hotkey)s"
+msgstr "Fullscreen Map%(hotkey)s"
+
+#: guiclient/MainWindow.py:78
+msgid "Toggle fullscreen map view"
+msgstr ""
+
+#: guiclient/MainWindow.py:80
+#, python-format
+msgid "Map Zoom%(hotkey)s"
+msgstr "Μεγένθυνση του χάρτη%(hotkey)s"
+
+#: guiclient/MainWindow.py:81
+#, fuzzy
+msgid "Toggle map zoom level"
+msgstr "Αλλαγή του επιπέδου μεγένθυνσης του χάρτη"
+
+#: guiclient/MainWindow.py:83
+#, python-format
+msgid "Mr. X History%(hotkey)s"
+msgstr "Ιστορικό του Mr.X%(hotkey)s"
+
+#: guiclient/MainWindow.py:84
+msgid "Show/hide the Mr. X history window"
+msgstr "Εμφάνιση/κρύψιμο του παραθύρου ιστορικού του Mr.X"
+
+#: guiclient/MainWindow.py:87
+msgid "View"
+msgstr "Εμφάνιση"
+
+#: guiclient/MainWindow.py:90 guiclient/MainWindow.py:453
+msgid "About London Law"
+msgstr "Σχετικά με το Lonodon Law"
+
+#: guiclient/MainWindow.py:92
+msgid "Help"
+msgstr "Βοήθεια"
+
+#: guiclient/MainWindow.py:97
+msgid "The game has not yet started."
+msgstr "Το παιχνίδι δεν έχει ξεκινήσει ακόμα."
+
+#: guiclient/MainWindow.py:99
+msgid "Turn: 0"
+msgstr "Γύρος: 0"
+
+#: guiclient/MainWindow.py:120
+msgid "London Law -- Mr. X"
+msgstr "London Law -- Mr. X"
+
+#: guiclient/MainWindow.py:123
+msgid "London Law -- Detectives"
+msgstr "London Law -- Αστυνομικοί"
+
+#: guiclient/MainWindow.py:134
+msgid "Move"
+msgstr "Κίνηση"
+
+#: guiclient/MainWindow.py:137
+msgid "View History"
+msgstr "Εμφάνιση Ιστορικού"
+
+#: guiclient/MainWindow.py:140
+msgid "Zoom"
+msgstr "Μεγένθυνση"
+
+#: guiclient/MainWindow.py:205
+#, python-format
+msgid "<%(playername)s [to team]> %(message)s"
+msgstr "<%(playername)s [στην ομάδα]> %(message)s"
+
+#: guiclient/MainWindow.py:209
+#, python-format
+msgid "<%(playername)s> %(message)s"
+msgstr "<%(playername)s> %(message)s"
+
+#: guiclient/MainWindow.py:253
+msgid "a taxi"
+msgstr "ένα ταξί"
+
+#: guiclient/MainWindow.py:258
+msgid "a bus"
+msgstr "ένα λεωφορείο"
+
+#: guiclient/MainWindow.py:263
+msgid "the underground"
+msgstr "τον υπόγειο"
+
+#: guiclient/MainWindow.py:267
+msgid "a black ticket"
+msgstr "ένα μαύρο εισητήριο"
+
+#: guiclient/MainWindow.py:276
+#, python-format
+msgid "Mr. X made his move using %(transport)s."
+msgstr "ο Mr. X έκανε την κίνησή του χρησιμοποιώντας %(transport)s."
+
+#: guiclient/MainWindow.py:279
+#, python-format
+msgid "Mr. X moved to %(number)d using %(transport)s."
+msgstr "ο Mr. X κινήθηκε στο %(number)d χρησιμοποιώντας %(transport)s."
+
+#: guiclient/MainWindow.py:282
+#, python-format
+msgid "Mr. X surfaced at %(number)d using %(transport)s."
+msgstr "ο Mr. X εμφανίστηκε στο %(number)d χρησιμοποιώντας %(transport)s."
+
+#: guiclient/MainWindow.py:286
+#, python-format
+msgid "The Red Detective moved to %(number)d using %(transport)s."
+msgstr ""
+"Ο Κόκκινος Αστυνομικός κινήθηκε στο %(number)d χρησιμοποιώντας %(transport)s."
+
+#: guiclient/MainWindow.py:289
+#, python-format
+msgid "The Yellow Detective moved to %(number)d using %(transport)s."
+msgstr ""
+"Ο Κίτρινος Αστυνομικός κινήθηκε στο %(number)d χρησιμοποιώντας %(transport)s."
+
+#: guiclient/MainWindow.py:292
+#, python-format
+msgid "The Green Detective moved to %(number)d using %(transport)s."
+msgstr ""
+"Ο Πράσινος Αστυνομικός κινήθηκε στο %(number)d χρησιμοποιώντας %(transport)s."
+
+#: guiclient/MainWindow.py:295
+#, python-format
+msgid "The Blue Detective moved to %(number)d using %(transport)s."
+msgstr ""
+"Ο Μπλε Αστυνομικός κινήθηκε στο %(number)d χρησιμοποιώντας %(transport)s."
+
+#: guiclient/MainWindow.py:298
+#, python-format
+msgid "The Black Detective moved to %(number)d using %(transport)s."
+msgstr ""
+"Ο Μαύρος Αστυνομικός κινήθηκε στο %(number)d χρησιμοποιώντας %(transport)s."
+
+#: guiclient/MainWindow.py:305
+msgid "Mr. X just used a double move ticket!"
+msgstr "Ο Mr. X μόλις χρησιμοποίησε ένα εισητήριο διπλής κίνησης"
+
+#: guiclient/MainWindow.py:307
+msgid "Double Move"
+msgstr "Διπλή Κίνηση"
+
+#: guiclient/MainWindow.py:451
+#, python-format
+msgid ""
+"London Law v%(version)s\n"
+"\n"
+"A multiplayer manhunting adventure by Paul Pelzl"
+msgstr ""
+"London Law v%(version)s↵\n"
+"↵\n"
+"Ένα ανθρωποκυνηγητό για πολλούς παίκτες από τον Paul Pelzl"
+
+#: guiclient/MainWindow.py:477
+#, python-format
+msgid "Turn: %(num)d"
+msgstr "Γύρος: %(num)d"
+
+#: guiclient/MainWindow.py:485 guiclient/MainWindow.py:495
+#: guiclient/MainWindow.py:505 guiclient/MainWindow.py:515
+#: guiclient/MainWindow.py:525 guiclient/MainWindow.py:535
+msgid "you"
+msgstr "εσύ"
+
+#: guiclient/MainWindow.py:488
+#, python-format
+msgid "It is Mr. X's turn (%(username)s)."
+msgstr "Είναι η σειρά του Mr. X (%(username)s)."
+
+#: guiclient/MainWindow.py:498
+#, python-format
+msgid "It is the Red Detective's turn (%(username)s)."
+msgstr "Είναι η σειρά του Κόκκινου Αστυνομικού (%(username)s)."
+
+#: guiclient/MainWindow.py:508
+#, python-format
+msgid "It is the Yellow Detective's turn (%(username)s)."
+msgstr "Είναι η σειρά του Κίτρινου Αστυνομικού (%(username)s)."
+
+#: guiclient/MainWindow.py:518
+#, python-format
+msgid "It is the Green Detective's turn (%(username)s)."
+msgstr "Είναι η σειρά του Πράσινου Αστυνομικού (%(username)s)."
+
+#: guiclient/MainWindow.py:528
+#, python-format
+msgid "It is the Blue Detective's turn (%(username)s)."
+msgstr "Είναι η σειρά του Μπλε Αστυνομικού (%(username)s)."
+
+#: guiclient/MainWindow.py:538
+#, python-format
+msgid "It is the Black Detective's turn (%(username)s)."
+msgstr "Είναι η σειρά του Μαύρου Αστυνομικού (%(username)s)."
+
+#: guiclient/MoveDialog.py:63
+msgid "Choose a Move"
+msgstr "Διάλεξε μια κίνηση"
+
+#: guiclient/MoveDialog.py:76
+msgid "move type: "
+msgstr "τύπος κίνησης: "
+
+#: guiclient/MoveDialog.py:78
+msgid "Single"
+msgstr "Μονή"
+
+#: guiclient/MoveDialog.py:80
+msgid "Double"
+msgstr "Διπλή"
+
+#: guiclient/MoveDialog.py:86
+#, python-format
+msgid "Move from %(number)d to "
+msgstr "Μετακίνηση από το %(number)d στο "
+
+#: guiclient/MoveDialog.py:89 guiclient/MoveDialog.py:119
+msgid " using "
+msgstr " χρησιμοποιώντας "
+
+#: guiclient/MoveDialog.py:116 guiclient/MoveDialog.py:277
+#, python-format
+msgid "Move from %(number)s to "
+msgstr "Μετακίνηση από το %(number)s στο "
+
+#: guiclient/MoveDialog.py:157
+msgid "Move One:"
+msgstr "Πρώτη Κίνηση:"
+
+#: guiclient/MoveDialog.py:159
+msgid "Move Two:"
+msgstr "Δεύτερη Κίνηση"
+
+#: guiclient/MoveDialog.py:216
+msgid "Mr. X can't move to that location."
+msgstr "Ο Mr. X δε μπορεί να κινηθεί σε αυτήν την περιοχή"
+
+#: guiclient/MoveDialog.py:218
+msgid "The Red Detective can't move to that location."
+msgstr "Ο Κόκκινος Αστυνομικός δε μπορεί να κινηθεί σε αυτήν την περιοχή"
+
+#: guiclient/MoveDialog.py:220
+msgid "The Yellow Detective can't move to that location."
+msgstr "Ο Κίτρινος Αστυνομικός δε μπορεί να κινηθεί σε αυτήν την περιοχή"
+
+#: guiclient/MoveDialog.py:222
+msgid "The Green Detective can't move to that location."
+msgstr "Ο Πράσινος Αστυνομικός δε μπορεί να κινηθεί σε αυτήν την περιοχή"
+
+#: guiclient/MoveDialog.py:224
+msgid "The Blue Detective can't move to that location."
+msgstr "Ο Μπλε Αστυνομικός δε μπορεί να κινηθεί σε αυτήν την περιοχή"
+
+#: guiclient/MoveDialog.py:226
+msgid "The Black Detective can't move to that location."
+msgstr "Ο Μαύρος Αστυνομικός δε μπορεί να κινηθεί σε αυτήν την περιοχή"
+
+#: guiclient/MoveDialog.py:228
+msgid "Illegal Move"
+msgstr "Παράνομη κίνηση"
+
+#: guiclient/MoveDialog.py:433
+msgid "taxi"
+msgstr "ταξί"
+
+#: guiclient/MoveDialog.py:436
+msgid "bus"
+msgstr "λεωφορείο"
+
+#: guiclient/MoveDialog.py:439
+msgid "underground"
+msgstr "υπόγειος"
+
+#: guiclient/MoveDialog.py:442
+msgid "black ticket"
+msgstr "μαύρο εισητήριο"
+
+#: guiclient/Protocol.py:65
+msgid "You have been disconnected from the server."
+msgstr "Έχετε αποσυνδεθεί από το server"
+
+#: guiclient/Protocol.py:303
+msgid "Preparing to start the game..."
+msgstr "Προετοιμάζοντας την εκίνηση του παιχνιδιού"
+
+#: guiclient/Protocol.py:374
+#, python-format
+msgid "Player \"%(playername)s\" disconnected from the server."
+msgstr "Ο/η παίκτης/κτρια \"%(playername)s\" αποσυνδέθηκε από το server"
+
+#: guiclient/Protocol.py:384
+#, python-format
+msgid "Player \"%(playername)s\" has rejoined the game."
+msgstr "ο/η παίκτης/κτρια \"%(playername)s\" ξανασυνδέθηκε"
+
+#: guiclient/RegistrationWindow.py:39
+msgid "Choose a Team"
+msgstr "Διάλεξε ομάδα"
+
+#: guiclient/RegistrationWindow.py:43
+msgid "team: "
+msgstr "ομάδα: "
+
+#: guiclient/RegistrationWindow.py:45
+msgid "Detectives"
+msgstr "Αστυνομικοί"
+
+#: guiclient/RegistrationWindow.py:47
+msgid "Mr. X"
+msgstr "Mr. X"
+
+#: guiclient/RegistrationWindow.py:112
+msgid "Player"
+msgstr "Παίκτης"
+
+#: guiclient/RegistrationWindow.py:114
+msgid "Team"
+msgstr "Ομάδα"
+
+#: guiclient/RegistrationWindow.py:116
+msgid "Votes to Start?"
+msgstr "Ψήφοι για εκκίνηση;"
+
+#: guiclient/RegistrationWindow.py:118
+msgid "Pawns"
+msgstr "Πιόνια"
+
+#: guiclient/RegistrationWindow.py:120
+msgid "(no players joined)"
+msgstr "(δεν έχουν συνδεθεί παίκτες)"
+
+#: guiclient/RegistrationWindow.py:130
+msgid "Leave Game"
+msgstr "Έξοδος από το παιχνίδι"
+
+#: guiclient/RegistrationWindow.py:131
+msgid "Choose Team"
+msgstr "Επιλογή ομάδας"
+
+#: guiclient/RegistrationWindow.py:132
+msgid "Vote to Start"
+msgstr "Ψήφισε να ξεκινήσει"
+
+#: guiclient/__init__.py:79
+msgid "London Law -- Connect to Server"
+msgstr "London Law -- Σύνδεση με το Server"
+
+#: guiclient/__init__.py:91
+msgid "London Law -- Choose a Game"
+msgstr "London Law -- Επιλογή παιχνιδιού"
+
+#: guiclient/__init__.py:103
+msgid "London Law -- Team Selection"
+msgstr "London Law -- Επιλογή ομάδας"
+
+#: guiclient/__init__.py:116
+msgid "London Law"
+msgstr "London Law"
+
+#: guiclient/__init__.py:130
+msgid "You must enter a valid hostname."
+msgstr "Πρέπει να εισάγεις ένα έγκυρο hostname"
+
+#: guiclient/__init__.py:133
+msgid "You must enter a valid port number."
+msgstr "Πρέπει να εισάγεις έναν έγκυρο αριθμό θύρας"
+
+#: guiclient/__init__.py:136
+msgid "You must enter a valid username."
+msgstr "Πρέπει να εισάγεις ένα έγκυρο όνομα"
+
+#: guiclient/__init__.py:142
+msgid "The port number must be an integer."
+msgstr "η θύρα πρέπει να είναι ακέραιος"
+
+#: guiclient/__init__.py:147
+msgid "Connecting to server..."
+msgstr "Σύνδεση με το server..."
