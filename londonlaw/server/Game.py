@@ -17,8 +17,8 @@
 
 import re, random, sets, time, gettext
 
-from twisted.python import components
 from twisted.python import log
+from zope import interface
 
 from londonlaw.common.protocol import *
 from londonlaw.common.map import *
@@ -36,7 +36,7 @@ class GameError(Exception):
       return self.args[0]
 
 
-class IGameListener(components.Interface):
+class IGameListener(interface.Interface):
    def announceHistory(self, history):
       pass
 

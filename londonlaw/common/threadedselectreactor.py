@@ -287,7 +287,7 @@ class ThreadedSelectReactor(posixbase.PosixReactorBase):
         return self._removeAll(self.reads, self.writes)
         
     
-components.backwardsCompatImplements(ThreadedSelectReactor)
+#components.backwardsCompatImplements(ThreadedSelectReactor)
 
 
 def install():
