@@ -1,0 +1,201 @@
+% London Law documentation
+\documentclass[11pt,notitlepage]{article}
+\usepackage{times}
+\usepackage{fullpage}
+
+% End preamble
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\title{London Law v0.2 User Manual}
+\author{Paul J. Pelzl}
+\date{February 15, 2005}
+\maketitle
+
+\section*{Introduction}
+London Law is a networked multiplayer adaptation of the classic Scotland Yard
+board game, published by Ravensburger in 1983.  One player takes on the
+role of Mr. X, who must evade Scotland Yard by carefully concealing his
+path through London.  Another one to five players control five detectives,
+who must work together to locate Mr. X using the limited clues he leaves
+behind.  This game has the unusual quality of asymmetry--the two ``teams''
+have different goals and different abilities.
+
+London Law is written in Python, and makes use of the wxPython GUI library.
+As a result, it should be quite cross-platform.  It will certainly run on
+GNU/Linux (my development platform), and ought to run on *BSD, Mac OS X,
+Windows, and others.
+
+\section*{Installation}
+Before installing London Law, you should have installed 
+%BEGIN LATEX
+Python\footnote{http://www.python.org}
+%END LATEX
+%HEVEA \begin{rawhtml} <a href="http://www.python.org">Python</a> \end{rawhtml} 
+2.3 or greater and 
+%BEGIN LATEX
+wxPython\footnote{http://www.wxpython.org}
+%END LATEX
+%HEVEA \begin{rawhtml} <a href="http://www.wxpython.org">wxPython</a> \end{rawhtml} 
+2.4.x or 2.5.x.  (Mac users are advised to use wxPython 2.5.x, as its OS X support
+is more mature.)  In addition, you will need the
+%BEGIN LATEX
+Twisted\footnote{http://www.twistedmatrix.com}
+%END LATEX
+%HEVEA \begin{rawhtml} <a href="http://www.twistedmatrix.com">Twisted</a> \end{rawhtml} 
+networking library.  Most popular GNU/Linux and BSD distributions provide packages
+for all of these components.
+
+If you are using Windows, simply extract the London Law archive to a useful
+location and disregard the remainder of this section.  If you are using a
+Unix-like operating system, read on for installation instructions.  Note that
+installation is optional; London Law may be executed straight out of the source tree from
+the {\tt londonlaw} subdirectory.
+
+I will assume you have received this program in the form of a source tarball, 
+e.g. ``londonlaw-x.x.x.tar.gz''.  You have undoubtedly extracted this archive 
+already (e.g. using ``{\tt tar xvzf londonlaw-x.x.x.tar.gz}'').  Enter the root of 
+the londonlaw installation directory, e.g. ``{\tt cd londonlaw-x.x.x}'';  there should 
+be a file called ``setup.py'' in this directory.  Become root before 
+trying to perform the installation.  There are a couple of ways to install London Law:
+\begin{enumerate}
+\item {\bf Direct installation from source.}  You can copy all the necessary 
+files to logical locations with the command ``{\tt python setup.py install}''.  
+
+If you wish to choose a different installation prefix, you can use ``{\tt 
+python setup.py install --prefix=PREFIX}'', where {\tt PREFIX} is your desired
+installation root, for example ``/usr/local''.  (If you choose this option, 
+your Python search path must include the corresponding directories.)
+\item {\bf Installation via rpm.}  If you use an rpm-based distribution you 
+can build an rpm package for London Law, which gives you the ability to remove the 
+program easily (not that you would ever want to do that).  Create the rpm with 
+the command ``{\tt python setup.py bdist\_rpm}''.  The package should be created 
+within the ``dist'' subdirectory, and you can install it using \\
+``{\tt rpm -Uvh londonlaw-x.x.x-x.noarch.rpm}''.
+
+If you have a Debian-based system, then you could use {\tt alien} to create a .deb 
+from this rpm. 
+\end{enumerate}
+
+
+\section*{Playing the game}
+\subsection*{Setting Up}
+London Law requires a game server, so start by executing ``{\tt london-server}'' on
+a networked host; this command accepts an optional ``{\tt -pPORT}'' flag, which
+causes the server to listen for connections on the specified port.  Now you and your 
+gaming buddies can start your graphical clients by executing ``{\tt london-client}''.
+
+Note: if you are using Windows, use the {\tt london-server.py} and  {\tt
+london-client.py} files, which should be associated with Python.  These are
+located in the {\tt londonlaw} subdirectory.  If you are using OS X, you must
+launch the client with the special command ``{\tt pythonw london-client}'' in order
+to permit the client to create graphics.
+
+Upon launching the client, you will be presented with a connection window.  Enter
+the hostname or IP address of the machine hosting the game server, provide a username
+and a password of your choice (do not forget the password!), and click ``Connect''.
+
+Next you will be presented with a list of games.  You can select a game and
+join it, or click ``New Game'' to create your own.  Once inside the game room,
+click ``Choose Team'' if you want to select whether you will play as Mr. X or as the
+detectives.  When you are satisfied with your choice, click ``Vote to Start''.
+When (1) there are players on both teams and (2) all players have voted to
+start, the game will begin.
+
+If you disconnect from the server during gameplay, whether intentionally or not, you
+may reconnect and rejoin the game at any time (provided you are using the same
+username and password).  The server may also be shut down and restarted without loss of
+game data.
+
+\subsection*{Gameplay}
+\subsubsection*{Overview}
+There are 199 locations marked on the London map.  These locations are connected by a
+transportation network composed primarily of taxi, bus and underground lines (colored 
+yellow, green, and maroon, respectively).  There are also a few river routes,
+rendered as dashed black lines.  All detectives begin with 10 taxi tickets, 8
+bus tickets, and 4 underground tickets.  Mr. X has a transportation advantage:
+in addition to having unlimited taxi, bus, and underground tickets, he also has
+2 pink ``double move'' tickets and 5 black tickets.  The black tickets can be
+used for any form of transportation, including the river routes; they are
+useful for disguising Mr. X's movements.  The current ticket counts are
+displayed at the side of each player icon.
+
+Mr. X and the detectives take turns moving throughout the map, spending tickets
+as they go.  Mr. X's location remains hidden for most of the game, and is
+revealed only at turns 3, 8, 13, 18 and 24 (labeled with question marks in the
+history window).  The detectives are allowed to see what type of ticket Mr. X
+uses at every turn.  Mr. X's tickets and surfacing locations are displayed in
+the history window at the left of the client screen.  Mr. X's goal is to evade
+the detectives until the end of the game; the detectives, of course, are trying
+to track him down.
+
+The game ends when one of the following occurs:
+\begin{itemize}
+   \item Mr. X evades the detectives for 24 turns.  (Mr. X wins.)
+   \item One of the detectives lands on Mr. X's location, or vice versa.  (Detectives win.)
+   \item All the detectives are stuck--they have run out of useful tickets, or are
+      unable to move without landing on another detective.  (Mr. X wins.)
+\end{itemize}
+
+\subsubsection*{Controls}
+\begin{itemize}
+   \item You can make a move either by clicking the ``Move'' button, or by
+      double-clicking on a map location.  If you double-click on your desired
+      destination, this information will be automatically entered into the Move
+      dialog.
+   \item You can drag the map around using the middle or right mouse buttons.
+   \item Double-clicking on a player's icon will center the map on that player's
+      location.
+   \item The View menu may be helpful for getting a wider view of the map; there are
+      options (and hotkeys) for viewing the map in fullscreen, zooming in and
+      out, and hiding the history window.
+\end{itemize}
+
+
+\section*{Licensing}
+London Law has been made available under the GNU General Public License (GPL), 
+version 2.  You should have received a copy of the GPL along with this 
+program, in the file ``COPYING''.
+
+
+\section*{Credits}
+I would like to express my thanks to:
+\begin{itemize}
+   \item Conor Davis, for significant contributions to the recent server rewrite
+   \item Robin Dunn, for his excellent wxPython bindings (which really make wxWidgets
+      programming a piece of cake)
+   \item The Twisted Matrix hackers, for a very well designed (if somewhat massive)
+      networking library
+   \item David Schaller, for reintroducing me to Scotland Yard
+\end{itemize}
+
+
+\section*{Contact info}
+London Law author: Paul Pelzl {\tt <pelzlpj@eecs.umich.edu>} \\
+London Law website: {\tt http://www.eecs.umich.edu/\~{}pelzlpj/londonlaw} \\
+
+
+\noindent
+Feel free to contact me if you have bugs, feature requests\footnote{First have a look at the
+included ``TODO'' list; I've got quite a few things in mind for future releases.}, patches, AI
+opponents, etc.  I would also welcome volunteers
+interested in packaging London Law for various platforms.
+
+London Law is developed with the aid of the excellent 
+%BEGIN LATEX
+Arch RCS\footnote{http://www.gnu.org/software/gnu-arch/}.  
+%@% END LATEX
+%HEVEA \begin{rawhtml} <a href="http://www.gnu.org/software/gnu-arch/">Arch RCS</a>. \end{rawhtml} 
+Interested developers are advised to track London Law development via my public repository: \\
+\hspace*{2cm}{\tt pelzlpj@eecs.umich.edu--2005 $\backslash$ \\
+\hspace*{3cm} http://www-personal.engin.umich.edu/\~{}pelzlpj/tla/2005} \\
+London Law code may be found in branch {\tt londonlaw--main} .
+
+Do you feel compelled to compensate me for writing London Law?  As a {\em poor, 
+starving} graduate student, I will gratefully accept donations.  Please see \\
+{\tt http://www.eecs.umich.edu/\~{}pelzlpj/londonlaw/donate.html} for more information.
+\end{document}
+
+
+
+
+% arch-tag: DO_NOT_CHANGE_cfd1f7bd-124e-447a-a21f-89ca519c7235 

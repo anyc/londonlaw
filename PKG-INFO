@@ -1,0 +1,17 @@
+Metadata-Version: 1.0
+Name: londonlaw
+Version: 0.2.1
+Summary: networked multiplayer manhunting board game
+Home-page: http://www.eecs.umich.edu/~pelzlpj/londonlaw
+Author: Paul J. Pelzl
+Author-email: pelzlpj@eecs.umich.edu
+License: GNU General Public License, Version 2
+Description: London Law is a networked multiplayer adaptation of the classic
+        Scotland Yard board game.  Mr. X must evade a number of detectives by
+        carefully concealing his movements across London.  One of only a
+        handful of asymmetric board games (Mr. X and the detectives have
+        different goals and abilities).
+Keywords: Scotland Yard board game multiplayer
+Platform: *nix/X11
+Platform: OS X
+Platform: Win32

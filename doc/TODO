@@ -1,0 +1,34 @@
+London Law To-Do
+--------------------------------------------------------------------------------
+
+* draw a more sensible graphic when a detective lands on Mr. X's
+  pushpin
+
+* fix layout glitch with choose boxes that have undergrounds
+  (looks like a wxWidgets sizer bug?)
+
+* would be nice to have a "recent game history" display, maybe some text
+  blitted up in the corner of the map ("Red Detective moved to 171 with taxi",
+  etc.)
+
+* use some sort of animation to draw attention to player movement
+  (maybe just draw temporary lines on the map, Indiana-Jones style)
+
+* come up with some way to draw alpha-blended shadows or highlights 
+  around the player location markers (sure would be nice if wxWidgets
+  got true alpha support) to make them more visible
+
+* splash screen (maybe)
+
+* would be nice to have the capability to step through all turns as a
+  spectator after the game is over
+
+* draw chat window text using the appropriate detective colors
+
+* AI opponents (human player sends a "request AI" command to the
+  server, and server launches AI opponent as a separate process that 
+  automatically joins the server and registers as Mr. X or a detective)
+
+
+
+# arch-tag: DO_NOT_CHANGE_b30d9a28-9eb8-44e7-b4c4-6934ca205154 

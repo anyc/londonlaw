@@ -1,0 +1,8 @@
+include ChangeLog README COPYING MANIFEST.in
+recursive-include londonlaw/guiclient/images *.jpg *.png
+recursive-include doc *
+
+
+
+
+# arch-tag: DO_NOT_CHANGE_a7e5fd31-5694-442f-974f-89109844b602 

@@ -1,0 +1,209 @@
+
+The protocol will be line-oriented; all data will be in the form of strings,
+terminated with CRLF.  The LineOnlyReceiver protocol provided by Twisted is
+ideal for this task.
+
+All commands from client to server MAY be tagged with a unique identifier in
+the form of a numeric string prefixed by an octothorpe, e.g. "#00001".  The
+line transmitted to the server then takes the form "#00001 <command>
+<arguments>".  If the server responds to this command, its response will be
+tagged with the same identifier.  If no tag is provided, the server will prefix
+the response with "-".  Command arguments may contain whitespace if they are
+quoted (single or double quotes).
+
+If the server provides a status message to the client, which is not a response
+to some command, it should be prefixed with "*".
+
+Server responses always take one of four forms:
+
+   S: "<tag> ok"           , for an acknowledgment
+   S: "<tag> no <reason>"  , for reply to a command which appears valid but is denied
+   S: "<tag> bad <reason>" , for reply to an illegal/ill-formatted command
+   S: "<tag> <data>"       , for reply to a request for data
+
+Server status messages take the form:
+
+   S: "* <message type> <data>"
+
+
+INITIATE CONNECTION
+
+Upon connecting to server, client transmits game protocol version and waits for
+response.
+
+   C: "#001 protocol 2.0"
+   S: "#001 ok"
+   
+Upon acceptance of protocol, the client must log in:
+
+   C: "#001 login \"my name\" \"my password\""
+   S: "#001 ok"
+
+(A "no" reply would follow if the username is in use, or if the password is incorrect.)
+
+
+GAME SELECTION
+
+Once the client is accepted, it may optionally request a list of all open games.
+The server responds with an untagged message of the form 
+"* gameinfo GAME_NAME GAME_STATUS GAME_TYPE NUM_PLAYERS" where GAME_NAME is
+some string, GAME_STATUS is one of {"new", "in progress", "complete"},
+and GAME_TYPE is "standard" (but will assume other values in future versions).
+
+   C: "#002 listgames"
+   S: "* gameinfo "my game" new standard 2
+      "* gameinfo "your game" "in progress" standard 2
+      "#002 ok"
+
+The client may optionally choose to join a 'new' or 'in progress' game, which
+it selects by name:
+
+   C: "#003 join \"my game"
+   S: "#003 ok"
+
+The client may only join an 'in progress' game if it had been joined to that game
+previously--otherwise the server will deny the client entry with a "no" response.
+
+When joined to a 'new' or 'completed' game, the client may choose to leave the
+game:
+
+   C: "#004 leave"
+   S: "#004 ok"
+
+When joined to a game, the client may request player information.  The server will
+provide the player information as untagged data in the following format:
+"* playerinfo USERNAME TEAMNAME VOTESTART PAWNS", where TEAMNAME is one of {"Mr. X",
+"Detectives"}, VOTESTART is one of {True, False} and PAWNS is a list of pawn names
+such as "Red Yellow Green".  The server will provide playerinfo updates as necessary
+to keep the client synchronized.
+
+   C: "#005 listplayers"
+   S: "#005 ok"
+   S: "* playerinfo Joe \"Mr. X\" True X"
+   S: "* playerinfo Dan \"Detectives\" False \"Red Yellow Green Blue Black\""
+
+When joined to a new game, the client may choose to select a team:
+
+   C: "#006 setteam \"Detectives\", or
+      "#006 setteam \"Mr. X\"
+   S: "#006 ok"
+
+When joined to a game, the client may vote to begin the game:
+
+   C: "#007 votestart True"
+   S: "#007 ok"
+
+When joined to a game, the client may send a chat message:
+
+   C: "#007 chatall \"my message\""
+   S: "#007 ok"
+
+The server will broadcast chat messages to all clients:
+
+   S: "* chatall \"username\" \"message\""
+
+
+Rather than joining an existing game, the client may choose to begin a new game:
+
+   C: "#008 newgame \"my game's name\" GAMETYPE"
+   S: "#008 ok"
+
+   If accepted, the client then is auto-joined to the new game room.
+
+
+GAME START
+
+The game will begin when all players have chosen teams and voted to start.  The
+server informs all clients that play may proceed.
+
+   S: "* gamestart"
+
+During gameplay, the client may at any time request pawn information.  The server will
+respond with untagged data of the form
+"* pawninfo PAWNNAME USERNAME LOCATION TAXI BUS UNDERGROUND BLACK DOUBLE", where
+PAWNNAME is one of {X, Red, Yellow, Green, Blue, Black}, LOCATION is the obvious integer
+value, and the remaining arguments are the numbers of tokens the pawn possesses.  The
+special value "-1" is used to indicate a hidden location, and is also used to indicate
+infinite tokens.
+
+   C: "#010 pawninfo"
+   S: "#010 ok"
+   S: "* pawninfo X Joe 64 -1 -1 -1 4 2"
+   S: "* pawninfo Red Dan 133 8 8 4 0 0"
+   S: "* pawninfo Yellow Dan 118 9 7 4 0 0"
+   S: "* pawninfo Green Dan 28 8 8 4 0 0"
+   S: "* pawninfo Blue Dan 183 8 8 4 0 0"
+   S: "* pawninfo Black Dan 135 9 8 3 0 0"
+
+During gameplay, the client may at any time request to know whose turn it is:
+
+   C: "#011 whoseturn"
+   S: "#011 turn Red"
+
+During gameplay, the client may at any time request to know the turn number:
+
+   C: "#012 turnnum"
+   S: "#012 5"
+
+If it is the client's turn, the client may request to make a move:
+
+   C: "#013 move DESTINATION TICKET", or
+      "#013 doublemove DESTINATION1 TICKET1 DESTINATION2 TICKET2"
+   S: "#013 ok"
+
+The client may at any time request the partial game history.  The server responds
+with a series of untagged responses of the form
+"* history 0 \"X X_INIT_LOC\" \"Red Red_INIT_LOC\" ... \"Black Black_INIT_LOC\""
+...
+"* history TURNNUM \"PAWN1_NAME PAWN1_LOC PAWN1_TICKET\" ... \"PAWNJ_NAME PAWNJ_LOC PAWNJ_TICKET\""
+
+   C: "#014 history"
+   S "#014 ok"
+   S: "* history 0 \"X -1\" \"Red 132\" \"Yellow 141\" \"Green 29\" \"Blue 197\" \"Black 174\""
+   S: "* history 1 \"X -1 taxi\" \"Red 140 taxi\" \"Yellow 142 taxi\" \"Green 41 taxi\" \"Blue 196 taxi\" \"Black 161 taxi\""
+   S: ...
+   S: "* history end"
+
+   (Game history is just a chronological log of all moves.  Use of double moves
+   is not explicitly noted, but must be extrapolated by the client.)
+
+As game state changes occur, the server will inform the clients automatically.
+
+   S: "* move PLAYER_NUM DESTINATION TICKET"
+
+   (If the destination is obscured, the server will provide the number "-1".)
+
+   S: "* turn PAWNNAME" 
+
+   S: "* turnnum NUM"
+
+   S: "* gameover WINNING_TEAM \"reason for win\"
+
+   S: "* playerleave USERNAME"
+
+   (Gameplay does not cease until all players have left the game.  The
+   disconnected player can resume at any time, request player info and game
+   history, and continue.  If all players leave the game before it is over,
+   the server ought to write game state to disk in the assumption that the
+   players will not be returning immediately.)
+
+During gameplay, the client may send a chat message to all players or just to
+its team:
+
+   C: "#015 chatall \"my message\"", or
+      "#015 chatteam \"my message\""
+
+   S: "#007 ok"
+
+The server will broadcast chat messages only to the appropriate clients
+(including the sender):
+
+   S: "* chatall \"nick\" \"message\"", or
+   S: "* chatteam \"nick\" \"message\""
+
+
+
+
+
+
+# arch-tag: DO_NOT_CHANGE_ec83ed4f-17db-4323-895b-96d5855d0b52 
