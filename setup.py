@@ -15,20 +15,14 @@ if 'sdist' in sys.argv:
 # Read off the PREFIX value, so we can tell londonlaw where to find its
 # data files (FIXME: is there a clean way to handle this through distutils?)
 if 'sdist' not in sys.argv and 'clean' not in sys.argv:
-   PREFIX=os.path.normpath(sys.prefix)  # default
+   DATA_PREFIX=os.path.normpath(sys.prefix)+"/share/"  # default
    for arg in sys.argv:
-      index = string.find(arg, "--prefix=")
+      index = string.find(arg, "--install-data=")
       if index > -1:
-         PREFIX = os.path.normpath(arg[(index+len("--prefix=")):])
-
-   ROOT = "/"  # default
-   for arg in sys.argv:
-      index = string.find(arg, "--root=")
-      if index > -1:
-         ROOT = os.path.normpath(arg[(index+len("--root=")):])
+         DATA_PREFIX = os.path.normpath(arg[(index+len("--install-data=")):])
 
    config = open("londonlaw/common/config.py", "w")
-   config.write("MEDIAROOT = \"" + os.path.join(PREFIX,"share/londonlaw/guiclient") + "\"\n")
+   config.write("MEDIAROOT = \"" + os.path.join(DATA_PREFIX,"londonlaw/guiclient") + "\"\n")
    config.close()
 
 
@@ -42,7 +36,10 @@ def appendImageFiles(installList, dirname, files):
          if os.path.isfile(fullFile):
             newFiles.append(fullFile)
    if newFiles != []:
-      installList.append( (os.path.join('share', dirname), newFiles) )
+      splitDir = dirname.split('/')
+      dirname = ('/').join(splitDir[1:])
+      installList.append( (os.path.join(DATA_PREFIX, 'londonlaw', dirname), newFiles) )
+      #installList.append( (dirname, newFiles) )
 
 
 def appendMOFiles(installList, dirname, files):
@@ -53,7 +50,8 @@ def appendMOFiles(installList, dirname, files):
    if newFiles != []:
       splitDir = dirname.split('/')
       dirname = ('/').join(splitDir[1:])
-      installList.append( (os.path.join('share', dirname), newFiles) )
+      installList.append( (os.path.join(DATA_PREFIX, 'londonlaw', dirname), newFiles) )
+      #installList.append( (dirname, newFiles) )
 
 
 # Get all data files by walking through the proper directory trees
