@@ -25,7 +25,6 @@
 
 import os, gettext, wx
 from TextPanel import *
-from StaticBitmap import *
 from londonlaw.common.config import *
 
 
@@ -48,7 +47,7 @@ class PlayerIcon(wx.Panel):
       self.playerBitmap = wx.BitmapFromImage(iconImage)
       self.iconBitmap   = wx.BitmapFromImage(iconImage)
       self.iconBitmap2  = wx.BitmapFromImage(iconImage)
-      self.icon = StaticBitmap(self.iconPanel, -1, self.iconBitmap)
+      self.icon = wx.StaticBitmap(self.iconPanel, -1, self.iconBitmap)
 
       # load the overlay image for the "I'm thinking" question mark
       thinkingImage = wx.Image(thinkingimagefile, wx.BITMAP_TYPE_ANY)

@@ -24,7 +24,6 @@
 
 import os, sys, string, gettext, wx
 from TextPanel import *
-from StaticBitmap import *
 from londonlaw.common.config import *
 
 class HistoryWindow(wx.ScrolledWindow):
@@ -69,7 +68,7 @@ class HistoryWindow(wx.ScrolledWindow):
          self.panels[i].SetSizerAndFit(self.panelSizers[i])
 
          self.panels2.append(wx.Panel(self, -1, wx.DefaultPosition, wx.DefaultSize, wx.SIMPLE_BORDER))
-         self.tickets.append(StaticBitmap(self.panels2[i], -1, wx.BitmapFromImage(self.ticketImages[4])))
+         self.tickets.append(wx.StaticBitmap(self.panels2[i], -1, wx.BitmapFromImage(self.ticketImages[4])))
 
          self.panelSizers2.append(wx.BoxSizer(wx.HORIZONTAL))
          self.panelSizers2[i].Add(self.tickets[i], 1, wx.EXPAND)
