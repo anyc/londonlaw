@@ -196,6 +196,7 @@ class MainWindow(wx.Frame):
       wx.EVT_LEFT_DCLICK(self.icons.players[4].icon, self.scrollToPlayer4)
       wx.EVT_LEFT_DCLICK(self.icons.players[5].icon, self.scrollToPlayer5)
       wx.EVT_LEFT_DCLICK(self.mapWindow, self.moveToClicked)
+      wx.EVT_CLOSE(self, self.menuExit)
       
 
    def addChatMessage(self, chatType, data):
@@ -213,8 +214,9 @@ class MainWindow(wx.Frame):
       alert = wx.MessageDialog(self, _("Disconnect from the server and exit London Law?"),
          _("Disconnect and Quit"), wx.YES_NO|wx.ICON_EXCLAMATION)
       if alert.ShowModal() == wx.ID_YES:
-         self.messenger.netDisconnect()
-         self.Close()
+         self.messenger.netShutdown()
+         self.exitCallback(self)
+         self.Destroy()
 
 
    def menuDisconnect(self, event):

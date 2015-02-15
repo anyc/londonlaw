@@ -15,18 +15,6 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-# Note: unfortunately the twisted "wxreactor" is broken at present and is
-# unlikely to be fixed anytime soon.  Rather than trying to integrate the event
-# loops, the solution used here is to run a single-threaded wx.App with a wx.Timer
-# that runs the twisted event loop periodically.
-
-
-from londonlaw.common import threadedselectreactor
-threadedselectreactor.install()
-
-import sys, gettext
-from twisted.internet import protocol, reactor
-from twisted.python import log
 import wxversion
 try:
 	wxversion.select("3.0")
@@ -34,6 +22,13 @@ except wxversion.VersionError:
 	wxversion.select("2.8")
 
 import wx
+
+from twisted.internet import wxreactor
+wxreactor.install()
+
+import sys, gettext
+from twisted.internet import protocol, reactor
+from twisted.python import log
 from ConnectWindow import *
 from GameListWindow import *
 from RegistrationWindow import *
@@ -58,7 +53,7 @@ class LLawClientFactory(protocol.ClientFactory):
 
 # ensure the Twisted reactor gets cleanly shut down
 def shutdown(shutdownWindow):
-   reactor.addSystemEventTrigger('after', 'shutdown', shutdownWindow.Close, True)
+   #reactor.addSystemEventTrigger('after', 'shutdown', shutdownWindow.Close, True)
    reactor.stop()
 
 
@@ -74,18 +69,7 @@ class MyApp(wx.App):
       messenger.registerRegistrationWindowLauncher(self.register)
       messenger.registerMainWindowLauncher(self.startGame)
 
-#<<<<<<< HEAD
       #wx.InitAllImageHandlers()        # Required to be able to load compressed images
-      #reactor.interleave(wx.CallAfter) # Integrate Twisted and wxPython event loops
-##=======
-      #messenger.guiLaunchConnectionWindow()
-
-      #wx.EVT_TIMER(self, TIMERID, self.OnTimer)
-      #self.timer = wx.Timer(self, TIMERID)
-      #self.timer.Start(250, False)
-
-      #return True
-#>>>>>>> Update for wxPython3.0 compatibility
 
       messenger.guiLaunchConnectionWindow()
 
@@ -170,10 +154,11 @@ class MyApp(wx.App):
 
 
 def init():
-   reactor.startRunning()
    log.startLogging(sys.stderr, 0)
    app = MyApp(0)
-   app.MainLoop()
+
+   reactor.registerWxApp(app)
+   reactor.run()
 
 
 

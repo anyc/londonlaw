@@ -152,6 +152,7 @@ class GameListWindow(wx.Frame):
       mainPanel.SetSizer(mainSizer)
       mainSizer.Fit(mainPanel)
 
+      wx.EVT_CLOSE(self, self.menuExit)
       wx.EVT_MENU(self, EXIT, self.menuExit)
       wx.EVT_MENU(self, DISCONNECT, self.menuDisconnect)
       wx.EVT_LIST_ITEM_SELECTED(self, self.list.GetId(), self.enableSelectButton)
@@ -203,8 +204,9 @@ class GameListWindow(wx.Frame):
       alert = wx.MessageDialog(self, _("Disconnect from the server and exit London Law?"),
          _("Disconnect and Quit"), wx.YES_NO|wx.ICON_EXCLAMATION)
       if alert.ShowModal() == wx.ID_YES:
-         self._messenger.netDisconnect()
-         self.Close()
+         self._messenger.netShutdown()
+         self.exitCallback(self)
+         self.Destroy()
 
 
    def menuDisconnect(self, event):

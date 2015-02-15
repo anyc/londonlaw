@@ -23,7 +23,6 @@
 # enter server information and provide usernames.
 
 import sys, gettext, wx
-from twisted.internet import reactor
 from londonlaw.common.protocol import *
 
 
