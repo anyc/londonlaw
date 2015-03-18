@@ -30,7 +30,7 @@ The code has been tested with the following versions:
 Changes
 -------
 
-Current master:
+0.3.0pre2:
 
    * wxPython3.0 compatibility by Olly Betts
    * Fix for newer python-twisted by Hans de Goede
