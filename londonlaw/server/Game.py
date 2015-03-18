@@ -92,9 +92,7 @@ class IGameListener(interface.Interface):
       """Called when a player votes to start the game."""
 
 
-registry = GameRegistry.getHandle()
-
-# Vocabulary: a 'player' is a username.  registry.getClient(player) is the
+# Vocabulary: a 'player' is a username.  GameRegistry.registry.getClient(player) is the
 #             Protocol instance associated with that username, if one exists.
 class Game:
 
@@ -182,6 +180,7 @@ class Game:
       else:
          raise GameError("unrecognized game type")
 
+
    def addListenerForPlayer(self, player):
       self._listeners[Protocol.ProtocolGameListener(player)] = player
    
@@ -189,8 +188,8 @@ class Game:
    def addPlayer(self, player):
       if self._gameStatus == GAMESTATUS_INPROGRESS:
          if player in self._players:
-            registry.getClient(player).setGame(self)
-            registry.getClient(player).setVote(True)
+            GameRegistry.registry.getClient(player).setGame(self)
+            GameRegistry.registry.getClient(player).setVote(True)
             for listener in self._listeners:
                listener.playerRejoin(player)
             self.addListenerForPlayer(player)
@@ -204,7 +203,7 @@ class Game:
          if team is None:
             raise GameError(N_("That game is full."))
          self._players.append(player)
-         registry.getClient(player).setGame(self)
+         GameRegistry.registry.getClient(player).setGame(self)
          self._setTeamForPlayer(player, team)
          self.addListenerForPlayer(player)
    
@@ -414,7 +413,7 @@ class Game:
 
    def testGameStart(self):
       if not (False in [t.getNumPlayers() > 0 for t in self._teams]) \
-      and not (False in [registry.getClient(p).getVote() for p in self._players]):
+      and not (False in [GameRegistry.registry.getClient(p).getVote() for p in self._players]):
          for listener in self._listeners:
             self._startTime  = time.time()
             self._gameStatus = GAMESTATUS_INPROGRESS

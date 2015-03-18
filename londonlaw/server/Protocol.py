@@ -51,8 +51,6 @@ Client states:
    "admin"   : client is an administrator
 """
 
-registry = GameRegistry.getHandle()
-
 class LLawServerProtocol(basic.LineOnlyReceiver):
    def __init__(self):
       self._game            = None
@@ -65,8 +63,9 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
       self.trans = gettext.NullTranslations()
 
 
+
    def cmd_allplayers_admin(self, tag, args):
-      for player in registry.getUserList():
+      for player in GameRegistry.registry.getUserList():
          self.sendUntagged("playername", player.encode("utf-8"))
       self.sendOk(tag)
       
@@ -76,7 +75,7 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
          raise IllegalCommand(self.trans.ugettext("Insufficient arguments."))
       else:
          try:
-            registry.removePassword(args[0])
+            GameRegistry.registry.removePassword(args[0])
             self.sendOk(tag)
          except KeyError:
             raise DeniedCommand(self.trans.ugettext("Player name not found."))
@@ -93,7 +92,7 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
          self.sendOk(tag)
          for player in self._game.getPlayers():
             try:
-               registry.getClient(player).sendUntagged("chatall", self._username.encode("utf-8"), args[0])
+               GameRegistry.registry.getClient(player).sendUntagged("chatall", self._username.encode("utf-8"), args[0])
             except KeyError:
                pass
 
@@ -113,7 +112,7 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
          self.sendOk(tag)
          for player in self._game.getTeam(self._username).getPlayers():
             try:
-               registry.getClient(player).sendUntagged("chatteam", self._username.encode("utf-8"), args[0])
+               GameRegistry.registry.getClient(player).sendUntagged("chatteam", self._username.encode("utf-8"), args[0])
             except KeyError:
                pass
 
@@ -123,7 +122,7 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
          raise IllegalCommand(self.trans.ugettext("Insufficient arguments."))
       else:
          try:
-            g = registry.getGame(args[0].decode("utf-8"))
+            g = GameRegistry.registry.getGame(args[0].decode("utf-8"))
          except KeyError:
             raise DeniedCommand(self.trans.ugettext("Unrecognized game name."))
 
@@ -131,7 +130,7 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
          for player in playerList:
             g.removePlayer(player, force_remove=True)
             try:
-               client = registry.getClient(player)
+               client = GameRegistry.registry.getClient(player)
                if client._game == g:
                   client._state     = "player"
                   client._voteStart = False
@@ -150,12 +149,12 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
       else:
          username = args[0].decode("utf-8")
          try:
-            registry.deleteUser(username)
+            GameRegistry.registry.deleteUser(username)
          except KeyError:
             raise DeniedCommand(self.trans.ugettext("Player name not found."))
          # if this player was connected, boot him out
          try:
-            client = registry.getClient(username)
+            client = GameRegistry.registry.getClient(username)
             client.transport.loseConnection()
          except KeyError:
             pass
@@ -167,7 +166,7 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
          raise IllegalCommand(self.trans.ugettext("Insufficient arguments."))
       else:
          try:
-            client = registry.getClient(args[0].decode("utf-8"))
+            client = GameRegistry.registry.getClient(args[0].decode("utf-8"))
          except KeyError:
             raise DeniedCommand(self.trans.ugettext("No such user is connected."))
          client.transport.loseConnection()
@@ -197,7 +196,7 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
          player = args[0].decode("utf-8")
          game   = args[1].decode("utf-8")
          try:
-            g = registry.getGame(game)
+            g = GameRegistry.registry.getGame(game)
          except KeyError:
             raise DeniedCommand(self.trans.ugettext("Unrecognized game name."))
          
@@ -205,7 +204,7 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
             if player in g.getPlayers():
                g.removePlayer(player, force_remove=True)
                try:
-                  client = registry.getClient(player)
+                  client = GameRegistry.registry.getClient(player)
                   if client._game == g:
                      client._state     = "player"
                      client._voteStart = False
@@ -245,8 +244,8 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
       else:
          player = args[0].decode("utf-8")
          try:
-            pw = registry.getPassword(player)
-            ip = registry.getLastAddress(player)
+            pw = GameRegistry.registry.getPassword(player)
+            ip = GameRegistry.registry.getLastAddress(player)
             if pw == None:
                pw = "None"
             self.sendTokens(tag, "profile", pw.encode("utf-8"), str(ip))
@@ -270,15 +269,15 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
       else:
          name = args[0].decode("utf-8")
          try:
-            g = registry.getGame(name)
+            g = GameRegistry.registry.getGame(name)
             g.addPlayer(self._username)
-            registry.removeUnjoinedUser(self._username)
+            GameRegistry.registry.removeUnjoinedUser(self._username)
             self.sendOk(tag)
             if g.getStatus() == GAMESTATUS_NEW:
                self._state = "joined"
                # number of players in this game needs to be updated
-               for p in registry.getUnjoinedUsers():
-                  registry.getClient(p).sendUntagged("gameinfo", g.getName().encode("utf-8"), 
+               for p in GameRegistry.registry.getUnjoinedUsers():
+                  GameRegistry.registry.getClient(p).sendUntagged("gameinfo", g.getName().encode("utf-8"), 
                         g.getStatus(), g.getType(), str(g.getNumPlayers()))
             else:
                self._state = "playing"
@@ -296,10 +295,10 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
       self._state     = "player"
       self._voteStart = False
       # number of players in this game needs to be updated
-      for p in registry.getUnjoinedUsers():
-         registry.getClient(p).sendUntagged("gameinfo", self._game.getName().encode("utf-8"), 
+      for p in GameRegistry.registry.getUnjoinedUsers():
+         GameRegistry.registry.getClient(p).sendUntagged("gameinfo", self._game.getName().encode("utf-8"), 
                self._game.getStatus(), self._game.getType(), str(self._game.getNumPlayers()))
-      registry.addUnjoinedUser(self._username)
+      GameRegistry.registry.addUnjoinedUser(self._username)
       self.sendOk(tag)
       # kill the game if this was the last player
       self.testRemoveGame(self._game)
@@ -327,7 +326,7 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
 
 
    def cmd_listgames_player(self, tag, args):
-      for g in registry.getGameList():
+      for g in GameRegistry.registry.getGameList():
          self.sendUntagged("gameinfo", g.getName().encode("utf-8"), 
                g.getStatus().encode("utf-8"), g.getType().encode("utf-8"), str(g.getNumPlayers()))
       self.sendOk(tag)
@@ -336,7 +335,7 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
    def cmd_listplayers_default(self, tag, args):
       if len(args) > 0:
          try:
-            g = registry.getGame(args[0].decode("utf-8"))
+            g = GameRegistry.registry.getGame(args[0].decode("utf-8"))
          except KeyError:
             raise DeniedCommand(self.trans.ugettext("Unrecognized game name."))
       elif self._state == "joined":
@@ -369,20 +368,20 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
          raise IllegalCommand(self.trans.ugettext("Insufficient arguments."))
       else:
          name = args[0].decode("utf-8")
-         if registry.hasGame(name):
+         if GameRegistry.registry.hasGame(name):
             raise DeniedCommand(self.trans.ugettext("That game name is already in use."))
          else:
             try:
                g = Game(name, args[1])
                self.sendOk(tag)
                g.addPlayer(self._username)
-               registry.addGame(g)
+               GameRegistry.registry.addGame(g)
                self._state = "joined"
-               registry.removeUnjoinedUser(self._username)
+               GameRegistry.registry.removeUnjoinedUser(self._username)
                log.msg(util.printable(_("New game \"%(gamename)s\" created by player \"%(playername)s\"") %
                      {"gamename": name, "playername": self._username}))
-               for p in registry.getUnjoinedUsers():
-                  registry.getClient(p).sendUntagged("gameinfo", g.getName().encode("utf-8"), 
+               for p in GameRegistry.registry.getUnjoinedUsers():
+                  GameRegistry.registry.getClient(p).sendUntagged("gameinfo", g.getName().encode("utf-8"), 
                         g.getStatus(), g.getType(), str(g.getNumPlayers()))
             except GameError, e:
                raise DeniedCommand(self.trans.ugettext(e.ustr()))
@@ -397,15 +396,15 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
          raise IllegalCommand(self.trans.ugettext("Insufficient arguments."))
       else:
          try:
-            registry.registerUser(args[0].decode("utf-8"), args[1].decode("utf-8"), 
+            GameRegistry.registry.registerUser(args[0].decode("utf-8"), args[1].decode("utf-8"), 
                   self.transport.getPeer().host)
             self._username = args[0].decode("utf-8")
             if self._username == "admin":
                self._state = "admin"
             else:
                self._state = "player"
-            registry.addClient(self)
-            registry.addUnjoinedUser(self._username)
+            GameRegistry.registry.addClient(self)
+            GameRegistry.registry.addUnjoinedUser(self._username)
             log.msg(util.printable(_("Player \"%(playername)s\" has signed on") % 
                   {"playername" : self._username}))
             self.sendOk(tag)
@@ -468,7 +467,7 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
          raise IllegalCommand(self.trans.ugettext("Insufficient arguments."))
       else:
          try:
-            registry.setPassword(args[0].decode("utf-8"), args[1].decode("utf-8"))
+            GameRegistry.registry.setPassword(args[0].decode("utf-8"), args[1].decode("utf-8"))
             self.sendOk(tag)
          except KeyError:
             raise DeniedCommand(self.trans.ugettext("Player name not found."))
@@ -512,14 +511,14 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
       if self._game is not None:
          self._game.removePlayer(self._username)
          # number of players in this game needs to be updated
-         for p in registry.getUnjoinedUsers():
-            registry.getClient(p).sendUntagged("gameinfo", self._game.getName().encode("utf-8"), 
+         for p in GameRegistry.registry.getUnjoinedUsers():
+            GameRegistry.registry.getClient(p).sendUntagged("gameinfo", self._game.getName().encode("utf-8"), 
                   self._game.getStatus(), self._game.getType(), str(self._game.getNumPlayers()))
          # kill the game if this was the last player
          self.testRemoveGame(self._game)
       if self._username is not None:
-         registry.removeClient(self)
-         registry.removeUnjoinedUser(self._username)
+         GameRegistry.registry.removeClient(self)
+         GameRegistry.registry.removeUnjoinedUser(self._username)
          log.msg(util.printable(_("Connection lost to player \"%(playername)s\"") % 
             {"playername": self._username}))
 
@@ -536,7 +535,7 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
       # attempt 1: try each name in random order
       for name in names:
          botname = name + " [bot]"
-         if botname not in registry.getConnectedUserList():
+         if botname not in GameRegistry.registry.getConnectedUserList():
             return botname
       
       # attempt 2: pick a random name, and append a random integer
@@ -544,7 +543,7 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
       while not valid:
          i = randint(1, 999)
          botname = names[0] + " " + str(i) + " [bot]"
-         if botname not in registry.getConnectedUserList():
+         if botname not in GameRegistry.registry.getConnectedUserList():
             valid = True
       return botname
          
@@ -662,7 +661,7 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
       pawns = [p.getName() for p in game.getPawnsForPlayer(username)]
       pawnToken = " ".join(pawns)
       try:
-         vote = str(registry.getClient(username).getVote())
+         vote = str(GameRegistry.registry.getClient(username).getVote())
       except KeyError:
          vote = "None"
       self.sendUntagged( "playerinfo", username.encode("utf-8"),
@@ -680,9 +679,9 @@ class LLawServerProtocol(basic.LineOnlyReceiver):
    def testRemoveGame(self, game, force_remove=False):
       if game.getNumPlayers() == 0 and (force_remove or 
       (game.getStatus() == GAMESTATUS_NEW or game.getStatus() == GAMESTATUS_COMPLETE)):
-         registry.removeGame(game)
-         for p in registry.getUnjoinedUsers():
-            registry.getClient(p).sendUntagged("gameremoved", game.getName())
+         GameRegistry.registry.removeGame(game)
+         for p in GameRegistry.registry.getUnjoinedUsers():
+            GameRegistry.registry.getClient(p).sendUntagged("gameremoved", game.getName())
 
 
 
@@ -693,49 +692,49 @@ class ProtocolGameListener:
       self._username = username
    
    def announceHistory(self, history):
-      registry.getClient(self._username).sendHistory()
+      GameRegistry.registry.getClient(self._username).sendHistory()
 
    def announcePawnInfo(self):
-      registry.getClient(self._username).sendPawnInfo()
+      GameRegistry.registry.getClient(self._username).sendPawnInfo()
 
    def announceTurnNum(self, num):
-      registry.getClient(self._username).sendUntagged("turnnum", repr(num))
+      GameRegistry.registry.getClient(self._username).sendUntagged("turnnum", repr(num))
 
    def announceTurn(self, pawn):
-      registry.getClient(self._username).sendUntagged("turn", pawn.getName())
+      GameRegistry.registry.getClient(self._username).sendUntagged("turn", pawn.getName())
 
    def gameOverEvade(self, winningTeam):
-      client = registry.getClient(self._username)
+      client = GameRegistry.registry.getClient(self._username)
       client_state = "endgame"
       client.sendUntagged("gameover", winningTeam.getName(), 
             client.trans.ugettext("Mr. X successfully evaded the detectives for 24 turns.  Mr. X wins!").encode("utf-8"))
 
    def gameOverStuck(self, winningTeam):
-      client = registry.getClient(self._username)
+      client = GameRegistry.registry.getClient(self._username)
       client_state = "endgame"
       client.sendUntagged("gameover", winningTeam.getName(), 
             client.trans.ugettext("None of the detectives are able to move.  Mr. X wins!").encode("utf-8"))
 
    def gameOverCaught(self, winningTeam, detective):
-      client = registry.getClient(self._username)
+      client = GameRegistry.registry.getClient(self._username)
       client_state = "endgame"
       client.sendUntagged("gameover", winningTeam.getName(), 
          (client.trans.ugettext("Mr. X was caught by the %(color)s Detective at location %(number)d.  The detectives win!") % \
          {"color" : detective.getTranslatedName(client.trans), "number" : detective.getLocation()}).encode("utf-8"))
 
    def gameStart(self, game):
-      registry.getClient(self._username)._state = "playing"
-      registry.getClient(self._username).sendUntagged("gamestart")
+      GameRegistry.registry.getClient(self._username)._state = "playing"
+      GameRegistry.registry.getClient(self._username).sendUntagged("gamestart")
    
    def pawnMove(self, game, pawn, *moves):
       if len(moves) == 1:
          (dest, transport) = moves[0]
-         registry.getClient(self._username).sendUntagged("move", 
+         GameRegistry.registry.getClient(self._username).sendUntagged("move", 
                pawn.getName(), repr(dest), transport)
       elif len(moves) == 2:
          (dest1, transport1) = moves[0]
          (dest2, transport2) = moves[1]
-         registry.getClient(self._username).sendUntagged(
+         GameRegistry.registry.getClient(self._username).sendUntagged(
             "doublemove",
             pawn.getName(),
             repr(dest1), 
@@ -746,31 +745,31 @@ class ProtocolGameListener:
          raise ServerError(self.trans.ugettext("Invalid number of moves."))
    
    def pawnStuck(self, pawn):
-      registry.getClient(self._username).sendUntagged("stuck", pawn.getName())
+      GameRegistry.registry.getClient(self._username).sendUntagged("stuck", pawn.getName())
 
    def pawnSetTicketAmount(self, game, pawn, ticket, amount):
       raise NotImplementedError()
    
    def playerJoin(self, game, player):
-      registry.getClient(self._username).sendPlayerInfo(player)
+      GameRegistry.registry.getClient(self._username).sendPlayerInfo(player)
    
    def playerJoinTeam(self, game, player, team):
-      registry.getClient(self._username).sendPlayerInfo(player)
+      GameRegistry.registry.getClient(self._username).sendPlayerInfo(player)
    
    def playerLeave(self, game, player):
-      registry.getClient(self._username).sendPlayerLeave(player)
+      GameRegistry.registry.getClient(self._username).sendPlayerLeave(player)
    
    def playerLeaveTeam(self, game, player, team):
-      registry.getClient(self._username).sendPlayerInfo(player)
+      GameRegistry.registry.getClient(self._username).sendPlayerInfo(player)
    
    def playerModified(self, player):
-      registry.getClient(self._username).sendPlayerInfo(player)
+      GameRegistry.registry.getClient(self._username).sendPlayerInfo(player)
 
    def playerRejoin(self, player):
-      registry.getClient(self._username).sendUntagged("rejoin", player.encode("utf-8"))
+      GameRegistry.registry.getClient(self._username).sendUntagged("rejoin", player.encode("utf-8"))
 
    def playerVoteStart(self, game, player, vote):
-      registry.getClient(self._username).sendPlayerInfo(player)
+      GameRegistry.registry.getClient(self._username).sendPlayerInfo(player)
 
 
 

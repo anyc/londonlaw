@@ -21,7 +21,7 @@ from londonlaw.common.protocol import *
 from Protocol import LLawServerProtocol
 from optparse import OptionParser
 import GameRegistry
-import sys, gettext
+import sys, gettext, os
 
 
 
@@ -34,11 +34,14 @@ def init():
    parser = OptionParser()
    parser.add_option("-p", "--port", dest="port",
          help=_("listen for connections on port NUM"), metavar=_("NUM"), default=str(LLAW_PORT))
+   parser.add_option("-D", "--dbdir", dest="dbdir",
+         help=_("use DBDIR to store game und user database"), metavar=_("DBDIR"),
+         default=os.path.expanduser("~/.londonlaw/server"))
    (options, args) = parser.parse_args()
 
    log.startLogging(sys.stdout, 0)
 
-   registry = GameRegistry.getHandle()
+   registry = GameRegistry.getHandle(dbDir=options.dbdir)
    # Purge expired games every half hour
    gameKiller = task.LoopingCall(registry.purgeExpiredGames)
    gameKiller.start(1800)

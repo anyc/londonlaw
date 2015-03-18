@@ -51,19 +51,10 @@ class UserError(Exception):
 # permits only strings as dictionary keys, there is some UTF-8
 # encoding/decoding going on under the hood.
 
+registry = None
+
 class GameRegistrySingleton:
-   __instance = None
-
-   def __init__(self):
-      if GameRegistrySingleton.__instance:
-         raise GameRegistrySingleton.__instance
-      GameRegistrySingleton.__instance = self
-
-      dummyDir = "~/.londonlaw/server"
-      dbDir = os.path.expanduser(dummyDir)
-      # catch for OS's that do not have a $HOME
-      if dbDir == dummyDir:
-         dbDir = "serverdata"
+   def __init__(self, dbDir):
       dbDir = os.path.normpath(dbDir)
       if not os.path.isdir(dbDir):
          os.makedirs(dbDir)
@@ -221,15 +212,9 @@ class GameRegistrySingleton:
       if self._users.has_key(username.encode("utf-8")):
          del self._users[username.encode("utf-8")]
 
+def getHandle(dbDir):
+   global registry
 
-
-def getHandle():
-   try:
-      g = GameRegistrySingleton()
-   except GameRegistrySingleton, instance:
-      g = instance
-   return g
-
-
-
-
+   if registry == None:
+      registry = GameRegistrySingleton(dbDir)
+   return registry
