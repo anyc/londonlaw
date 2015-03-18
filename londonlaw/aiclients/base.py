@@ -48,7 +48,8 @@ class BaseAIProtocol(basic.LineOnlyReceiver):
 
 
    def connectionLost(self, reason):
-      reactor.stop()
+      #reactor.stop()
+      print "AI: connection lost"
 
 
    def connectionMade(self):
