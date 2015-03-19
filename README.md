@@ -13,6 +13,11 @@ game work with modern software.
 
 Please note: I will not invest much time into development but patches are welcome.
 
+Screenshot:
+-----------
+
+[![Screenshot](http://anyc.github.io/londonlaw/images/screenshot_thumb.jpg)](http://anyc.github.io/londonlaw/images/screenshot.jpg)
+
 Dependencies:
 -------------
 * Python
