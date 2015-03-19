@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Londonlaw : Clone of the famous Scotland Yard board game">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Londonlaw</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/anyc/londonlaw">View on GitHub</a>
+
+          <h1 id="project_title">Londonlaw</h1>
+          <h2 id="project_tagline">Clone of the famous Scotland Yard board game</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/anyc/londonlaw/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/anyc/londonlaw/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>
+<a id="london-law" class="anchor" href="#london-law" aria-hidden="true"><span class="octicon octicon-link"></span></a>London Law</h2>
+
+<p>London Law is an online multiplayer adaptation of the <a href="http://www.boardgamegeek.com/boardgame/438/scotland-yard">classic Scotland Yard
+board game</a>
+(<a href="http://en.wikipedia.org/wiki/Scotland_Yard_board_game">Wikipedia</a>).</p>
+
+<p>This repository is based on a copy of the <a href="http://www.freelists.org/post/londonlaw-users/030-preview-release">last known pre-release</a>
+(0.3pre1) of <a href="http://pessimization.com/software/londonlaw/">London Law</a> released
+by the original author Paul Pelzl and contains additional patches to make this
+game work with modern software.</p>
+
+<p>Please note: I will not invest much time into development but patches are welcome.</p>
+
+<h2>
+<a id="dependencies" class="anchor" href="#dependencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dependencies:</h2>
+
+<ul>
+<li>Python</li>
+<li><a href="https://twistedmatrix.com">Twisted</a></li>
+<li><a href="http://www.wxpython.org/">wxPython</a></li>
+<li><a href="https://pypi.python.org/pypi/zope.interface">zope-interface</a></li>
+</ul>
+
+<p>The code has been tested with the following versions:</p>
+
+<ul>
+<li>Python 2.7</li>
+<li>Twisted-13.0.0</li>
+<li>wxPython-3.0.1.1</li>
+<li>zope-interface-4.1.1</li>
+</ul>
+
+<h2>
+<a id="changes" class="anchor" href="#changes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changes</h2>
+
+<p>0.3.0pre2:</p>
+
+<ul>
+<li>wxPython3.0 compatibility by Olly Betts</li>
+<li>Fix for newer python-twisted by Hans de Goede</li>
+<li>Accept custom data directory by Mr Bones</li>
+<li>More small fixes by Mario Kicherer</li>
+</ul>
+
+<p><a href="http://www.freelists.org/post/londonlaw-users/030-preview-release">0.3.0pre1 by Paul Pelzl</a>:</p>
+
+<ul>
+<li>i18n.  Thanks to the efforts of numerous translators, there is
+ at least partial support for 11 different languages.</li>
+<li>AI clients.  Players can request an AI opponent while registering
+ for a game.  At the moment there is only a pair of "Rather Dumb"
+ AI clients available, meant as a proof of concept.</li>
+<li>
+<p>Admin client.  There is a text-mode admin client that can be used
+ to delete games, eject players, etc.  It has an online help system,
+ which is hopefully enough to explain the usage.</p>
+
+<p>The admin client won't work without setting up an admin password.
+ Create a file called ~/.londonlaw/server/config that looks like
+ this:</p>
+
+<pre><code> [server]
+ admin_password: PASSWORD
+ game_expiration: 240
+</code></pre>
+
+<p>Replace PASSWORD with whatever you want.  The game expiration is
+ the number of hours after which stale games should be purged.</p>
+</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Londonlaw maintained by <a href="https://github.com/anyc">anyc</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
