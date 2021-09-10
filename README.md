@@ -11,7 +11,7 @@ This repository is based on a copy of the [last known pre-release](http://www.fr
 by the original author Paul Pelzl and contains additional patches to make this
 game work with modern software.
 
-Please note: I will not invest much time into development but patches are welcome.
+If you are looking for a **Python 3** compatible version and other improvements, see this fork: [https://github.com/horald/londonlaw](https://github.com/horald/londonlaw).
 
 Screenshot:
 -----------
@@ -31,6 +31,7 @@ The code has been tested with the following versions:
 * wxPython-3.0.1.1
 * zope-interface-4.1.1
 
+If you are looking for a **Python 3** compatible version and other improvements, see this fork: [https://github.com/horald/londonlaw](https://github.com/horald/londonlaw).
 
 Changes
 -------
